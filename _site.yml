@@ -1,0 +1,23 @@
+name: "EDPY-507-Measurement-Theory-I"
+output_dir: "docs"
+navbar:
+  title: "EDPY 507 - Measurement Theory I"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "CTT"
+      icon: fa-circle
+      href: ctt.html
+    - text: "IRT"
+      icon: fa-square
+      href: irt.html
+  right: 
+    - icon: fa-envelope fa-lg
+      href: mailto:<bulut@ualberta.ca>
+    - icon: fa-github fa-lg
+      href: https://github.com/okanbulut
+output:
+  html_document:
+    theme: united
+    highlight: haddock
