@@ -49,10 +49,7 @@ library("fontawesome")
 
 <br>
 
-## Software
+## Course Materials
 
-This semester, we will use the following software programs for conducting psychometric analysis:
-
-- R (<https://cran.r-project.org/>)
-- RStudio Desktop (<https://www.rstudio.com/products/rstudio/download/#download>)
+The lecture notes and recommended readings will be available on eClass (<https://eclass.srv.ualberta.ca/>). I suggest that you focus on the lecture notes first, but also complete the recommended readings before each lecture. In addition to the lecture notes and readings, I will also share software-related materials for conducting psychometric analysis through this website. This semester, we will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/products/rstudio/download/#download). The materials presented on this website will help you learn how to use R for conducting different types of psychometric analyses.
 
