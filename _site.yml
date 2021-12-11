@@ -1,23 +1,32 @@
 name: "EDPY-507-Measurement-Theory-I"
 output_dir: "docs"
 navbar:
-  title: "EDPY 507 - Measurement Theory I"
+  title: "EDPY 507"
   left:
     - text: "Home"
       icon: fa-home
-      href: index.html
+      href: index.'html'
+    - text: "Learning R"
+      icon: fa-chess-pawn
+      href: intro-to-r.html
     - text: "CTT"
-      icon: fa-circle
+      icon: fa-chess-knight
       href: ctt.html
     - text: "IRT"
-      icon: fa-square
+      icon: fa-chess-queen
       href: irt.html
+    - text: "Resources"
+      icon: fa-gem
+      href: resources.html
   right: 
     - icon: fa-envelope fa-lg
       href: mailto:<bulut@ualberta.ca>
     - icon: fa-github fa-lg
       href: https://github.com/okanbulut
+    - icon: fa-twitter fa-lg
+      href: https://twitter.com/drokanbulut
 output:
   html_document:
     theme: united
     highlight: haddock
+    css: styles.css

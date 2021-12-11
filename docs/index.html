@@ -47,6 +47,7 @@
 
 
 
+<link rel="stylesheet" href="styles.css" type="text/css" />
 
 
 
@@ -227,29 +228,43 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">EDPY 507 - Measurement Theory I</a>
+      <a class="navbar-brand" href="index.html">EDPY 507</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="index.&#39;html&#39;">
     <span class="fa fa-home"></span>
      
     Home
   </a>
 </li>
 <li>
+  <a href="intro-to-r.html">
+    <span class="fa fa-chess-pawn"></span>
+     
+    Learning R
+  </a>
+</li>
+<li>
   <a href="ctt.html">
-    <span class="fa fa-circle"></span>
+    <span class="fa fa-chess-knight"></span>
      
     CTT
   </a>
 </li>
 <li>
   <a href="irt.html">
-    <span class="fa fa-square"></span>
+    <span class="fa fa-chess-queen"></span>
      
     IRT
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-gem"></span>
+     
+    Resources
   </a>
 </li>
       </ul>
@@ -263,6 +278,12 @@ $(document).ready(function () {
 <li>
   <a href="https://github.com/okanbulut">
     <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/drokanbulut">
+    <span class="fa fa-twitter fa-lg"></span>
      
   </a>
 </li>
@@ -280,9 +301,40 @@ $(document).ready(function () {
 </div>
 
 
-<p>Hello, Website!</p>
-<p>For more information about simple R Markdown websites, please read the documentation at <a href="https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html" class="uri">https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html</a>.</p>
-<p>Please also note that simple R Markdown sites are <em>not</em> based on <strong>blogdown</strong>. They are probably good for websites with only a few Rmd documents. For larger-scale and more sophisticated websites (such as blogs), you may want to use <strong>blogdown</strong> instead: <a href="https://github.com/rstudio/blogdown" class="uri">https://github.com/rstudio/blogdown</a>.</p>
+<br>
+<center>
+<img src="figures/sticker.png" />
+</center>
+<p><br> <br></p>
+<div id="about-the-course" class="section level2">
+<h2>About the Course</h2>
+<p><strong>EDPY 507 - Measurement Theory I</strong> is designed for graduate students, researchers, and practitioners who want to develop, evaluate, and select measurement instruments in their professional roles. The course provides an introduction to the measurement concepts and models related to both classical test theory (CTT) and item response theory (IRT). The foundational concepts necessary to understand both theoretical positions will be presented first. Then, we will apply these two test theories to solve important contemporary problems in educational and psychological measurement.</p>
+<p><br></p>
+</div>
+<div id="instructor" class="section level2">
+<h2>Instructor</h2>
+<p><svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:black;overflow:visible;position:relative;"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136 32-56h-96l32 56-32 136-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z"/></svg> <a href="https://sites.google.com/ualberta.ca/okanbulut/">Dr. Okan Bulut</a></p>
+<p><svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:black;overflow:visible;position:relative;"><path d="M501.62 92.11L267.24 2.04a31.958 31.958 0 0 0-22.47 0L10.38 92.11A16.001 16.001 0 0 0 0 107.09V144c0 8.84 7.16 16 16 16h480c8.84 0 16-7.16 16-16v-36.91c0-6.67-4.14-12.64-10.38-14.98zM64 192v160H48c-8.84 0-16 7.16-16 16v48h448v-48c0-8.84-7.16-16-16-16h-16V192h-64v160h-96V192h-64v160h-96V192H64zm432 256H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h480c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"/></svg> Education Centre North 6-110</p>
+<p><svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:black;overflow:visible;position:relative;"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg> <a href="mailto:bulut@ualberta.ca" class="email">bulut@ualberta.ca</a></p>
+<p><svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:black;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> <a href="https://twitter.com/drokanbulut">drokanbulut</a></p>
+<p><br></p>
+</div>
+<div id="required-textbooks" class="section level2">
+<h2>Required Textbooks</h2>
+<ul>
+<li><p>Desjardins, C. D., &amp; Bulut, O. (2018). <a href="https://www.routledge.com/Handbook-of-Educational-Measurement-and-Psychometrics-Using-R/Desjardins-Bulut/p/book/9780367734671">Handbook of educational measurement and psychometrics using R</a>. Boca Raton, FL: CRC Press.</p></li>
+<li><p>Finch, W. H., &amp; French, B. F. (2018). <a href="ttps://doi.org/10.4324/9781315650951">Educational and psychological measurement</a> (1st ed.). New York, NY: Routledge.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="software" class="section level2">
+<h2>Software</h2>
+<p>This semester, we will use the following software programs for conducting psychometric analysis:</p>
+<ul>
+<li>R (<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>)</li>
+<li>RStudio Desktop (<a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a>)</li>
+</ul>
+</div>
 
 
 
