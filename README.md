@@ -1,2 +1,10 @@
-# edpy507
-EDPY 507 - Measurement Theory I
+# Test Equating Applications Using R
+
+Prepared by [Dr. Okan Bulut](www.okanbulut.com). To see the website, click [here](https://okanbulut.github.io/edpy507).
+
+<br>
+
+![](figures/cover.jpg)
+
+<br>
+<br>
