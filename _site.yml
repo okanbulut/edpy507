@@ -19,8 +19,6 @@ navbar:
       icon: fa-gem
       href: resources.html
   right: 
-    - icon: fa-envelope fa-lg
-      href: mailto:bulut@ualberta.ca
     - icon: fa-github fa-lg
       href: https://github.com/okanbulut
     - icon: fa-twitter fa-lg
