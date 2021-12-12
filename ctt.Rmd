@@ -1,5 +1,10 @@
 ---
-title: "About This Website"
+title: "Classical Test Theory (CTT)"
+output:
+  html_document:
+    toc: TRUE
+bibliography: packages.bib
+csl: apa.csl
 ---
 
 ```{r setup, include = FALSE}
@@ -8,33 +13,20 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       message = FALSE, fig.width=8, fig.height=6, comment = NA,
                       fig.align = 'center')
 
-knitr::knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)})
-
-library("ggplot2")
-library("dplyr")
-library("skimr")
+library("fontawesome")
 library("kableExtra")
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
-                       "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
-                 file = "packages.bib")
+knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
 
-
-
-More about this website.
-
-# Use buttons or tabs for sub-chapters {.tabset .tabset-fade .tabset-pills}
 ***
-Save space in your document using buttons or tabs for sub chapters. Add this code at the end of your title:
 
-## First
-A first section
+# Title here
 
-## Second
-content of sub-chapter #2
+xxx
 
-## Third
-content of sub-chapter #3
+## Subtitle here
+
+xxx

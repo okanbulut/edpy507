@@ -1,19 +1,40 @@
 ---
-title: "About This Website"
+title: "Item Response Theory (IRT)"
+output:
+  html_document:
+    toc: TRUE
+bibliography: packages.bib
+csl: apa.csl
 ---
 
-More about this website.
 
-# Use buttons or tabs for sub-chapters {.tabset .tabset-fade .tabset-pills}
+```{r setup, include = FALSE}
+#Setup knitr
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
+                      message = FALSE, fig.width=8, fig.height=6, comment = NA,
+                      fig.align = 'center')
+
+library("fontawesome")
+library("kableExtra")
+
+# automatically create a bib database for R packages
+knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+```
+
 ***
-Save space in your document using buttons or tabs for sub chapters. Add this code at the end of your title:
 
-## First
-A first section
+# Dichotomous IRT Models {.tabset .tabset-fade .tabset-pills}
+In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item parameters and abilities for each IRT model. 
 
-## Second
+## Rasch Model
+content of sub-chapter #1
+
+## 1PL Model
 content of sub-chapter #2
 
-## Third
+## 2PL Model
 content of sub-chapter #3
+
+## 3PL Model
+content of sub-chapter #4
 

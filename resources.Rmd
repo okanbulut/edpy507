@@ -1,5 +1,5 @@
 ---
-title: "About This Website"
+title: "Resources"
 output: html_document
 bibliography: packages.bib
 csl: apa.csl
@@ -14,15 +14,10 @@ __Websites:__
 * An Introduction to R: <https://cran.r-project.org/doc/manuals/R-intro.pdf>   
 * Using R for Introductory Statistics: <https://goo.gl/owJbLg>   
 * Quick R: <http://www.statmethods.net/index.html>   
-* R Cookbook: <http://www.cookbook-r.com/>   
-
-<br/>
-
-__Online training:__   
-
-* Coursera: <https://www.coursera.org/learn/r-programming>   
-* DataCamp: <https://www.datacamp.com/courses/free-introduction-to-r>   
-* And tons of free videos on [YouTube](https://www.youtube.com/)!!!   
+* R Cookbook: <http://www.cookbook-r.com/>
+* Data wrangling, exploration, and analysis with R: <https://stat545.com/>
+* My blog on psychometrics using R: <https://okan.cloud/>
+* Using R for psychological research: <http://personality-project.org/r/r.guide.html>
 
 <br/>
 
@@ -34,4 +29,12 @@ __Books:__
 * [Modern Psychometrics](https://doi-org.login.ezproxy.library.ualberta.ca/10.4324/9781315637686)
 * [R for Data Science](https://r4ds.had.co.nz/)
 * [OpenIntro Statistics](https://openintro-ims.netlify.app)
+
+<br/>
+
+__Online training:__   
+
+* Coursera: <https://www.coursera.org/learn/r-programming>   
+* DataCamp: <https://www.datacamp.com/courses/free-introduction-to-r>   
+* And tons of free videos on [YouTube](https://www.youtube.com/)!!!   
 
