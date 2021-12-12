@@ -2,6 +2,28 @@
 title: "About This Website"
 ---
 
+```{r setup, include = FALSE}
+#Setup knitr
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
+                      message = FALSE, fig.width=8, fig.height=6, comment = NA,
+                      fig.align = 'center')
+
+knitr::knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)})
+
+library("ggplot2")
+library("dplyr")
+library("skimr")
+library("kableExtra")
+
+# automatically create a bib database for R packages
+knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
+                       "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
+                 file = "packages.bib")
+```
+
+
+
+
 More about this website.
 
 # Use buttons or tabs for sub-chapters {.tabset .tabset-fade .tabset-pills}

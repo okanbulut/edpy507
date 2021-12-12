@@ -351,7 +351,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="intro-to-r.html">
+  <a href="learning-r.html">
     <span class="fa fa-chess-pawn"></span>
      
     Learning R
@@ -407,7 +407,7 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#r-and-rstudio">R and RStudio</a>
+<li><a href="#r-and-rstudio"><strong>R and RStudio</strong></a>
 <ul>
 <li><a href="#what-is-r">What is R?</a></li>
 <li><a href="#what-is-rstudio">What is RStudio?</a></li>
@@ -416,20 +416,33 @@ $(document).ready(function () {
 <li><a href="#changing-working-directory">Changing working directory</a></li>
 <li><a href="#downloading-and-installing-r-packages">Downloading and installing R packages</a></li>
 </ul></li>
-<li><a href="#basics-of-the-r-language">Basics of the R Language</a>
+<li><a href="#basics-of-the-r-language"><strong>Basics of the R language</strong></a>
 <ul>
 <li><a href="#creating-new-variables">Creating new variables</a></li>
 <li><a href="#important-rules-of-the-r-language">Important rules of the R language</a></li>
-<li><a href="#self-help">Self-help</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#importing-data-into-r"><strong>Importing data into R</strong></a>
+<ul>
+<li><a href="#method-1-using-rstudio">Method 1: Using RStudio</a>
+<ul>
+<li><a href="#importing-excel-files">Importing Excel files</a></li>
+<li><a href="#importing-spss-files">Importing SPSS files</a></li>
+</ul></li>
+<li><a href="#method-2-using-r-commands">Method 2: Using R commands</a>
+<ul>
+<li><a href="#importing-excel-files-1">Importing Excel files</a></li>
+<li><a href="#importing-spss-files-1">Importing SPSS files</a></li>
+<li><a href="#importing-text-files">Importing text files</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#self-help"><strong>Self-help</strong></a></li>
+<li><a href="#references"><strong>References</strong></a></li>
 </ul>
 </div>
 
 <hr />
-<p><br></p>
 <div id="r-and-rstudio" class="section level1">
-<h1>R and RStudio</h1>
+<h1><strong>R and RStudio</strong></h1>
 <p><img src="figures/r_and_rstudio.png" /></p>
 <p><br></p>
 <div id="what-is-r" class="section level2">
@@ -468,9 +481,11 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>Go to <a href="https://cran.r-project.org/">https://cran.r-project.org/</a></li>
 <li>Click “Download R for Mac/Windows”"</li>
-<li>Download the appropriate file: • Windows users click Base, and download the installer for the latest R version • Mac users select the file R-3.X.X.pkg that aligns with your OS version</li>
+<li>Download the appropriate file: • Windows users click Base, and download the installer for the latest R version • Mac users select the file R-4.X.X.pkg that aligns with your OS version</li>
 <li>Follow the instructions of the installer.</li>
 </ol>
+<p><strong>Important:</strong> If you are using a Windows computer, you must also install <a href="https://cran.r-project.org/bin/windows/Rtools/rtools40.html">Rtools</a>.</p>
+<p><br/></p>
 <p>To download and install RStudio:</p>
 <ol style="list-style-type: decimal">
 <li>Go to <a href="https://www.rstudio.com/products/rstudio/download/">https://www.rstudio.com/products/rstudio/download/</a></li>
@@ -480,25 +495,25 @@ $(document).ready(function () {
 </ol>
 <p>After you open RStudio, you should see the following screen:</p>
 <div class="figure">
-<img src="figures/img1.png" alt="" />
+<img src="figures/rstudio1a.png" alt="" />
 <p class="caption">Opening screen of RStudio</p>
 </div>
 <p><br/></p>
 <p>I personally prefer console on the top-left, source on the top-right, files on the bottom-left, and environment on the bottom-right. The pane layout can be updated using <em>Global Options</em> under <em>Tools</em>.</p>
 <div class="figure">
-<img src="figures/img2.png" alt="" />
+<img src="figures/rstudio2.png" alt="" />
 <p class="caption"><strong>Step 1:</strong> Click Tools and then select Global Options</p>
 </div>
 <p><br/></p>
 <div class="figure">
-<img src="figures/img3.png" alt="" />
+<img src="figures/rstudio3.png" alt="" />
 <p class="caption"><strong>Step 2:</strong> Select console, source, environment, or files for each pane</p>
 </div>
 <p><br/></p>
-<p>We can also change the appearance (e.g., code highlighting, font type, font size, etc.):</p>
+<p>We can also change the appearance (e.g., code highlighting, font type, font size, etc.). For example, I prefer to use the Cobalt editor theme due to its dark background and contrasting colors:</p>
 <div class="figure">
 <img src="figures/img4.png" alt="" />
-<p class="caption"><strong>Step 3:</strong> Change the Appearance Settings, as you wish</p>
+<p class="caption"><strong>Step 3:</strong> Change the appearance settings (Optional)</p>
 </div>
 <p><br/></p>
 <p><strong>Note:</strong> To get yourself more familiar with RStudio, I recommend you to check out the RStudio <a href="resources/rstudio-ide.pdf">cheatsheet</a> and Oscar Torres-Reyna’s nice <a href="resources/rstudio_tutorial.pdf">tutorial</a>.</p>
@@ -515,7 +530,7 @@ $(document).ready(function () {
 <p><br/></p>
 <p>When we type some codes in the script, we can select the lines we want to run and then hit the run button. Alternatively, we can bring the cursor at the beginning of the line and hit the run button which runs one line at a time and moves to the next line.</p>
 <div class="figure">
-<img src="figures/img7.png" alt="" />
+<img src="figures/rstudio5a.png" alt="" />
 <p class="caption">Running R codes from a script file</p>
 </div>
 <p><br/></p>
@@ -531,7 +546,7 @@ $(document).ready(function () {
 <p>We can select Session &gt; Set Working Directory &gt; Choose Directory to find a folder or location that we want to set as our current working directory.</p>
 <p><br/></p>
 <div class="figure">
-<img src="figures/img6.png" alt="" />
+<img src="figures/rstudio6.png" alt="" />
 <p class="caption">Setting the working directory in R</p>
 </div>
 <p><br/></p>
@@ -547,7 +562,7 @@ $(document).ready(function () {
 <div id="downloading-and-installing-r-packages" class="section level2">
 <h2>Downloading and installing R packages</h2>
 <p>The base R program comes with many built-in functions to compute a variety of statistics and to create graphics (e.g., histograms, scatterplots, etc.). However, what makes R more powerful than other software programs is that R users can write their own functions, put them in a package, and share it with other R users via the <a href="https://cran.r-project.org/web/packages/index.html">CRAN</a> website.</p>
-<p>For example, <code>ggplot2</code> <span class="citation">(Wickham et al., 2020)</span> is a well-known R package, created by Hadley Wickham and Winston Chang. This package allows R users to create elegant data visualizations. To download and install the <code>ggplot2</code> package, we need to use the <code>install.packages</code> command. Note that your computer has to be connected to the internet to be able to connect to the CRAN website and download the package.</p>
+<p>For example, <code>ggplot2</code> <span class="citation">(Wickham et al., 2021)</span> is a well-known R package, created by Hadley Wickham and Winston Chang. This package allows R users to create elegant data visualizations. To download and install the <code>ggplot2</code> package, we need to use the <code>install.packages</code> command. Note that your computer has to be connected to the internet to be able to connect to the CRAN website and download the package.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
 <p>Once a package is downloaded and installed, it is permanently in your R folder. That is, there is no need to re-install it, unless you remove the package or install a new version of R. These downloaded packages are not directly accessible until we activate them in your R session. Whenever we need to access a package in R, we need to use the <code>library</code> command to activate it. For example, to access the <code>ggplot2</code> package, we would use:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
@@ -561,11 +576,10 @@ $(document).ready(function () {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To view specific vignette</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;ggplot2-specs&quot;</span>)</span></code></pre></div>
 <hr />
-<p><br/></p>
 </div>
 </div>
 <div id="basics-of-the-r-language" class="section level1">
-<h1>Basics of the R Language</h1>
+<h1><strong>Basics of the R language</strong></h1>
 <p><br/></p>
 <div id="creating-new-variables" class="section level2">
 <h2>Creating new variables</h2>
@@ -638,10 +652,98 @@ $(document).ready(function () {
 </ol>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here I define four cities in Alberta</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="importing-data-into-r" class="section level1">
+<h1><strong>Importing data into R</strong></h1>
+<p>We often save our data sets in convenient data formats, such as Excel, SPSS, or text files (.txt, .csv, .dat, etc.). R is capable of importing (i.e., reading) various data formats.</p>
+<p>There are two ways to import a data set into R:</p>
+<ol style="list-style-type: decimal">
+<li>By using the “Import Dataset” menu option in RStudio</li>
+<li>By using a particular R command</li>
+</ol>
+<p><br/></p>
+<div id="method-1-using-rstudio" class="section level2">
+<h2>Method 1: Using RStudio</h2>
+<div class="figure">
+<img src="figures/rstudio7.png" alt="" />
+<p class="caption">Importing a dataset using the RStudio menu</p>
+</div>
+<p><br/></p>
+<div id="importing-excel-files" class="section level3">
+<h3>Importing Excel files</h3>
+<ul>
+<li>Browse for the file that you want to import</li>
+<li>Give a name for the data set</li>
+<li>Choose the sheet to be imported</li>
+<li>“First Row as Names” if the variable names are in the first row of the file.</li>
+</ul>
+<div class="figure">
+<img src="figures/img9.png" alt="" />
+<p class="caption">Importing Excel files</p>
+</div>
 <p><br/></p>
 </div>
-<div id="self-help" class="section level2">
-<h2>Self-help</h2>
+<div id="importing-spss-files" class="section level3">
+<h3>Importing SPSS files</h3>
+<ul>
+<li>Browse the file that you want to import</li>
+<li>Give a name for the data set</li>
+<li>Choose the SPSS data format (SAV)</li>
+</ul>
+<div class="figure">
+<img src="figures/img10.png" alt="" />
+<p class="caption">Importing SPSS files</p>
+</div>
+<p><br/></p>
+</div>
+</div>
+<div id="method-2-using-r-commands" class="section level2">
+<h2>Method 2: Using R commands</h2>
+<p>R has some built-in functions, such as <code>read.csv</code> and <code>read.table</code>. Also, there are R packages for importing specific data formats. For example, <code>foreign</code> for SPSS files and <code>xlsx</code> for Excel files. Here are some examples:</p>
+<p><br/></p>
+<div id="importing-excel-files-1" class="section level3">
+<h3>Importing Excel files</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use read.xlsx to import an Excel file</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>my_excel_file <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">&quot;path to the file/filename.xlsx&quot;</span>, <span class="at">sheetName =</span> <span class="st">&quot;sheetname&quot;</span>)</span></code></pre></div>
+<p><br/></p>
+</div>
+<div id="importing-spss-files-1" class="section level3">
+<h3>Importing SPSS files</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use read.spss to import an SPSS file</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>my_spss_file <span class="ot">&lt;-</span> <span class="fu">read.spss</span>(<span class="st">&quot;path to the file/filename.sav&quot;</span>, <span class="at">to.data.frame =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><br/></p>
+</div>
+<div id="importing-text-files" class="section level3">
+<h3>Importing text files</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No need to install any packages</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># R has many built-in functions already</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A comma-separated-values file with a .csv extension</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>my_csv_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;path to the file/filename.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A tab delimited text file with .txt extension</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>my_txt_file <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;path to the file/filename.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<p>Here we should note that:</p>
+<ul>
+<li><code>header = TRUE</code> if the variable names are in the first row; otherwise, use <code>header = FALSE</code></li>
+<li><code>sep="\t"</code> for tab-separated files; <code>sep=","</code> for comma-separated files</li>
+</ul>
+<hr />
+</div>
+</div>
+</div>
+<div id="self-help" class="section level1">
+<h1><strong>Self-help</strong></h1>
 <p>In the spirit of open-source, R is very much a self-guided tool. We can look for solutions to R-related problems in multiple ways:</p>
 <ol style="list-style-type: decimal">
 <li><p>Use the <code>?</code> to open help pages for functions or packages (e.g., try <code>?summary</code> in the console to see how the <code>summary</code> function works).</p></li>
@@ -651,12 +753,11 @@ $(document).ready(function () {
 </ol>
 <p><br></p>
 </div>
-</div>
 <div id="references" class="section level1 unnumbered">
-<h1 class="unnumbered">References</h1>
+<h1 class="unnumbered"><strong>References</strong></h1>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-R-ggplot2" class="csl-entry">
-Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2020). <em>ggplot2: Create elegant data visualisations using the grammar of graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>
+Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2021). <em>ggplot2: Create elegant data visualisations using the grammar of graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>
 </div>
 </div>
 </div>

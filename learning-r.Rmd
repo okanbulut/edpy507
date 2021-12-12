@@ -9,9 +9,7 @@ csl: apa.csl
 
 ***
 
-<br>
-
-# R and RStudio
+# **R and RStudio**
 
 ![](figures/r_and_rstudio.png)
 
@@ -52,8 +50,12 @@ To download and install R:
 2. Click "Download R for Mac/Windows""
 3. Download the appropriate file:
 • Windows users click Base, and download the installer for the latest R version
-• Mac users select the file R-3.X.X.pkg that aligns with your OS version
+• Mac users select the file R-4.X.X.pkg that aligns with your OS version
 4. Follow the instructions of the installer.
+
+**Important:** If you are using a Windows computer, you must also install [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html).
+
+<br/>
 
 To download and install RStudio:
 
@@ -65,23 +67,23 @@ To download and install RStudio:
 
 After you open RStudio, you should see the following screen:
 
-![Opening screen of RStudio](figures/img1.png)
+![Opening screen of RStudio](figures/rstudio1a.png)
 
 <br/>
 
 I personally prefer console on the top-left, source on the top-right, files on the bottom-left, and environment on the bottom-right. The pane layout can be updated using *Global Options* under *Tools*. 
 
-![**Step 1:** Click Tools and then select Global Options](figures/img2.png)
+![**Step 1:** Click Tools and then select Global Options](figures/rstudio2.png)
 
 <br/>
 
-![**Step 2:** Select console, source, environment, or files for each pane](figures/img3.png)
+![**Step 2:** Select console, source, environment, or files for each pane](figures/rstudio3.png)
 
 <br/>
 
-We can also change the appearance (e.g., code highlighting, font type, font size, etc.):
+We can also change the appearance (e.g., code highlighting, font type, font size, etc.). For example, I prefer to use the Cobalt editor theme due to its dark background and contrasting colors:
 
-![**Step 3:** Change the Appearance Settings, as you wish](figures/img4.png)
+![**Step 3:** Change the appearance settings (Optional)](figures/img4.png)
 
 <br/>
 
@@ -101,7 +103,7 @@ We can create a new script file in R as follows:
 
 When we type some codes in the script, we can select the lines we want to run and then hit the run button. Alternatively, we can bring the cursor at the beginning of the line and hit the run button which runs one line at a time and moves to the next line.
 
-![Running R codes from a script file](figures/img7.png)
+![Running R codes from a script file](figures/rstudio5a.png)
 
 <br/>
 
@@ -127,7 +129,7 @@ We can select Session > Set Working Directory > Choose Directory to find a folde
 
 <br/>
 
-![Setting the working directory in R](figures/img6.png)
+![Setting the working directory in R](figures/rstudio6.png)
 
 <br/>
 
@@ -180,9 +182,8 @@ vignette("ggplot2-specs")
 ```
 
 ***
-<br/>
 
-# Basics of the R Language
+# **Basics of the R language**
 
 <br/>
 
@@ -288,9 +289,100 @@ Error: unexpected symbol in "my cities"
 cities <- c("Edmonton", "Calgary", "Red Deer", "Spruce Grove")
 ```
 
+***
+
+# **Importing data into R**
+
+We often save our data sets in convenient data formats, such as Excel, SPSS, or text files (.txt, .csv, .dat, etc.). R is capable of importing (i.e., reading) various data formats. 
+
+There are two ways to import a data set into R:
+
+1. By using the "Import Dataset" menu option in RStudio
+2. By using a particular R command
+
 <br/>
 
-## Self-help
+## Method 1: Using RStudio
+
+![Importing a dataset using the RStudio menu](figures/rstudio7.png)
+
+<br/>
+
+### Importing Excel files
+
+* Browse for the file that you want to import
+* Give a name for the data set
+* Choose the sheet to be imported
+* "First Row as Names" if the variable names are in the first row of the file.
+
+![Importing Excel files](figures/img9.png)
+
+<br/>
+
+### Importing SPSS files
+
+* Browse the file that you want to import
+* Give a name for the data set
+* Choose the SPSS data format (SAV)
+
+![Importing SPSS files](figures/img10.png)
+
+<br/>
+
+## Method 2: Using R commands
+
+R has some built-in functions, such as `read.csv` and `read.table`. Also, there are R packages for importing specific data formats. For example, `foreign` for SPSS files and `xlsx` for Excel files. Here are some examples:  
+
+<br/>
+
+### Importing Excel files
+
+```{r ch2.5, eval=FALSE}
+# Install and activate the package first
+install.packages("xlsx")
+library("xlsx")
+
+# Use read.xlsx to import an Excel file
+my_excel_file <- read.xlsx("path to the file/filename.xlsx", sheetName = "sheetname")
+```    
+
+<br/>
+
+### Importing SPSS files
+
+```{r ch2.6, eval=FALSE}
+# Install and activate the package first
+install.packages("foreign")
+library("foreign")
+
+# Use read.spss to import an SPSS file
+my_spss_file <- read.spss("path to the file/filename.sav", to.data.frame = TRUE)
+```
+
+<br/>
+
+### Importing text files
+
+```{r ch2.7, eval=FALSE}
+# No need to install any packages
+# R has many built-in functions already
+
+# A comma-separated-values file with a .csv extension
+my_csv_file <- read.csv("path to the file/filename.csv", header = TRUE)
+
+# A tab delimited text file with .txt extension
+my_txt_file <- read.table("path to the file/filename.txt", header = TRUE, sep = "\t")
+```
+
+
+Here we should note that:
+
+* `header = TRUE` if the variable names are in the first row; otherwise, use `header = FALSE`
+* `sep="\t"` for tab-separated files; `sep=","` for comma-separated files
+
+***
+
+# **Self-help**
 
 In the spirit of open-source, R is very much a self-guided tool. We can look for solutions to R-related problems in multiple ways:
 
@@ -304,6 +396,6 @@ In the spirit of open-source, R is very much a self-guided tool. We can look for
 
 <br>
 
-# References
+# **References**
 
 

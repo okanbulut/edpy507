@@ -8,7 +8,7 @@ navbar:
       href: index.html
     - text: "Learning R"
       icon: fa-chess-pawn
-      href: intro-to-r.html
+      href: learning-r.html
     - text: "CTT"
       icon: fa-chess-knight
       href: ctt.html
