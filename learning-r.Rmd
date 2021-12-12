@@ -7,6 +7,23 @@ bibliography: packages.bib
 csl: apa.csl
 ---
 
+```{r load_packages, message=FALSE, warning=FALSE, include=FALSE} 
+# remotes::install_github("mitchelloharawild/icons")
+# devtools::install_github("ropenscilabs/icon")
+# https://www.r-bloggers.com/2018/05/icon-web-icons-for-rmarkdown/
+
+# Search icons: https://fontawesome.com/v5.15/icons
+library("fontawesome")
+
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
+                      message = FALSE, fig.width=8, fig.height=6, comment = NA,
+                      fig.align = 'center')
+
+# automatically create a bib database for R packages
+knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+```
+
+
 ***
 
 # **R and RStudio**

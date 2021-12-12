@@ -6,13 +6,23 @@ output:
 ---
 
 ```{r load_packages, message=FALSE, warning=FALSE, include=FALSE} 
-#remotes::install_github("mitchelloharawild/icons")
-#devtools::install_github("ropenscilabs/icon")
-#library("icons")
+# remotes::install_github("mitchelloharawild/icons")
+# devtools::install_github("ropenscilabs/icon")
 # https://www.r-bloggers.com/2018/05/icon-web-icons-for-rmarkdown/
-library("fontawesome")
+
 # Search icons: https://fontawesome.com/v5.15/icons
+library("fontawesome")
+
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
+                      message = FALSE, fig.width=8, fig.height=6, comment = NA,
+                      fig.align = 'center')
+
+# automatically create a bib database for R packages
+knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
+                       "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
+                 file = "packages.bib")
 ```
+
 
 <br>
 <center>
@@ -50,5 +60,5 @@ EDPY 507 - Measurement Theory I is designed for graduate students, researchers, 
 
 ## Course Materials
 
-The lecture notes and readings will be available on [eClass](https://eclass.srv.ualberta.ca). I suggest that you focus on the lecture notes first. If time permits, you should also complete the readings before attending the lectures. In addition to the lecture notes and readings, I will also share hands-on materials for conducting different types of psychometric analyses on this website. We will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/). The hands-on materials presented here will help you learn how to use R for data processing, data visualization, and psychometric analysis (please see [Learning R](https://okanbulut.github.io/edpy507/intro-to-r.html) for further details on how to download and install R and RStudio).
+The lecture notes and readings will be available on [eClass](https://eclass.srv.ualberta.ca). I suggest that you focus on the lecture notes first. If time permits, you should also complete the readings before attending the lectures. In addition to the lecture notes and readings, I will also share hands-on materials for conducting different types of psychometric analyses on this website. We will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/). The hands-on materials presented here will help you learn how to use R for data processing, data visualization, and psychometric analysis (see [Learning R](https://okanbulut.github.io/edpy507/intro-to-r.html) for further details on how to download and install R and RStudio).
 

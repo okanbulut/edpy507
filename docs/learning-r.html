@@ -587,18 +587,18 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span></code></pre></div>
 <p>If we want to print <code>x</code>, we just type <code>x</code> in the console and hit enter. R returns the value assigned to <code>x</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
-<pre><code>## [1] 25</code></pre>
+<pre><code>[1] 25</code></pre>
 <p>We can also create a variable that holds multiple values in it, using the <code>c</code> command (<strong>c</strong> stands for <em>combine</em>).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">72</span>, <span class="dv">80</span>, <span class="dv">84</span>, <span class="dv">56</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>weight</span></code></pre></div>
-<pre><code>## [1] 60 72 80 84 56</code></pre>
+<pre><code>[1] 60 72 80 84 56</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">1.75</span>, <span class="fl">1.8</span>, <span class="fl">1.9</span>, <span class="fl">1.6</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>height</span></code></pre></div>
-<pre><code>## [1] 1.70 1.75 1.80 1.90 1.60</code></pre>
+<pre><code>[1] 1.70 1.75 1.80 1.90 1.60</code></pre>
 <p>Once we create a variable, we can do further calculations with it. Let’s say we want to transform the <code>weight</code> variable (in kg) to a new variable called weight2 (in lbs).</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>weight2 <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>weight2</span></code></pre></div>
-<pre><code>## [1] 132.3 158.7 176.4 185.2 123.5</code></pre>
+<pre><code>[1] 132.3 158.7 176.4 185.2 123.5</code></pre>
 <p>Note that we named the variable as <code>weight2</code>. So, both <code>weight</code> and <code>weight2</code> exist in the active R session now. If we used the following, this would overwrite the existing <code>weight</code> variable.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span></code></pre></div>
 <p>We can also define a new variable based on existing variables.</p>
@@ -606,15 +606,15 @@ $(document).ready(function () {
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>math <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">65</span>, <span class="dv">60</span>, <span class="dv">38</span>, <span class="dv">70</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> reading <span class="sc">+</span> math</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>total</span></code></pre></div>
-<pre><code>## [1] 170 140 110  82 135</code></pre>
+<pre><code>[1] 170 140 110  82 135</code></pre>
 <p>Sometimes we need a variable that holds character strings rather than numerical values. If a value is not numerical, we need to use double quotation marks. In the example below, we create a new variable called <code>cities</code> that has four city names in it. Each city name is written with double quotation marks.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cities</span></code></pre></div>
-<pre><code>## [1] &quot;Edmonton&quot;     &quot;Calgary&quot;      &quot;Red Deer&quot;     &quot;Spruce Grove&quot;</code></pre>
+<pre><code>[1] &quot;Edmonton&quot;     &quot;Calgary&quot;      &quot;Red Deer&quot;     &quot;Spruce Grove&quot;</code></pre>
 <p>We can also treat numerical values as character strings. For example, assume that we have a <code>gender</code> variable where 1=Male and 2=Female. We want R to know that these values are not actual numbers; instead, they are just numerical labels for gender groups.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gender</span></code></pre></div>
-<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;2&quot;</code></pre>
+<pre><code>[1] &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;2&quot;</code></pre>
 <p><br/></p>
 </div>
 <div id="important-rules-of-the-r-language" class="section level2">
