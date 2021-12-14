@@ -84,7 +84,7 @@ To download and install RStudio:
 
 After you open RStudio, you should see the following screen:
 
-![Opening screen of RStudio](figures/rstudio1a.png)
+![Opening screen of RStudio](figures/rstudio1b.png)
 
 <br/>
 
