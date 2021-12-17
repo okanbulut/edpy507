@@ -21,4 +21,20 @@ library("kableExtra")
 knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
-**Content will be available soon...**
+***
+
+# Dichotomous IRT Models {.tabset .tabset-fade .tabset-pills}
+In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item parameters and abilities for each IRT model. 
+
+## Rasch Model
+content of sub-chapter #1
+
+## 1PL Model
+content of sub-chapter #2
+
+## 2PL Model
+content of sub-chapter #3
+
+## 3PL Model
+content of sub-chapter #4
+

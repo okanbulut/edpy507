@@ -21,12 +21,4 @@ knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
 
-***
-
-# Title here
-
-xxx
-
-## Subtitle here
-
-xxx
+**Content will be available soon...**
