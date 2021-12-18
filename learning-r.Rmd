@@ -3,7 +3,7 @@ title: "Introduction to R and RStudio"
 output:
   html_document:
     toc: TRUE
-bibliography: packages.bib
+bibliography: mybib.bib
 csl: apa.csl
 ---
 
@@ -20,13 +20,13 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       fig.align = 'center')
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+# knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
 
 ***
 
-# **R and RStudio**
+# R and RStudio
 
 ![](figures/r_and_rstudio.png)
 
@@ -200,7 +200,7 @@ vignette("ggplot2-specs")
 
 ***
 
-# **Basics of the R language**
+# Basics of the R language
 
 <br/>
 
@@ -308,7 +308,7 @@ cities <- c("Edmonton", "Calgary", "Red Deer", "Spruce Grove")
 
 ***
 
-# **Importing data into R**
+# Importing data into R
 
 We often save our data sets in convenient data formats, such as Excel, SPSS, or text files (.txt, .csv, .dat, etc.). R is capable of importing (i.e., reading) various data formats. 
 
@@ -399,7 +399,7 @@ Here we should note that:
 
 ***
 
-# **Self-help**
+# Self-help
 
 In the spirit of open-source, R is very much a self-guided tool. We can look for solutions to R-related problems in multiple ways:
 
@@ -413,6 +413,6 @@ In the spirit of open-source, R is very much a self-guided tool. We can look for
 
 <br>
 
-# **References**
+# References
 
 

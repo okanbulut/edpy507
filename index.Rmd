@@ -18,9 +18,9 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       fig.align = 'center')
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
-                       "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
-                 file = "packages.bib")
+# knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
+#                        "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
+#                  file = "packages.bib")
 ```
 
 

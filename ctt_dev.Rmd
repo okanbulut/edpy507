@@ -3,7 +3,7 @@ title: "Classical Test Theory (CTT)"
 output:
   html_document:
     toc: TRUE
-bibliography: packages.bib
+bibliography: mybib.bib
 csl: apa.csl
 ---
 
@@ -17,16 +17,47 @@ library("fontawesome")
 library("kableExtra")
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+# knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
 
 ***
 
-# Title here
+# Example 1: The Need for Cognition Scale
+
+**Need for cognition**, or shortly NFC, is a psychological latent trait defined as "as a tendency to engage in and enjoy effortful cognitive activities" [@nfc-cacioppo]. Individuals with high levels of NFC tend to seek, acquire, think about, and reflect on information, whereas individuals with low levels of NFC tend to avoid detailed information about the world and find cognitively complex tasks stressful [@nfc-cacioppo; @nfc-chiesi]
+
+
+
+
+The data for this example come from a recent study: "[Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282)" [@nfc-grass]. The authors of this study investigated the relationship between NFC and self-control. 
+
+To measure NFC, the authors used the German version of the Need for Cognition Scale [@nfc-bless; @nfc-cacioppo]. @nfc-grass kindly shared their data files and other materials in an open repository (<https://osf.io/wn8xm/>). We will use the available data to conduct analysis using Classical Test Theory (CTT). 
+
+<br>
+
+## Exploratory data analysis
 
 xxx
 
-## Subtitle here
+<br>
+
+## Item analysis based on CTT
 
 xxx
+
+<br>
+
+## Criterion-related validity
+
+xxx
+
+***
+
+# Example 2: A Multiple-Choice Exam
+
+xxx
+
+<br>
+
+# References

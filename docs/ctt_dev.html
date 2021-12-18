@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Classical Test Theory (CTT)</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDPY 507</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="learning-r.html">
+    <span class="fa fa-chess-pawn"></span>
+     
+    Learning R
+  </a>
+</li>
+<li>
+  <a href="ctt.html">
+    <span class="fa fa-chess-knight"></span>
+     
+    CTT
+  </a>
+</li>
+<li>
+  <a href="irt.html">
+    <span class="fa fa-chess-queen"></span>
+     
+    IRT
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-gem"></span>
+     
+    Resources
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/okanbulut">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/drokanbulut">
+    <span class="fa fa-twitter fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Classical Test Theory (CTT)</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#example-1-the-need-for-cognition-scale">Example 1: The Need for Cognition Scale</a>
+<ul>
+<li><a href="#exploratory-data-analysis">Exploratory data analysis</a></li>
+<li><a href="#item-analysis-based-on-ctt">Item analysis based on CTT</a></li>
+<li><a href="#evidence-for-criterion-related-validity">Evidence for criterion-related validity</a></li>
+</ul></li>
+<li><a href="#example-2-a-multiple-choice-exam">Example 2: A Multiple-Choice Exam</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="example-1-the-need-for-cognition-scale" class="section level1">
+<h1>Example 1: The Need for Cognition Scale</h1>
+<p><strong>Need for cognition</strong>, or shortly NFC, is a psychological latent trait defined as “as a tendency to engage in and enjoy effortful cognitive activities” <span class="citation">(Cacioppo &amp; Petty, 1982)</span>. Individuals with high levels of NFC tend to seek, acquire, think about, and reflect on information, whereas individuals with low levels of NFC tend to avoid detailed information about the world and find cognitively complex tasks stressful <span class="citation">(Cacioppo &amp; Petty, 1982; Chiesi et al., 2018)</span></p>
+<p>The data for this example come from a recent study: “<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282">Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation</a>” <span class="citation">(Grass et al., 2019)</span>. The authors of this study investigated the relationship between NFC and self-control.</p>
+<p>To measure NFC, the authors used the German version of the Need for Cognition Scale <span class="citation">(Bless et al., 1994; Cacioppo &amp; Petty, 1982)</span>. <span class="citation">Grass et al. (2019)</span> kindly shared their data files and other materials in an open repository (<a href="https://osf.io/wn8xm/" class="uri">https://osf.io/wn8xm/</a>). We will use the available data to conduct analysis using Classical Test Theory (CTT).</p>
+<p><br></p>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory data analysis</h2>
+<p>xxx</p>
+<p><br></p>
+</div>
+<div id="item-analysis-based-on-ctt" class="section level2">
+<h2>Item analysis based on CTT</h2>
+<p>xxx</p>
+<p><br></p>
+</div>
+<div id="evidence-for-criterion-related-validity" class="section level2">
+<h2>Evidence for criterion-related validity</h2>
+<p>xxx</p>
+<hr />
+</div>
+</div>
+<div id="example-2-a-multiple-choice-exam" class="section level1">
+<h1>Example 2: A Multiple-Choice Exam</h1>
+<p>xxx</p>
+<p><br></p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-nfc-bless" class="csl-entry">
+Bless, H., Wänke, M., Bohner, G., Fellhauer, R. F., &amp; others. (1994). Need for cognition: Eine skala zur erfassung von engagement und freude bei denkaufgaben. <em>Zeitschrift f<span>ü</span>r Sozialpsychologie</em>.
+</div>
+<div id="ref-nfc-cacioppo" class="csl-entry">
+Cacioppo, J. T., &amp; Petty, R. E. (1982). The need for cognition. <em>Journal of Personality and Social Psychology</em>, <em>42</em>(1), 116.
+</div>
+<div id="ref-nfc-chiesi" class="csl-entry">
+Chiesi, F., Morsanyi, K., Donati, M. A., &amp; Primi, C. (2018). Applying item response theory to develop a shortened version of the need for cognition scale. <em>Advances in Cognitive Psychology</em>, <em>14</em>(3), 75.
+</div>
+<div id="ref-nfc-grass" class="csl-entry">
+Grass, J., Krieger, F., Paulus, P., Greiff, S., Strobel, A., &amp; Strobel, A. (2019). Thinking in action: Need for cognition predicts self-control together with action orientation. <em>PLOS ONE</em>, <em>14</em>(8), 1–20. <a href="https://doi.org/10.1371/journal.pone.0220282">https://doi.org/10.1371/journal.pone.0220282</a>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
