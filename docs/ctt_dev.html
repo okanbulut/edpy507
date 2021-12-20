@@ -30,6 +30,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -43,6 +45,95 @@
     </style>
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -320,6 +411,7 @@ $(document).ready(function () {
 <ul>
 <li><a href="#example-1-the-need-for-cognition-scale">Example 1: The Need for Cognition Scale</a>
 <ul>
+<li><a href="#setting-up-r">Setting up R</a></li>
 <li><a href="#exploratory-data-analysis">Exploratory data analysis</a></li>
 <li><a href="#item-analysis-based-on-ctt">Item analysis based on CTT</a></li>
 <li><a href="#criterion-related-validity">Criterion-related validity</a></li>
@@ -332,10 +424,109 @@ $(document).ready(function () {
 <hr />
 <div id="example-1-the-need-for-cognition-scale" class="section level1">
 <h1>Example 1: The Need for Cognition Scale</h1>
-<p><strong>Need for cognition</strong>, or shortly NFC, is a psychological latent trait defined as “as a tendency to engage in and enjoy effortful cognitive activities” <span class="citation">(Cacioppo &amp; Petty, 1982)</span>. Individuals with high levels of NFC tend to seek, acquire, think about, and reflect on information, whereas individuals with low levels of NFC tend to avoid detailed information about the world and find cognitively complex tasks stressful <span class="citation">(Cacioppo &amp; Petty, 1982; Chiesi et al., 2018)</span></p>
-<p>The data for this example come from a recent study: “<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282">Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation</a>” <span class="citation">(Grass et al., 2019)</span>. The authors of this study investigated the relationship between NFC and self-control.</p>
-<p>To measure NFC, the authors used the German version of the Need for Cognition Scale <span class="citation">(Bless et al., 1994; Cacioppo &amp; Petty, 1982)</span>. <span class="citation">Grass et al. (2019)</span> kindly shared their data files and other materials in an open repository (<a href="https://osf.io/wn8xm/" class="uri">https://osf.io/wn8xm/</a>). We will use the available data to conduct analysis using Classical Test Theory (CTT).</p>
+<p><strong>Need for cognition</strong>, or shortly NFC, is a psychological latent trait defined as the desire to engage in cognitively challenging tasks and effortful thinking <span class="citation">(Cacioppo &amp; Petty, 1982)</span>. Individuals with high levels of NFC tend to seek, acquire, think about, and reflect on information, whereas individuals with low levels of NFC tend to avoid detailed information about the world and find cognitively complex tasks stressful <span class="citation">(Cacioppo &amp; Petty, 1982; Chiesi et al., 2018)</span>. To measure the latent trait of NFC, Cacioppo and Petty developed the <a href="https://centerofinquiry.org/uncategorized/need-for-cognition-scale-wabash-national-study/">Need for Cognition Scale</a> <span class="citation">(Cacioppo &amp; Petty, 1982)</span>. The original scale consists of 34 items that ask individuals to rate the extent to which they agree with statements about the satisfaction they gain from thinking (e.g., The notion of thinking abstractly is appealing to me). <span class="citation">Cacioppo et al. (1984)</span> also created a shorter form of the scale with 18 items from the original scale (called NFC-18).</p>
+<p> </p>
+<p>Although the NFC Scale is already a well-established tool, we will use it to conduct various psychometric analyses based on Classical Test Theory (CTT) and demonstrate how to collect evidence supporting the reliability and validity of this instrument. The data for our demonstration come from a relatively recent study: “<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282">Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation</a>” <span class="citation">(Grass et al., 2019)</span>, focusing on the relationship between NFC and other latent traits (e.g., self-control). To measure NFC, the authors used the German version of the Need for Cognition Scale with 16 items <span class="citation">(Bless et al., 1994)</span>. <span class="citation">Grass et al. (2019)</span> kindly shared their data files and other materials in an open repository: <a href="https://osf.io/wn8xm/" class="uri">https://osf.io/wn8xm/</a>.</p>
 <p><br></p>
+<div id="setting-up-r" class="section level2">
+<h2>Setting up R</h2>
+<p>To conduct CTT-based analyses, we will use the following R packages:</p>
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Package
+</th>
+<th style="text-align:left;">
+URL
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="3">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Exploratory Data Analysis</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+dplyr
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=dplyr" class="uri">http://CRAN.R-project.org/package=dplyr</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+DataExplorer
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=DataExplorer" class="uri">http://CRAN.R-project.org/package=DataExplorer</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ggcorrplot
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=ggcorrplot" class="uri">http://CRAN.R-project.org/package=ggcorrplot</a>
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Psychometric Analysis</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+psych
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=psych" class="uri">http://CRAN.R-project.org/package=psych</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+CTT
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=CTT" class="uri">http://CRAN.R-project.org/package=CTT</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ShinyItemAnalysis
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=ShinyItemAnalysis" class="uri">http://CRAN.R-project.org/package=ShinyItemAnalysis</a>
+</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>We can install all of these packages by using the <code>install.packages()</code> command. Please note that you need to install these packages <u>only once</u>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install all the packages together</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;CTT&quot;</span>, <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;ShinyItemAnalysis&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, you can do it one by one, such as:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;CTT&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;psych&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
+<p>After you install the packages properly (i.e., no error messages on your R console), you can use the <code>library()</code> command to activate these packages in your R session.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the packages</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;CTT&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;psych&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
+<p>Each of these packages comes with several functions. Once you activate a package, you can start using all the functions loaded with that package. To call a particular function from a package, we need to know the function name. For example, we can use the <code>alpha()</code> function in the <strong>psych</strong> package to calculate internal consistency values such as coefficient alpha. Since we are going to use multiple functions from different packages, it might be a bit difficult to remember which package each function belongs to. Therefore, I will use the following format in my codes: <code>packagename::function</code>. For example, <code>psych::alpha()</code> indicates that I am calling the <code>alpha()</code> function from the <strong>psych</strong> package.</p>
+<hr />
+<blockquote>
+<p><strong>NOTE:</strong> Using <code>::</code> also has two more benefits. First, we can call a particular function from a package without activating the entire package. For example, <code>psych::alpha()</code> would allow us to use the <code>alpha()</code> function without <code>library("psych")</code>. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called “masking.” However, by using <code>::</code>, we can still use the functions from the masked packages.</p>
+</blockquote>
+<hr />
+<p><br></p>
+</div>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory data analysis</h2>
 <p>xxx</p>
@@ -365,6 +556,9 @@ Bless, H., Wänke, M., Bohner, G., Fellhauer, R. F., &amp; others. (1994). Need 
 </div>
 <div id="ref-nfc-cacioppo" class="csl-entry">
 Cacioppo, J. T., &amp; Petty, R. E. (1982). The need for cognition. <em>Journal of Personality and Social Psychology</em>, <em>42</em>(1), 116.
+</div>
+<div id="ref-nfc-short" class="csl-entry">
+Cacioppo, J. T., Petty, R. E., &amp; Feng Kao, C. (1984). The efficient assessment of need for cognition. <em>Journal of Personality Assessment</em>, <em>48</em>(3), 306–307.
 </div>
 <div id="ref-nfc-chiesi" class="csl-entry">
 Chiesi, F., Morsanyi, K., Donati, M. A., &amp; Primi, C. (2018). Applying item response theory to develop a shortened version of the need for cognition scale. <em>Advances in Cognitive Psychology</em>, <em>14</em>(3), 75.

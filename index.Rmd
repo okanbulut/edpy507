@@ -41,7 +41,7 @@ EDPY 507 - Measurement Theory I is designed for graduate students, researchers, 
 
 `r fa("user-tie", fill = "black")` [Dr. Okan Bulut](https://sites.google.com/ualberta.ca/okanbulut/)
 
-`r fa("landmark", fill = "black")` Education Centre North 6-110
+`r fa("landmark", fill = "black")` Education Centre North 6-110 ([Map](https://www.ualberta.ca/maps.html?l=53.52324945573952,-113.52463416989659&z=17&campus=north_campus&b=edNorth))
 
 `r fa("envelope", fill = "black")` <bulut@ualberta.ca>
 
@@ -61,4 +61,11 @@ EDPY 507 - Measurement Theory I is designed for graduate students, researchers, 
 ## Course Materials
 
 The lecture notes and readings will be available on [eClass](https://eclass.srv.ualberta.ca). I suggest that you focus on the lecture notes first. If time permits, you should also complete the readings before attending the lectures. In addition to the lecture notes and readings, I will also share hands-on materials for conducting different types of psychometric analyses on this website. We will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/). The hands-on materials presented here will help you learn how to use R for data processing, data visualization, and psychometric analysis (see [Learning R](https://okanbulut.github.io/edpy507/intro-to-r.html) for further details on how to download and install R and RStudio).
+
+<br>
+
+### About this website
+
+(Not surprisingly) The entire content of this website has been prepared using R. The website has been built using the [rmarkdown](https://rmarkdown.rstudio.com/) package. The course logo has been created by me using the [hexSticker](https://github.com/GuangchuangYu/hexSticker) package. 
+
 
