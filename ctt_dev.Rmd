@@ -1,7 +1,7 @@
 ---
 title: "Classical Test Theory (CTT)"
 output:
-  html_document:
+  bookdown::html_document2:
     toc: TRUE
 bibliography: mybib.bib
 csl: apa.csl
@@ -25,7 +25,6 @@ suppressWarnings({
 knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 ```
 
-
 ***
 
 # Example 1: The Need for Cognition Scale
@@ -34,7 +33,7 @@ knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 
 \  
 
-Although the NFC Scale is already a well-established tool, we will use it to conduct various psychometric analyses based on Classical Test Theory (CTT) and demonstrate how to collect evidence supporting the reliability and validity of this instrument. The data for our demonstration come from a relatively recent study: "[Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282)" [@nfc-grass], focusing on the relationship between NFC and other latent traits (e.g., self-control). To measure NFC, the authors used the German version of the Need for Cognition Scale with 16 items [@nfc-bless]. @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. 
+Although the NFC Scale is already a well-established tool, we will use it to conduct various psychometric analyses based on Classical Test Theory (CTT) and demonstrate how to collect evidence supporting the reliability and validity of this instrument. The data for our demonstration come from a relatively recent study: "[Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282)" [@nfc-grass], focusing on the relationship between NFC and other latent traits (e.g., self-control). To measure NFC, the authors used the German version of the Need for Cognition Scale with 16 items [@nfc-bless]. @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. For the following analyses, we will use a subset of the original data including responses to the NFC Scale, demographic variables, and additional data related self-control etc. This dataset can be downloaded from [**here**]().
 
 <br>
 
@@ -45,19 +44,24 @@ To conduct CTT-based analyses, we will use the following R packages:
 ```{r ctt0, eval=TRUE, echo=FALSE}
 pkg_dat <- data.frame(
   Package = c("dplyr", "DataExplorer", "ggcorrplot",
-              "psych", "CTT", "ShinyItemAnalysis"),
+              "psych", "CTT", "ShinyItemAnalysis", "QME",
+              "devtools", "rmarkdown"),
   URL = c("http://CRAN.R-project.org/package=dplyr", 
           "http://CRAN.R-project.org/package=DataExplorer",
           "http://CRAN.R-project.org/package=ggcorrplot",
           "http://CRAN.R-project.org/package=psych",
           "http://CRAN.R-project.org/package=CTT",
-          "http://CRAN.R-project.org/package=ShinyItemAnalysis")
+          "http://CRAN.R-project.org/package=ShinyItemAnalysis",
+          "https://github.com/zief0002/QME", 
+          "http://CRAN.R-project.org/package=devtools",
+          "http://CRAN.R-project.org/package=rmarkdown")
 )
 
 kbl(pkg_dat, caption = "") %>%
   kable_paper("striped") %>%
   pack_rows("Exploratory Data Analysis", 1, 3) %>%
-  pack_rows("Psychometric Analysis", 4, 6)
+  pack_rows("Psychometric Analysis", 4, 7) %>%
+  pack_rows("Ancillary Packages", 8, 9)
 ```
 
 \  
@@ -87,7 +91,7 @@ Each of these packages comes with several functions. Once you activate a package
 
 ***
 
-> **NOTE:** Using `::` also has two more benefits. First, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` would allow us to use the `alpha()` function without `library("psych")`. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". However, by using `::`, we can still use the functions from the masked packages.   
+> <span style="color:blue">**NOTE:**</span> Using `::` also has two more benefits. First, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` allows us to use the `alpha()` function without running `library("psych")`. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". However, by using `::`, we can still use the functions from the masked packages.   
 
 ***
 
