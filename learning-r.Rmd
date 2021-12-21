@@ -185,18 +185,9 @@ Once a package is downloaded and installed, it is permanently in your R folder. 
 library("ggplot2")
 ```
 
-To get help on installed packages (e.g., what's inside this package):
+We can use the analogy of buying books from a bookstore (`install.packages`) and adding them to your personal library (`library`) to remember how these two commands work. 
 
-```{r ch1.6.2, eval=FALSE}
-# To get details regarding contents of a package
-help(package = "ggplot2")
-
-# To list vignettes available for a specific package
-vignette(package = "ggplot2")
-
-# To view specific vignette
-vignette("ggplot2-specs")
-```
+![](figures/install_library.png)
 
 ***
 
@@ -403,13 +394,26 @@ Here we should note that:
 
 In the spirit of open-source, R is very much a self-guided tool. We can look for solutions to R-related problems in multiple ways:
 
-1. Use the `?` to open help pages for functions or packages (e.g., try `?summary` in the console to see how the `summary` function works).
+1. To get help on installed packages (e.g., what's inside this package):
 
-2. For tricky questions and funky error messages (there are many of these), use [Google](https://www.google.com/) (include "in R" to the end of your query).
+```{r ch1.6.2, eval=FALSE}
+# To get details regarding contents of a package
+help(package = "ggplot2")
 
-3. We can also use RSeek (<https://rseek.org/>) - a search engine just for R.
+# To list vignettes available for a specific package
+vignette(package = "ggplot2")
+
+# To view specific vignette
+vignette("ggplot2-specs")
+```
+
+2. Use the `?` to open help pages for functions or packages (e.g., try running `?summary` in the console to see how the `summary` function works).
+
+3. For tricky questions and funky error messages (there are many of these), use [Google](https://www.google.com/) (include "in R" to the end of your query).
 
 4. StackOverflow (<https://stackoverflow.com/>) has become a great resource with many questions for many specific packages in R, and a rating system for answers.
+
+5. Finally, you can simply search your question on [Google](https://www.google.com/)! With the right keywords, you can find the answers to even very complex questions about R. Here are [a few tips and tricks](https://support.google.com/websearch/answer/134479?hl=en) to help you find information on [Google](https://www.google.com/).
 
 <br>
 

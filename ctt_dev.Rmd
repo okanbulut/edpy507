@@ -1,7 +1,7 @@
 ---
 title: "Classical Test Theory (CTT)"
 output:
-  bookdown::html_document2:
+  html_document:
     toc: TRUE
 bibliography: mybib.bib
 csl: apa.csl
@@ -14,15 +14,27 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       fig.align = 'center')
 
 suppressWarnings({
-  # Add all the packages you will use in the article here
   library("rmarkdown")
   library("fontawesome")
   library("kableExtra")
   library("emo")
+  
+  # Required packages
+  library("dplyr")
+  library("car")
+  library("skimr")
+  library("DataExplorer")
+  library("ggcorrplot")
+  library("psych")
+  library("CTT")
+  library("ShinyItemAnalysis")
+  library("QME")
+  library("rmarkdown")
+  library("chronicle")
 })
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+knitr::write_bib(x = c(.packages()), file = "packages.bib")
 ```
 
 ***
@@ -33,7 +45,41 @@ knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
 
 \  
 
-Although the NFC Scale is already a well-established tool, we will use it to conduct various psychometric analyses based on Classical Test Theory (CTT) and demonstrate how to collect evidence supporting the reliability and validity of this instrument. The data for our demonstration come from a relatively recent study: "[Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282)" [@nfc-grass], focusing on the relationship between NFC and other latent traits (e.g., self-control). To measure NFC, the authors used the German version of the Need for Cognition Scale with 16 items [@nfc-bless]. @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. For the following analyses, we will use a subset of the original data including responses to the NFC Scale, demographic variables, and additional data related self-control etc. This dataset can be downloaded from [**here**]().
+Although the NFC Scale is already a well-established tool, we will use it to conduct various psychometric analyses based on Classical Test Theory (CTT) and demonstrate how to collect evidence supporting the reliability and validity of this instrument. The data for our demonstration come from a relatively recent study: "[Thinking in action: Need for Cognition predicts Self-Control together with Action Orientation](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0220282)" [@nfc-grass], focusing on the relationship between NFC and other latent traits (e.g., self-control). To measure NFC, the authors used the German version of the Need for Cognition Scale with 16 items [@nfc-bless]: 
+
+
+```{r nfc, eval=TRUE, echo=FALSE}
+nfc_items <- data.frame(
+  Items = 1:16,
+  Description = c(
+    "Enjoyment of tasks that involve problem-solving",
+    "Preference for cognitive, difficult and important tasks",
+    "Tendency to strive for goals that require mental effort",
+    "Appeal of relying on one’s thought to be successful (R)",
+    "Satisfaction of completing important tasks that required thinking and mental effort",
+    "Preference for thinking about long-term projects (R)",
+    "Preference for cognitive challenges (R)",
+    "Satisfaction on hard and long deliberation (R)",
+    "Attitude towards thinking as something one does primarily because one has to (R)",
+    "Appeal of being responsible for handling situations that require thinking (R)",
+    "Attitude towards thinking as something that is fun (R)",
+    "Anticipation and avoiding of situations that may require in-depth thinking (R)",
+    "Preference for puzzles to be solved",
+    "Preference for complex over simple problems",
+    "Preference for understanding the reason for an answer over simply knowing the answer without any background (R)",
+    "Preference to know how something works over simply knowing that it works (R)")
+)
+
+nfc_items %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), font_size = 16) %>%
+  footnote(general = "Items marked with (R) were presented in an inverted form.",
+           general_title = "Note: ",
+           title_format = c("italic"),
+           footnote_as_chunk = T)
+```
+
+Responses to the items were recorded on a 7-point rating scale from 1 (completely disagree) to 7 (completely agree). However, to calculate total scores in the NFC Scale, we will have to recode the responses as -3 (completely disagree) to +3 (completely agree). @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. For the following analyses, we will use a subset of the original data including responses to the NFC Scale, demographic variables, and additional data related self-control etc. This dataset can be downloaded from [**here**](data_and_codes/nfc_data.csv). 
 
 <br>
 
@@ -41,12 +87,15 @@ Although the NFC Scale is already a well-established tool, we will use it to con
 
 To conduct CTT-based analyses, we will use the following R packages:
 
-```{r ctt0, eval=TRUE, echo=FALSE}
+```{r ctt1, eval=TRUE, echo=FALSE}
 pkg_dat <- data.frame(
-  Package = c("dplyr", "DataExplorer", "ggcorrplot",
+  Package = c("dplyr", "car",
+              "skimr", "DataExplorer", "ggcorrplot",
               "psych", "CTT", "ShinyItemAnalysis", "QME",
-              "devtools", "rmarkdown"),
+              "devtools", "rmarkdown", "chronicle"),
   URL = c("http://CRAN.R-project.org/package=dplyr", 
+          "http://CRAN.R-project.org/package=car", 
+          "http://CRAN.R-project.org/package=skimr",
           "http://CRAN.R-project.org/package=DataExplorer",
           "http://CRAN.R-project.org/package=ggcorrplot",
           "http://CRAN.R-project.org/package=psych",
@@ -54,56 +103,136 @@ pkg_dat <- data.frame(
           "http://CRAN.R-project.org/package=ShinyItemAnalysis",
           "https://github.com/zief0002/QME", 
           "http://CRAN.R-project.org/package=devtools",
-          "http://CRAN.R-project.org/package=rmarkdown")
+          "http://CRAN.R-project.org/package=rmarkdown",
+          "http://CRAN.R-project.org/package=chronicle")
 )
 
 kbl(pkg_dat, caption = "") %>%
   kable_paper("striped") %>%
-  pack_rows("Exploratory Data Analysis", 1, 3) %>%
-  pack_rows("Psychometric Analysis", 4, 7) %>%
-  pack_rows("Ancillary Packages", 8, 9)
+  pack_rows("Data Cleaning and Management", 1, 2) %>%
+  pack_rows("Exploratory Data Analysis", 3, 5) %>%
+  pack_rows("Psychometric Analysis", 6, 9) %>%
+  pack_rows("Ancillary Packages", 10, 12)
 ```
 
 \  
 
-We can install all of these packages by using the `install.packages()` command. Please note that you need to install these packages <u>only once</u>.  
+We can install all of the above packages by using the `install.packages()` command in R. Please note that you need to install these packages <u>only once</u>.  
 
-```{r ctt1, eval=FALSE}
+```{r ctt2, eval=FALSE}
 # Install all the packages together
-install.packages(c("CTT", "psych", "ShinyItemAnalysis"))
+install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
+              "psych", "CTT", "ShinyItemAnalysis", "devtools", "rmarkdown", 
+              "chronicle"))
 
-# Or, you can do it one by one, such as:
-install.packages("CTT")
-install.packages("psych")
-install.packages("ShinyItemAnalysis")
+# Or, we could do it one by one. For example:
+# install.packages("CTT")
+# install.packages("psych")
+# and so on...
+```
+
+Since the **QME** package is available on [GitHub](https://github.com/zief0002/QME) instead of CRAN, we will use `install_github` from the **devtools** package to install it.
+
+```{r ctt3, eval=FALSE}
+devtools::install_github("zief0002/QME") 
 ```
 
 After you install the packages properly (i.e., no error messages on your R console), you can use the `library()` command to activate these packages in your R session. 
 
-```{r ctt2, eval=FALSE}
+```{r ctt4, eval=FALSE}
 # Activate the packages
-library("CTT")
+library("dplyr")
+library("car")
+library("skimr")
+library("DataExplorer")
+library("ggcorrplot")
 library("psych")
+library("CTT")
 library("ShinyItemAnalysis")
+library("QME")
+library("rmarkdown")
+library("chronicle")
 ```
 
 Each of these packages comes with several functions. Once you activate a package, you can start using all the functions loaded with that package. To call a particular function from a package, we need to know the function name. For example, we can use the `alpha()` function in the **psych** package to calculate internal consistency values such as coefficient alpha. Since we are going to use multiple functions from different packages, it might be a bit difficult to remember which package each function belongs to. Therefore, I will use the following format in my codes: `packagename::function`. For example, `psych::alpha()` indicates that I am calling the `alpha()` function from the **psych** package.
 
 ***
 
-> <span style="color:blue">**NOTE:**</span> Using `::` also has two more benefits. First, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` allows us to use the `alpha()` function without running `library("psych")`. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". However, by using `::`, we can still use the functions from the masked packages.   
+> `r emo::ji("+1")` <span style="color:blue">**NOTE:**</span> Using `::` has two more benefits. First, when we use `::`, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` allows us to use the `alpha()` function without having to running `library("psych")` beforehand. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". For example, the **ggplot2** package also has an `alpha()` function. If we first loaded **psych** and then **ggplot2**, the `alpha()` from **ggplot2** would mask the `alpha()` function from **psych**. However, by using `psych::alpha()`, we can still access the `alpha()` function in **psych**.   
 
 ***
 
-<br>
-
 ## Exploratory data analysis
 
-xxx
+Before we begin the analysis, let's set up our working director. I created a new folder called "CTT Analysis" on my desktop and put our data (nfc_data.csv) into this folder. You can also create the same folder in a convenient location in your computer and save the path to this folder. Now, we can change our working directory to this new folder:
+
+```{r ctt5, eval=FALSE}
+setwd("C:/Users/Okan/Desktop/CTT Analysis")
+```
+
+Next, we will import the data into R. Since nfc_data.csv is a comma-separated-values file (see the .csv extension), we will use the `read.csv()` function to read our data into R. We will save the data as "nfc" in R. 
+
+```{r ctt6, eval=FALSE}
+nfc <- read.csv("nfc_data.csv", header = TRUE)
+```
+
+Using the `head()` function, we can view the first 6 rows of the dataset:
+
+```{r ctt7, eval=FALSE}
+head(nfc)
+```
+
+
+```{r ctt8, echo=FALSE}
+nfc <- read.csv(paste0(getwd(), "/data_and_codes/nfc_data.csv"), header = TRUE)
+paged_table(nfc, options = list(cols.print = 12, rows.print = 6))
+```
+
+We can also see the names and types of the variables in our dataset using the `str()` function (which shows us the structure of the data):
+
+```{r ctt9, echo=TRUE}
+str(nfc)
+```
+
+The dataset consists of 1209 rows (i.e., participants) and 29 variables (id, age, sex (0 = Female, 1 = Male), education (1 = Lower secondary education, 2 = Secondary education, 3 = Abitur, 4 = Other), nfc01 to nfc16 representing the responses to the NFC Scale items, and 9 raw scores for other latent traits).
+
+We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions:
+
+```{r ctt10, echo=TRUE, eval=FALSE}
+DataExplorer::introduce(nfc)
+```
+
+```{r ctt11, echo=FALSE}
+kbl(t(introduce(nfc)), 
+    row.names = TRUE, col.names = "", 
+    format.args = list(big.mark = ",")) %>%
+  kable_styling()
+```
+
+```{r ctt12, echo=TRUE}
+DataExplorer::plot_intro(nfc)
+```
+
+The plot shows that some of the variables have missing values. We can visualize the proportion of missingness in each variable:
+
+```{r ctt13, echo=TRUE}
+plot_missing(nfc)
+```
+
+To have a more detailed summary of the nfc dataset, we can use the `skim()` function:
+
+```{r ctt14, eval=FALSE}
+skimr::skim(nfc)
+```
+
+```{r ctt15, echo=FALSE}
+skimr::skim_without_charts(nfc) %>%
+  print()
+```
 
 <br>
 
-## Item analysis based on CTT
+## Item analysis
 
 xxx
 
