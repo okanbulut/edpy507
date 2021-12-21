@@ -3,7 +3,7 @@ title: "Classical Test Theory (CTT)"
 output:
   html_document:
     toc: TRUE
-bibliography: mybib.bib
+bibliography: [mybib.bib, packages.bib]
 csl: apa.csl
 ---
 
@@ -30,7 +30,6 @@ suppressWarnings({
   library("ShinyItemAnalysis")
   library("QME")
   library("rmarkdown")
-  library("chronicle")
 })
 
 # automatically create a bib database for R packages
@@ -92,7 +91,7 @@ pkg_dat <- data.frame(
   Package = c("dplyr", "car",
               "skimr", "DataExplorer", "ggcorrplot",
               "psych", "CTT", "ShinyItemAnalysis", "QME",
-              "devtools", "rmarkdown", "chronicle"),
+              "devtools", "rmarkdown"),
   URL = c("http://CRAN.R-project.org/package=dplyr", 
           "http://CRAN.R-project.org/package=car", 
           "http://CRAN.R-project.org/package=skimr",
@@ -103,8 +102,7 @@ pkg_dat <- data.frame(
           "http://CRAN.R-project.org/package=ShinyItemAnalysis",
           "https://github.com/zief0002/QME", 
           "http://CRAN.R-project.org/package=devtools",
-          "http://CRAN.R-project.org/package=rmarkdown",
-          "http://CRAN.R-project.org/package=chronicle")
+          "http://CRAN.R-project.org/package=rmarkdown")
 )
 
 kbl(pkg_dat, caption = "") %>%
@@ -112,7 +110,7 @@ kbl(pkg_dat, caption = "") %>%
   pack_rows("Data Cleaning and Management", 1, 2) %>%
   pack_rows("Exploratory Data Analysis", 3, 5) %>%
   pack_rows("Psychometric Analysis", 6, 9) %>%
-  pack_rows("Ancillary Packages", 10, 12)
+  pack_rows("Ancillary Packages", 10, 11)
 ```
 
 \  
@@ -131,7 +129,7 @@ install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
 # and so on...
 ```
 
-Since the **QME** package is available on [GitHub](https://github.com/zief0002/QME) instead of CRAN, we will use `install_github` from the **devtools** package to install it.
+Since the **QME** package [@R-QME] is available on [GitHub](https://github.com/zief0002/QME) instead of CRAN, we will use `install_github` from the **devtools** package to install it.
 
 ```{r ctt3, eval=FALSE}
 devtools::install_github("zief0002/QME") 
@@ -158,13 +156,15 @@ Each of these packages comes with several functions. Once you activate a package
 
 ***
 
-> `r emo::ji("+1")` <span style="color:blue">**NOTE:**</span> Using `::` has two more benefits. First, when we use `::`, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` allows us to use the `alpha()` function without having to running `library("psych")` beforehand. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". For example, the **ggplot2** package also has an `alpha()` function. If we first loaded **psych** and then **ggplot2**, the `alpha()` from **ggplot2** would mask the `alpha()` function from **psych**. However, by using `psych::alpha()`, we can still access the `alpha()` function in **psych**.   
+> `r emo::ji("+1")` <span style="color:blue">**NOTE:**</span> Using `::` has two more benefits. First, when we use `::`, we can call a particular function from a package without activating the entire package. For example, `psych::alpha()` allows us to use the `alpha()` function without having to run `library("psych")` beforehand. Second, if two or more packages activated within an R session include a function with the same name, then R only gives us access the function from the most recently activated package. This is called "masking". For example, the **ggplot2** package also has an `alpha()` function. If we first loaded **psych** and then **ggplot2**, the `alpha()` from **ggplot2** would mask the `alpha()` function from **psych**. However, by using `psych::alpha()`, we can still access the `alpha()` function from **psych**.   
 
 ***
 
 ## Exploratory data analysis
 
-Before we begin the analysis, let's set up our working director. I created a new folder called "CTT Analysis" on my desktop and put our data (nfc_data.csv) into this folder. You can also create the same folder in a convenient location in your computer and save the path to this folder. Now, we can change our working directory to this new folder:
+[Exploratory data analysis (EDA)](https://okanbulut.github.io/bigdata/eda.html) refers to the process of performing initial investigations on data in order to detect anomalies (e.g., unexpected values, high levels of missigness), check various assumptions (e.g., normality), and discover interesting patterns. When performing EDA, we often use both statistical and data visualization tools to summarize the data. 
+
+Before we begin the analysis, let's set up our working directory. I created a new folder called "CTT Analysis" on my desktop and put our data ([nfc_data.csv](data_and_codes/nfc_data.csv)) into this folder. You can also create the same folder in a convenient location in your computer and save the path to this folder. Now, we can change our working directory to this new folder:
 
 ```{r ctt5, eval=FALSE}
 setwd("C:/Users/Okan/Desktop/CTT Analysis")
@@ -194,7 +194,7 @@ We can also see the names and types of the variables in our dataset using the `s
 str(nfc)
 ```
 
-The dataset consists of 1209 rows (i.e., participants) and 29 variables (id, age, sex (0 = Female, 1 = Male), education (1 = Lower secondary education, 2 = Secondary education, 3 = Abitur, 4 = Other), nfc01 to nfc16 representing the responses to the NFC Scale items, and 9 raw scores for other latent traits).
+The dataset consists of 1209 rows (i.e., participants) and 29 variables (id, age, sex, education, nfc01 to nfc16 representing the responses to the NFC Scale items, and 9 raw scores for other latent traits).
 
 We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions:
 
@@ -215,8 +215,34 @@ DataExplorer::plot_intro(nfc)
 
 The plot shows that some of the variables have missing values. We can visualize the proportion of missingness in each variable:
 
-```{r ctt13, echo=TRUE}
-plot_missing(nfc)
+```{r ctt13a, echo=TRUE}
+DataExplorer::plot_missing(nfc)
+```
+
+```{r ctt13b, echo=TRUE, fig.height=4}
+# Categorical variables
+DataExplorer::plot_bar(data = nfc[, c("education", "sex")])
+
+# Continuous variables (histogram)
+DataExplorer::plot_histogram(data = nfc[, c("age", "preoccupation", "hesitation", "self_control")])
+
+# Continuous variables (boxplot) by a categorical variable
+DataExplorer::plot_boxplot(data = nfc[!is.na(nfc$sex), # select cases where sex is not missing
+                                      # Select variables of interest
+                                      c("sex", "preoccupation", "hesitation", "self_control")], 
+                           by = "sex")
+```
+
+To organize all the summary statistics into a single report, we could use the `create_report()` function. It runs most functions in **DataExplorer** and outputs a html report file.
+
+```{r ctt13c, echo=TRUE, eval=FALSE}
+# Drop the id variable so it doesn't get analyzed with the other variables
+nfc <- DataExplorer::drop_columns(nfc, "id")
+
+# This code creates a report and saves it into the working directory
+DataExplorer::create_report(data = nfc,
+                            report_title = "NFC Scale Analysis",
+                            output_file = "nfc_report.html")
 ```
 
 To have a more detailed summary of the nfc dataset, we can use the `skim()` function:
@@ -225,16 +251,142 @@ To have a more detailed summary of the nfc dataset, we can use the `skim()` func
 skimr::skim(nfc)
 ```
 
-```{r ctt15, echo=FALSE}
+
+```{r ctt15, echo=FALSE, R.options = list(width = 200)}
 skimr::skim_without_charts(nfc) %>%
   print()
 ```
 
 <br>
 
+Before moving to item analysis, we also need to check the correlation among the items to evaluate how strongly the items are associated with each other. We expect the items to be associated with each other up to a certain degree because we assume that the items measure the same latent trait (the construct of NFC in this example). Having weakly-correlated items suggests that some items may **not** be measuring the same latent trait. Having very highly-correlated items (e.g., $r > .95$) suggests that there is some redundancy in the instrument because some items provide us with the same information about the individuals who answered the items.   
+
+In addition, we know that some items in the NFC Scale are negatively-worded and thus responses to these items may be in the opposite direction with the rest of the items. For example, individuals with high NFC are likely to choose "7 = completely agree" for positively-worded items (e.g., "Enjoyment of tasks that involve problem-solving") whereas they are expected to choose "1 = completely disagree" for negatively-worded items (e.g., "Anticipation and avoiding of situations that may require in-depth thinking").
+
+Now, we will create a correlation matrix of the NFC items and review the strength and direction of the relationship among the items. First, we will save the responses as a separate dataset to make our subsequent analyses easier. The items in the nfc dataset are named as nfc01, nfc02, ..., nfc16. That is, they all start with the same prefix: nfc. So, I can use this to select the items more easily. We will use the `select()` function from **dplyr**. `starts_with("nfc")` will help us choose the variables starting with "nfc" as a selection condition. 
+
+```{r ctt16, echo=TRUE}
+response <- dplyr::select(nfc, # name of the dataset
+                          starts_with("nfc")) # variables to be selected
+
+head(response)
+```
+
+Alternatively, we could type each item by one one (which is much more tedious):
+
+```{r ctt17, eval=FALSE}
+response <- dplyr::select(nfc, 
+                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) 
+```
+
+Next, we will compute the correlations among these items. Remember that the NFC items follow an ordinal scale: 1=completely disagree to 7=completely agree. Therefore, instead of traditional Pearson correlation (which can be obtained using the `cor()` function in R), we will use the `polychoric()` function from **psych** to calculate polychoric correlations. The function produces several outcomes but we want to keep `rho`- (i.e., the correlation matrix of the items). 
+
+```{r ctt18, eval=FALSE}
+cormat <- psych::polychoric(response)$rho
+
+print(cormat)
+```
+
+```{r ctt19, echo=FALSE}
+cormat <- polychoric(response)$rho
+
+cormat %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 11)
+```
+
+One thing that we can see right away is negative values in the correlation matrix, confirming that some items are indeed negatively correlated with each other. However, reviewing the rest of this 16x16 correlation matrix is not necessarily easy. We can't just eyeball the values to evaluate the associations among the items. Therefore, we will create a correlation matrix plot using the **ggcorrplot** package. The package has a function with the same name, `ggcorrplot()`, that transforms a correlation matrix into a nice plot.
+
+```{r ctt20, echo=TRUE, fig.width=9, fig.height=6}
+ggcorrplot::ggcorrplot(corr = cormat, # correlation matrix
+                       type = "lower", # print only the lower part of the correlation matrix
+                       show.diag = TRUE, # show the diagonal values of 1
+                       lab = TRUE, # add correlation values as labels
+                       lab_size = 3) # Size of the labels
+```
+
+There are tons of options to customize the correlation matrix plot (run `?ggcorrplot::ggcorrplot` to see the help page), but this is already a very good visualization for us to evaluate the correlations among the items. We see that several items on the scale (see the blue-coloured boxes) are negatively correlated with the rest of the items. These are the (R) marked items in the NFC Scale (i.e., negatively-worded items). We will go ahead and reverse-code the responses to these items (i.e., 1=completely agree to 7=completely disagree) to put all the items in the same direction. 
+
+We will use the `reverse.code()` function from **psych** for this process. We will create a reverse-coding key where "1" keeps the item the same and "-1" reverse-codes the item. In `nfc_key` below, we type "1" three times (no reverse-coding for the first three items), type "1" for the 4th item (reverse-code the item), type 1 for the 5th item (no reverse-coding), and so on. That is, the values in `nfc_key` correspond to the positions of the items in the `response` dataset. Then, we use `reverse.code()` to apply the key and transform the data (saved as `response_recoded`).
+
+```{r ctt21, echo=TRUE}
+# -1 means reverse-code the item
+nfc_key <- c(1,1,1,-1,1,-1,-1,-1,-1,-1,-1,-1,1,1,-1,-1)
+
+response_recoded <- psych::reverse.code(
+  keys = nfc_key, # reverse-coding key
+  items = response, # dataset to be transformed
+  mini = 1, # minimum response value
+  maxi = 7) # maximum response value
+```
+
+Let's see if our transformation worked: 
+
+```{r ctt22, echo=TRUE}
+cormat_recoded <- psych::polychoric(response_recoded)$rho
+
+ggcorrplot::ggcorrplot(corr = cormat_recoded,
+                       type = "lower", 
+                       show.diag = TRUE,
+                       lab = TRUE, 
+                       lab_size = 3) 
+```
+
+We can see in the correlation matrix plot that all the items are now positively correlated. Most correlations are moderate while there also some items (e.g., nfc06) that seem to have low correlations with the other items in the NFC scale. Also, we see that `reverse.code()` changed the names of the reverse-coded items by include "-" at the end (e.g., nfc04-). This is not necessarily a problem. However, if we want to keep the original variable names (i.e., nfc01 to nfc16), we can rename the column names using the `colnames()` function. The following will replace the column names of the transformed data (i.e., `response_recoded`) with the column names of the original response data (i.e., `response`) and then save the dataset as a data frame (the typical data format in R).
+
+```{r ctt23, echo=TRUE, R.options = list(width = 200)}
+# Rename the columns
+colnames(response_recoded) <- colnames(response)
+
+# Save the data as a data frame
+response_recoded <- as.data.frame(response_recoded)
+
+# Preview the first six rows of the data
+head(response_recoded)
+```
+
+<br>
+
 ## Item analysis
 
-xxx
+Item analysis refers to the analysis of individual items on a measurement instrument in terms of descriptive statistics (e.g., mean, standard deviation, min, and max), item-level statistics (e.g., difficulty and discrimination), and associations with scale-level statistics (e.g., reliability). 
+
+```{r ctt24, echo=TRUE}
+itemanalysis_ctt <- CTT::itemAnalysis(items = response_recoded, pBisFlag = .2)
+
+itemanalysis_ctt
+
+itemanalysis_ctt$itemReport
+```
+
+```{r ctt25, echo=TRUE}
+itemanalysis_psych <- psych::alpha(response_recoded)
+
+itemanalysis_psych
+```
+
+
+```{r ctt26, echo=TRUE, R.options = list(width = 100)}
+itemanalysis_shiny <- ShinyItemAnalysis::ItemAnalysis(Data = response_recoded)
+
+itemanalysis_shiny
+
+# Difficulty and discrimination plot
+ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = 'RIR')
+```
+
+```{r ctt27, echo=TRUE, R.options = list(width = 100)}
+x <- 1
+```
+
+<br>
+
+## Reliability
+
+```{r ctt28, echo=TRUE}
+reliability_qme <- QME::analyze(response_recoded, id = FALSE, d = 3)
+reliability_qme
+```
 
 <br>
 

@@ -13,14 +13,10 @@ output:
 # Search icons: https://fontawesome.com/v5.15/icons
 library("fontawesome")
 
+#Setup knitr
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
                       message = FALSE, fig.width=8, fig.height=6, comment = NA,
                       fig.align = 'center')
-
-# automatically create a bib database for R packages
-# knitr::write_bib(x = c(.packages(), "ggplot2", "dplyr", "skimr", "lattice", "car",
-#                        "knitr", "bookdown", "lsr", "corrplot", "jtools"), 
-#                  file = "packages.bib")
 ```
 
 
