@@ -149,7 +149,6 @@ library("CTT")
 library("ShinyItemAnalysis")
 library("QME")
 library("rmarkdown")
-library("chronicle")
 ```
 
 Each of these packages comes with several functions. Once you activate a package, you can start using all the functions loaded with that package. To call a particular function from a package, we need to know the function name. For example, we can use the `alpha()` function in the **psych** package to calculate internal consistency values such as coefficient alpha. Since we are going to use multiple functions from different packages, it might be a bit difficult to remember which package each function belongs to. Therefore, I will use the following format in my codes: `packagename::function`. For example, `psych::alpha()` indicates that I am calling the `alpha()` function from the **psych** package.
@@ -188,7 +187,7 @@ nfc <- read.csv(paste0(getwd(), "/data_and_codes/nfc_data.csv"), header = TRUE)
 paged_table(nfc, options = list(cols.print = 12, rows.print = 6))
 ```
 
-We can also see the names and types of the variables in our dataset using the `str()` function (which shows us the structure of the data):
+We can also see the names and types of the variables in our dataset using the `str()` function (which shows us the **str**ucture of the data):
 
 ```{r ctt9, echo=TRUE}
 str(nfc)
@@ -209,18 +208,24 @@ kbl(t(introduce(nfc)),
   kable_styling()
 ```
 
+The output above gives us a summary of our dataset with additional information on the total number of missing values, total number of observations, and so on. 
+
 ```{r ctt12, echo=TRUE}
 DataExplorer::plot_intro(nfc)
 ```
 
-The plot shows that some of the variables have missing values. We can visualize the proportion of missingness in each variable:
+The plot above shows that most of the variables in the dataset are continuous (note that R recognizes Likert-scale items as continuous variables although they are actually ordinal) while there are also some discrete (i.e., categorical) variables (remember the sex and education variables in the dataset). We also see that some of the variables in the dataset have missing values but the proportion of missing data is very small (only 0.023%). Depending on the sample size, missingness > 10% is often concerning as the loss of information due to these missing values is likely to influence the results of our analysis. 
+
+To have a closer look at missing values, we can visualize the proportion of missingness for each variable. The following plot shows that age and sex have some missing values but the proportion of missingness is very small (less than 1%).
 
 ```{r ctt13a, echo=TRUE}
 DataExplorer::plot_missing(nfc)
 ```
 
+The **DataExplorer** package also has additional functions to visualize both categorical and continuous variables. The package is using a simpler language to create plots based on the **ggplot2** package in the background. 
+
 ```{r ctt13b, echo=TRUE, fig.height=4}
-# Categorical variables
+# Categorical variables (bar plots)
 DataExplorer::plot_bar(data = nfc[, c("education", "sex")])
 
 # Continuous variables (histogram)
@@ -233,7 +238,7 @@ DataExplorer::plot_boxplot(data = nfc[!is.na(nfc$sex), # select cases where sex 
                            by = "sex")
 ```
 
-To organize all the summary statistics into a single report, we could use the `create_report()` function. It runs most functions in **DataExplorer** and outputs a html report file.
+To organize all the summary statistics into a single report, we could use the `create_report()` function. It runs most functions in **DataExplorer** and outputs a HTML report file.
 
 ```{r ctt13c, echo=TRUE, eval=FALSE}
 # Drop the id variable so it doesn't get analyzed with the other variables
@@ -245,7 +250,15 @@ DataExplorer::create_report(data = nfc,
                             output_file = "nfc_report.html")
 ```
 
-To have a more detailed summary of the nfc dataset, we can use the `skim()` function:
+To obtain a detailed summary of the nfc dataset within a single analysis, we can use the `skim()` function. As you can see from the output below, we obtained similar descriptive statistics for the variables in the nfc dataset:
+
+* "Data Summary" shows the number of columns/rows and column types (i.e., variable types)
+* "Variable type" tables show a summary of character (i.e., categorical) and numeric (i.e., continuous) variables
+
+In "Variable type: character", we see the number of missing values, complete data rate, the minimum number of characters (e.g., 4 for sex: male) and maximum number of characters (e.g., 6 for sex: female), and the number of unique values (e.g., 2 for sex: male and female) for the variables. 
+
+In "Variable type: numeric", we see the number of missing values, complete data rate, mean, standard deviation, min (p0), 25th percentile (p25), median (p50), 75% percentile (p75), and max (p100) values for the variables.
+
 
 ```{r ctt14, eval=FALSE}
 skimr::skim(nfc)
@@ -349,39 +362,57 @@ head(response_recoded)
 
 ## Item analysis
 
-Item analysis refers to the analysis of individual items on a measurement instrument in terms of descriptive statistics (e.g., mean, standard deviation, min, and max), item-level statistics (e.g., difficulty and discrimination), and associations with scale-level statistics (e.g., reliability). 
+Item analysis refers to a comprehensive analysis of individual items on a measurement instrument in terms of descriptive statistics (e.g., mean, standard deviation, min, and max), item-level statistics (e.g., difficulty and discrimination), and their associations with scale-level statistics (e.g., reliability). In R, there are several packages to conduct item analysis on dichotomous items (i.e., 0 or 1) and ordinal items (e.g., Likert-scale items). I will demonstrate three of these packages below:
+
+1. **CTT** [@R-CTT]: The `itemAnalysis()` function runs item analysis and returns a brief but useful table of item statistics. Specifying the dataset to be analyzed (response_recoded) in the `itemAnalysis()` function is enough to run item analysis. In the following example, we will also set two flags for point-biserial correlation (pBisFlag) and biserial correlation (bisFlag). Both of these statistics indicate the discriminatory power of the items. In practice, we prefer both point-biserial correlation and biserial correlation values to be at least 0.2 or larger. So, we will set the flag at 0.2 so that the function shows us (using an "X" sign) the items with discrimination of .2 or less (see more details on the help page via `?CTT::itemAnalysis`).
 
 ```{r ctt24, echo=TRUE}
-itemanalysis_ctt <- CTT::itemAnalysis(items = response_recoded, pBisFlag = .2)
+# Run the item analysis and save it as itemanalysis_ctt
+itemanalysis_ctt <- CTT::itemAnalysis(items = response_recoded, pBisFlag = .2, bisFlag = .2)
 
-itemanalysis_ctt
-
+# Print the item report
 itemanalysis_ctt$itemReport
 ```
 
-```{r ctt25, echo=TRUE}
-itemanalysis_psych <- psych::alpha(response_recoded)
+<br>
 
+2. **psych** [@R-psych]: The `alpha()` function runs item analysis and returns a detailed output with both item-level and scale-level statistics. 
+
+```{r ctt25, echo=TRUE}
+# Run the item analysis and save it as itemanalysis_psych
+itemanalysis_psych <- psych::alpha(x = response_recoded)
+
+# Print the results
 itemanalysis_psych
 ```
 
+<br>
 
-```{r ctt26, echo=TRUE, R.options = list(width = 100)}
+3. **ShinyItemAnalysis** [@R-ShinyItemAnalysis]: The `ItemAnalysis()` function runs item analysis and returns much more detailed output compared with those of **CTT** and **psych**. 
+
+```{r ctt26a, echo=TRUE, R.options = list(width = 100)}
+# Run the item analysis and save it as itemanalysis_shiny
 itemanalysis_shiny <- ShinyItemAnalysis::ItemAnalysis(Data = response_recoded)
 
+# Print the results
 itemanalysis_shiny
-
-# Difficulty and discrimination plot
-ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = 'RIR')
 ```
 
-```{r ctt27, echo=TRUE, R.options = list(width = 100)}
-x <- 1
+The same package also includes a `DDplot()` function to visualize difficulty and discrimination statistics together:
+
+```{r ctt26b, echo=TRUE, R.options = list(width = 100)}
+# Create a difficulty and discrimination (DD) plot
+ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = 'RIR')
 ```
 
 <br>
 
 ## Reliability
+
+```{r ctt27, echo=TRUE}
+# Print the results
+itemanalysis_ctt
+```
 
 ```{r ctt28, echo=TRUE}
 reliability_qme <- QME::analyze(response_recoded, id = FALSE, d = 3)
