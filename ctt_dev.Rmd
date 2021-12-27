@@ -374,9 +374,11 @@ itemanalysis_ctt <- CTT::itemAnalysis(items = response_recoded, pBisFlag = .2, b
 itemanalysis_ctt$itemReport
 ```
 
+In the output above, "itemMean" is the average response value for each item (which is not necessarily useful given that our items are ordinal), "pBis" and "bis" refer to point-biserial and bi-serial correlations respectively, "alphaIfDeleted" indicates how the reliability of the instrument would change if each item were to be removed (we will discuss reliability in the next section), and the last two columns ("lowPBis" and "lowBis") are the columns where we would see flags (i.e., X marks) if the values are less than 0.2. In this example, all the items seem to have pBis and bis values larger than 0.2 and thus there are no flagged items. 
+
 <br>
 
-2. **psych** [@R-psych]: The `alpha()` function runs item analysis and returns a detailed output with both item-level and scale-level statistics. 
+2. **psych** [@R-psych]: The `alpha()` function runs item analysis and returns a detailed output with both item-level and scale-level statistics. To use the function, we need to specify the response dataset to be analyzed (i.e., `x = response_recoded`). The function also involves other arguments (e.g., `na.rm = TRUE` to remove missing values and find pairwise correlations), but the default values for these arguments are sufficient to conduct item analysis (see more details on the help page via `?psych::alpha`).
 
 ```{r ctt25, echo=TRUE}
 # Run the item analysis and save it as itemanalysis_psych
@@ -386,9 +388,15 @@ itemanalysis_psych <- psych::alpha(x = response_recoded)
 itemanalysis_psych
 ```
 
+The first part of the output shows the results of reliability analysis but we will discuss these results in the next section. For now, let's focus on "Item statistics" and "Non missing response frequency for each item". 
+
+**Item statistics:** The table shows the number of valid responses for each item (n), correlations between the items and the total score from the instrument (raw.r) where the item itself is included in the calculation of the total score, correlations between the items and the total score if the items were all standardized (std.r), correlations between the items and the total score corrected for both item overlap and scale reliability (r.cor), correlations between the items and the total score where the item of interest is *not* included in the calculation of the total score (r.drop), average response values (mean), and standard deviation of response values (sd). Compared with raw.r, r.cor and r.drop are better indicators of item discrimination as they indicate the relationship between each item and the rest of the items without contaminating the total score. We want r.cor and r.drop values to be larger than 0.2 for each item.  
+
+**Non missing response frequency for each item:** The table shows what percentages of respondents selected each response option of the each of the items. Each item in the NFC Scale have response options of 1 to 7 and thus we see each of these response options and the missing response in the last column. This table helps us check the distribution of response options and whether all or almost all respondents selected the same response options for some items (which lowers the reliability). In our example, we can see that the lowest response option (i.e., 1) was selected by a very low proportion of respondents whereas the middle and upper response categories (i.e., 4, 5, 6, and 7) were selected by much more respondents.  
+
 <br>
 
-3. **ShinyItemAnalysis** [@R-ShinyItemAnalysis]: The `ItemAnalysis()` function runs item analysis and returns much more detailed output compared with those of **CTT** and **psych**. 
+3. **ShinyItemAnalysis** [@R-ShinyItemAnalysis]: The `ItemAnalysis()` function runs item analysis and returns much more detailed output compared with those of **CTT** and **psych**. The function has so many options that allows users to customize the item analysis report in several ways (see more details on the help page via `?ShinyItemAnalysis::ItemAnalysis`). Also, using the `startShinyItemAnalysis()` function, we can use the interactive version of `ItemAnalysis()` where we can import the data and select the analysis to be conducted using a nice user interface based on the **shiny** package (for examples of interesting **shiny** applications, see <https://shiny.rstudio.com/>).
 
 ```{r ctt26a, echo=TRUE, R.options = list(width = 100)}
 # Run the item analysis and save it as itemanalysis_shiny
@@ -398,25 +406,57 @@ itemanalysis_shiny <- ShinyItemAnalysis::ItemAnalysis(Data = response_recoded)
 itemanalysis_shiny
 ```
 
-The same package also includes a `DDplot()` function to visualize difficulty and discrimination statistics together:
+In the output above, there is tons of information regarding the items, but the ones we should review are: 
+
+* Difficulty: A standardized difficulty value between 0 and 1 based on the average score of the item divided by its range
+* Mean: Average item score
+* SD: Standard deviation of the item score
+* RIT: Correlations between item scores and the total test score (same as r.raw from **psych**)
+* RIR: Correlations between item scores and the total test score without the given item (same as r.drop from **psych**)
+
+The same package also includes a `DDplot()` function to visualize difficulty and discrimination statistics together. For the `discrim` argument, we will use "RIR" to plot *corrected* item discrimination values (alternatively, we could use "RIT" for uncorrected discrimination values or "none" to plot only difficulty values). 
 
 ```{r ctt26b, echo=TRUE, R.options = list(width = 100)}
 # Create a difficulty and discrimination (DD) plot
-ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = 'RIR')
+ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = "RIR")
 ```
 
 <br>
 
 ## Reliability
 
+### Split-half reliability
+
 ```{r ctt27, echo=TRUE}
+psych::splitHalf(r = response_recoded)
+```
+
+### Internal consistency
+
+```{r ctt28, echo=TRUE}
 # Print the results
 itemanalysis_ctt
 ```
 
-```{r ctt28, echo=TRUE}
+```{r ctt29, echo=TRUE}
 reliability_qme <- QME::analyze(response_recoded, id = FALSE, d = 3)
 reliability_qme
+```
+
+### Spearman-Brown prophecy formula
+
+```{r ctt30, echo=TRUE}
+# old reliability is 0.87, if the measure is shortened
+# by a factor of 1/2, the reliability of new test is:
+CTT::spearman.brown(0.87, 1/2, "n")
+```
+
+```{r ctt31, echo=TRUE}
+# old relibility is 0.87, if we want a new measure to
+# be 0.95, the new test length is:
+n <- CTT::spearman.brown(0.87, 0.90, "r")
+
+round(n$n.new * 16, 0)
 ```
 
 <br>

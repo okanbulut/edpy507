@@ -416,7 +416,12 @@ $(document).ready(function () {
 <li><a href="#setting-up-r">Setting up R</a></li>
 <li><a href="#exploratory-data-analysis">Exploratory data analysis</a></li>
 <li><a href="#item-analysis">Item analysis</a></li>
-<li><a href="#reliability">Reliability</a></li>
+<li><a href="#reliability">Reliability</a>
+<ul>
+<li><a href="#split-half-reliability">Split-half reliability</a></li>
+<li><a href="#internal-consistency">Internal consistency</a></li>
+<li><a href="#spearman-brown-prophecy-formula">Spearman-Brown Prophecy Formula</a></li>
+</ul></li>
 <li><a href="#criterion-related-validity">Criterion-related validity</a></li>
 </ul></li>
 <li><a href="#example-2-a-multiple-choice-exam">Example 2: A Multiple-Choice Exam</a></li>
@@ -1966,9 +1971,10 @@ nfc16
 14    nfc14    3.571 0.4586 0.4711         0.8651               
 15    nfc15    5.753 0.4678 0.5153         0.8646               
 16    nfc16    5.524 0.4585 0.4944         0.8650               </code></pre>
+<p>In the output above, “itemMean” is the average response value for each item (which is not necessarily useful given that our items are ordinal), “pBis” and “bis” refer to point-biserial and bi-serial correlations respectively, “alphaIfDeleted” indicates how the reliability of the instrument would change if each item were to be removed (we will discuss reliability in the next section), and the last two columns (“lowPBis” and “lowBis”) are the columns where we would see flags (i.e., X marks) if the values are less than 0.2. In this example, all the items seem to have pBis and bis values larger than 0.2 and thus there are no flagged items.</p>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>psych</strong> <span class="citation">(Revelle, 2021)</span>: The <code>alpha()</code> function runs item analysis and returns a detailed output with both item-level and scale-level statistics.</li>
+<li><strong>psych</strong> <span class="citation">(Revelle, 2021)</span>: The <code>alpha()</code> function runs item analysis and returns a detailed output with both item-level and scale-level statistics. To use the function, we need to specify the response dataset to be analyzed (i.e., <code>x = response_recoded</code>). The function also involves other arguments (e.g., <code>na.rm = TRUE</code> to remove missing values and find pairwise correlations), but the default values for these arguments are sufficient to conduct item analysis (see more details on the help page via <code>?psych::alpha</code>).</li>
 </ol>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the item analysis and save it as itemanalysis_psych</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>itemanalysis_psych <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(<span class="at">x =</span> response_recoded)</span>
@@ -2041,9 +2047,12 @@ nfc13 0.04 0.11 0.19 0.25 0.25 0.13 0.04    0
 nfc14 0.09 0.16 0.21 0.29 0.15 0.07 0.03    0
 nfc15 0.01 0.02 0.05 0.07 0.17 0.32 0.36    0
 nfc16 0.01 0.03 0.06 0.08 0.22 0.31 0.28    0</code></pre>
+<p>The first part of the output shows the results of reliability analysis but we will discuss these results in the next section. For now, let’s focus on “Item statistics” and “Non missing response frequency for each item.”</p>
+<p><strong>Item statistics:</strong> The table shows the number of valid responses for each item (n), correlations between the items and the total score from the instrument (raw.r) where the item itself is included in the calculation of the total score, correlations between the items and the total score if the items were all standardized (std.r), correlations between the items and the total score corrected for both item overlap and scale reliability (r.cor), correlations between the items and the total score where the item of interest is <em>not</em> included in the calculation of the total score (r.drop), average response values (mean), and standard deviation of response values (sd). Compared with raw.r, r.cor and r.drop are better indicators of item discrimination as they indicate the relationship between each item and the rest of the items without contaminating the total score. We want r.cor and r.drop values to be larger than 0.2 for each item.</p>
+<p><strong>Non missing response frequency for each item:</strong> The table shows what percentages of respondents selected each response option of the each of the items. Each item in the NFC Scale have response options of 1 to 7 and thus we see each of these response options and the missing response in the last column. This table helps us check the distribution of response options and whether all or almost all respondents selected the same response options for some items (which lowers the reliability). In our example, we can see that the lowest response option (i.e., 1) was selected by a very low proportion of respondents whereas the middle and upper response categories (i.e., 4, 5, 6, and 7) were selected by much more respondents.</p>
 <p><br></p>
 <ol start="3" style="list-style-type: decimal">
-<li><strong>ShinyItemAnalysis</strong> <span class="citation">(Martinkova et al., 2021)</span>: The <code>ItemAnalysis()</code> function runs item analysis and returns much more detailed output compared with those of <strong>CTT</strong> and <strong>psych</strong>.</li>
+<li><strong>ShinyItemAnalysis</strong> <span class="citation">(Martinkova et al., 2021)</span>: The <code>ItemAnalysis()</code> function runs item analysis and returns much more detailed output compared with those of <strong>CTT</strong> and <strong>psych</strong>. The function has so many options that allows users to customize the item analysis report in several ways (see more details on the help page via <code>?ShinyItemAnalysis::ItemAnalysis</code>). Also, using the <code>startShinyItemAnalysis()</code> function, we can use the interactive version of <code>ItemAnalysis()</code> where we can import the data and select the analysis to be conducted using a nice user interface based on the <strong>shiny</strong> package (for examples of interesting <strong>shiny</strong> applications, see <a href="https://shiny.rstudio.com/" class="uri">https://shiny.rstudio.com/</a>).</li>
 </ol>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the item analysis and save it as itemanalysis_shiny</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>itemanalysis_shiny <span class="ot">&lt;-</span> ShinyItemAnalysis<span class="sc">::</span><span class="fu">ItemAnalysis</span>(<span class="at">Data =</span> response_recoded)</span>
@@ -2084,16 +2093,40 @@ nfc13 0.6127 0.5384    0.8702         0.7647     0.8614         0       0
 nfc14 0.5444 0.4586    0.8009         0.6746     0.8651         0       0
 nfc15 0.5456 0.4678    0.7334         0.6289     0.8646         0       0
 nfc16 0.5404 0.4585    0.7576         0.6428     0.8650         0       0</code></pre>
-<p>The same package also includes a <code>DDplot()</code> function to visualize difficulty and discrimination statistics together:</p>
+<p>In the output above, there is tons of information regarding the items, but the ones we should review are:</p>
+<ul>
+<li>Difficulty: A standardized difficulty value between 0 and 1 based on the average score of the item divided by its range</li>
+<li>Mean: Average item score</li>
+<li>SD: Standard deviation of the item score</li>
+<li>RIT: Correlations between item scores and the total test score (same as r.raw from <strong>psych</strong>)</li>
+<li>RIR: Correlations between item scores and the total test score without the given item (same as r.drop from <strong>psych</strong>)</li>
+</ul>
+<p>The same package also includes a <code>DDplot()</code> function to visualize difficulty and discrimination statistics together. For the <code>discrim</code> argument, we will use “RIR” to plot <em>corrected</em> item discrimination values (alternatively, we could use “RIT” for uncorrected discrimination values or “none” to plot only difficulty values).</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a difficulty and discrimination (DD) plot</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ShinyItemAnalysis<span class="sc">::</span><span class="fu">DDplot</span>(<span class="at">Data =</span> response_recoded, <span class="at">discrim =</span> <span class="st">&#39;RIR&#39;</span>)</span></code></pre></div>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ShinyItemAnalysis<span class="sc">::</span><span class="fu">DDplot</span>(<span class="at">Data =</span> response_recoded, <span class="at">discrim =</span> <span class="st">&quot;RIR&quot;</span>)</span></code></pre></div>
 <p><img src="ctt_dev_files/figure-html/ctt26b-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><br></p>
 </div>
 <div id="reliability" class="section level2">
 <h2>Reliability</h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>itemanalysis_ctt</span></code></pre></div>
+<div id="split-half-reliability" class="section level3">
+<h3>Split-half reliability</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">splitHalf</span>(<span class="at">r =</span> response_recoded)</span></code></pre></div>
+<pre><code>Split half reliabilities  
+Call: psych::splitHalf(r = response_recoded)
+
+Maximum split half reliability (lambda 4) =  0.92
+Guttman lambda 6                          =  0.88
+Average split half reliability            =  0.87
+Guttman lambda 3 (alpha)                  =  0.87
+Guttman lambda 2                          =  0.88
+Minimum split half reliability  (beta)    =  0.78
+Average interitem r =  0.3  with median =  0.29</code></pre>
+</div>
+<div id="internal-consistency" class="section level3">
+<h3>Internal consistency</h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>itemanalysis_ctt</span></code></pre></div>
 <pre><code>
  Number of Items 
  16 
@@ -2103,8 +2136,8 @@ nfc16 0.5404 0.4585    0.7576         0.6428     0.8650         0       0</code>
 
  Coefficient Alpha 
  0.87 </code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>reliability_qme <span class="ot">&lt;-</span> QME<span class="sc">::</span><span class="fu">analyze</span>(response_recoded, <span class="at">id =</span> <span class="cn">FALSE</span>, <span class="at">d =</span> <span class="dv">3</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>reliability_qme</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>reliability_qme <span class="ot">&lt;-</span> QME<span class="sc">::</span><span class="fu">analyze</span>(response_recoded, <span class="at">id =</span> <span class="cn">FALSE</span>, <span class="at">d =</span> <span class="dv">3</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>reliability_qme</span></code></pre></div>
 <pre><code>QME &#39;analyze&#39; object.
 
 Test name:  response_recoded 
@@ -2131,7 +2164,22 @@ Guttman&#39;s L4          0.89   0.88   0.90 4.3
 Feldt-Gilmer          0.87   0.86   0.88 4.7
 Feldt-Brennan         0.87   0.86   0.88 4.7
 Coefficient Alpha     0.87   0.86   0.88 4.7</code></pre>
+</div>
+<div id="spearman-brown-prophecy-formula" class="section level3">
+<h3>Spearman-Brown Prophecy Formula</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># old reliability is 0.87, if the measure is shortened</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># by a factor of 1/2, the reliability of new test is:</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>CTT<span class="sc">::</span><span class="fu">spearman.brown</span>(<span class="fl">0.87</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<pre><code>$r.new
+[1] 0.7699</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># old relibility is 0.87, if we want a new measure to</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># be 0.95, the new test length is:</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> CTT<span class="sc">::</span><span class="fu">spearman.brown</span>(<span class="fl">0.87</span>, <span class="fl">0.90</span>, <span class="st">&quot;r&quot;</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(n<span class="sc">$</span>n.new <span class="sc">*</span> <span class="dv">16</span>, <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>[1] 22</code></pre>
 <p><br></p>
+</div>
 </div>
 <div id="criterion-related-validity" class="section level2">
 <h2>Criterion-related validity</h2>
