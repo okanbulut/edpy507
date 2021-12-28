@@ -288,20 +288,20 @@ head(response)
 Alternatively, we could type each item by one one (which is much more tedious):
 
 ```{r ctt17, eval=FALSE}
-response <- dplyr::select(nfc, 
-                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) 
+response <- dplyr::select(nfc, # name of the dataset
+                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) # variables to be selected
 ```
 
 Next, we will compute the correlations among these items. Remember that the NFC items follow an ordinal scale: 1=completely disagree to 7=completely agree. Therefore, instead of traditional Pearson correlation (which can be obtained using the `cor()` function in R), we will use the `polychoric()` function from **psych** to calculate polychoric correlations. The function produces several outcomes but we want to keep `rho`- (i.e., the correlation matrix of the items). 
 
 ```{r ctt18, eval=FALSE}
-cormat <- psych::polychoric(response)$rho
+cormat <- psych::polychoric(x = response)$rho
 
 print(cormat)
 ```
 
 ```{r ctt19, echo=FALSE}
-cormat <- polychoric(response)$rho
+cormat <- polychoric(x = response)$rho
 
 cormat %>%
   kbl() %>%
@@ -409,12 +409,12 @@ itemanalysis_shiny
 In the output above, there is tons of information regarding the items, but the ones we should review are: 
 
 * Difficulty: A standardized difficulty value between 0 and 1 based on the average score of the item divided by its range
-* Mean: Average item score
-* SD: Standard deviation of the item score
+* Mean: Average item score (again, not very useful for ordinal items)
+* SD: Standard deviation of item scores
 * RIT: Correlations between item scores and the total test score (same as r.raw from **psych**)
 * RIR: Correlations between item scores and the total test score without the given item (same as r.drop from **psych**)
 
-The same package also includes a `DDplot()` function to visualize difficulty and discrimination statistics together. For the `discrim` argument, we will use "RIR" to plot *corrected* item discrimination values (alternatively, we could use "RIT" for uncorrected discrimination values or "none" to plot only difficulty values). 
+The **ShinyItemAnalysis** package also includes a `DDplot()` function to visualize standardized difficulty and discrimination statistics together. For the `discrim` argument, we will use "RIR" to plot *corrected* item discrimination values (alternatively, we could use "RIT" for uncorrected discrimination values or "none" to plot only difficulty values). 
 
 ```{r ctt26b, echo=TRUE, R.options = list(width = 100)}
 # Create a difficulty and discrimination (DD) plot
@@ -427,43 +427,154 @@ ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = "RIR")
 
 ### Split-half reliability
 
+As a simple measure of reliability, split-half reliability can be obtained by splitting a measurement instrument into two equivalent halves, calculating the total scores on the two halves, and correlating them. There are several ways to create the split-half (e.g., selecting every other items, randomly, etc.). Below, we will define a custom R function to calculate the split-half reliability (note that this function originally comes from the [hemp](https://github.com/cddesja/hemp) package). To create the split-half, we can choose either `type = "alternate"` to select every other item (i.e., odd and even numbered items) or `type == "random"` to select two sets of items randomly. The `seed` argument is just an integer for us to control random sampling if we choose `type == "random"`. Changing the seed will allow us to sample a different set of items when we run the function every time.
+
+
 ```{r ctt27, echo=TRUE}
+split_half <- function(data, type = "alternate", seed = 2022) {
+  
+  # Select every other item
+  if (type == "alternate") {
+    first_half <- data[, seq(1, ncol(data), by = 2)]
+    second_half <- data[, seq(2, ncol(data), by = 2)]
+    first_total <- rowSums(first_half, na.rm = T)
+    second_total <- rowSums(second_half, na.rm = T)
+    rel <- round(cor(first_total, second_total), 3)}
+  
+  # Select two halves randomly
+  if (type == "random") {
+    set.seed(seed)
+    num_items <- 1:ncol(data)
+    first_items <- sample(num_items, ncol(data)/2)
+    first_half <- data[, first_items]
+    second_half <- data[, -first_items]
+    first_total <- rowSums(first_half, na.rm = T)
+    second_total <- rowSums(second_half, na.rm = T)
+    rel <- round(cor(first_total, second_total), 3)}
+  
+  return(rel)
+}
+```
+
+Now, let's see what the `split_half()` function gives us for the NFC Scale:
+
+```{r ctt28, echo=TRUE}
+split_half(data = response_recoded, type = "alternate")
+
+split_half(data = response_recoded, type = "random", seed = 2022)
+```
+
+By changing the seed, we can run the `split_half()` function many times, obtain a sample of split-half reliability estimates, and find the average of these estimates as our final split-half reliability value. Luckily, this process is much easier with `splitHalf()` function in the **psych** package. This functions calculates all (or at least a large number of) possible split-half reliability values for a given dataset. Only specifying the dataset to be analyzed is sufficient to use this function.
+
+```{r ctt29a, echo=TRUE}
 psych::splitHalf(r = response_recoded)
+```
+
+In the output above, we see that the minimum and maximum split-half reliability estimates are 0.78 and 0.92, respectively. The output also reports the average values of all split-half reliability estimates as 0.87. Now, let's take a closer look at the split-half reliability estimates we obtained for the NFC Scale. Using the `raw = TRUE` argument, we will save all the split-half reliability values and then visualize them using a histogram (with `hist()`). The following histogram shows how the split-half reliability estimates the NFC scale vary. 
+
+```{r ctt29b, echo=TRUE}
+# Save the reliability results as sp_rel
+sp_rel <- psych::splitHalf(r = response_recoded, raw = TRUE)
+
+hist(x = sp_rel$raw, # extract the raw reliability values saved in sp_rel
+     breaks = 101, # the number of breakpoints between histogram cells
+     xlab = "Split-Half Reliability", # label for the x-axis
+     main = "All Split-Half Reliabilities for the NFC Scale") # title for the histogram
 ```
 
 ### Internal consistency
 
-```{r ctt28, echo=TRUE}
+Next, we will calculate internal consistency, more specifically coefficient alpha (**NOT** Cronbach's alpha), for the NFC Scale. Internal consistency is the degree of homogeneity among the items on a measurement instrument. It allows us to gauge how strongly the items in a given instrument are associated with each other. A common misconception about internal consistency is that coefficient alpha and its variants can tell us how well a measurement instrument is actually measuring what we want it to measure, which is **INCORRECT**. If the items measure the same target construct (which may not necessarily be what we wanted to measure), then they are expected to be internally consistent with one another (i.e., correlated) and yield reliable (i.e., consistent) results.
+
+There are multiple ways to compute internal consistency in R. Earlier we conducted item analysis using the *CTT* package, saved the results as `itemanalysis_ctt`, and printed the item analysis results using `itemanalysis_ctt$itemReport`. Using the same results, we can also see the estimate of coefficient alpha for the NFC scale by simply printing the results:
+
+```{r ctt30a, echo=TRUE}
 # Print the results
 itemanalysis_ctt
 ```
 
-```{r ctt29, echo=TRUE}
-reliability_qme <- QME::analyze(response_recoded, id = FALSE, d = 3)
+Similarly, when we conducted item analysis using the `alpha()` function in **psych**, we also obtained the internal consistency results. Printing `itemanalysis_psych` again, we can see the following results:
+
+```{r ctt30b, echo=TRUE, eval=FALSE}
+Reliability analysis   
+Call: psych::alpha(x = response_recoded)
+
+  raw_alpha std.alpha G6(smc) average_r S/N    ase mean   sd median_r
+       0.87      0.87    0.88       0.3 6.8 0.0054    5 0.82     0.29
+
+ lower alpha upper     95% confidence boundaries
+0.86 0.87 0.88 
+
+ Reliability if an item is dropped:
+      raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+nfc01      0.86      0.86    0.87      0.29 6.2   0.0059 0.0098  0.27
+nfc02      0.86      0.86    0.87      0.29 6.2   0.0059 0.0091  0.28
+nfc03      0.86      0.86    0.88      0.30 6.4   0.0058 0.0094  0.29
+nfc04      0.87      0.87    0.88      0.31 6.6   0.0056 0.0098  0.30
+nfc05      0.86      0.87    0.88      0.30 6.5   0.0057 0.0100  0.30
+nfc06      0.87      0.87    0.89      0.31 6.9   0.0054 0.0084  0.31
+nfc07      0.86      0.86    0.87      0.29 6.0   0.0060 0.0092  0.27
+nfc08      0.86      0.86    0.88      0.29 6.3   0.0059 0.0098  0.28
+nfc09      0.86      0.87    0.88      0.30 6.4   0.0057 0.0097  0.30
+nfc10      0.86      0.87    0.88      0.30 6.4   0.0058 0.0099  0.29
+nfc11      0.86      0.86    0.87      0.29 6.2   0.0059 0.0096  0.28
+nfc12      0.86      0.87    0.88      0.30 6.4   0.0058 0.0098  0.29
+nfc13      0.86      0.86    0.87      0.30 6.3   0.0058 0.0091  0.29
+nfc14      0.87      0.87    0.88      0.30 6.5   0.0057 0.0088  0.29
+nfc15      0.86      0.87    0.87      0.30 6.5   0.0057 0.0084  0.30
+nfc16      0.87      0.87    0.87      0.30 6.5   0.0057 0.0083  0.30
+```
+
+In the output above, we see the following statistics:
+
+* raw_alpha: Coefficient alpha based on the covariances among the items (values ≥ 0.7 indicate "acceptable" reliability)
+* std.alpha: Standardized coefficient alpha based on the correlations among the items
+* G6: Guttman’s Lambda 6 reliability
+* average_r: Average inter-item correlations
+* S/N: Signal/Noise ratio where $s/n = n r/(1-r)$
+* ase: Coefficient alpha's standard error
+* mean: The mean of the scale formed by averaging or summing the items
+* sd: The standard deviation of the total score
+* median_r: Median inter-item correlations
+
+Among these values, we use raw_alpha to interpret the internal consistency. For the NFC Scale, $\alpha = 0.87$ indicates high internal consistency. The second part of the output under "Reliability if an item is dropped" shows how internal consistency changes after each item is removed from the instrument. In our example, the raw_alpha column shows that the internal consistency either remains the same or goes down to 0.86, suggesting that removing none of the items would help us improve the reliability and so we should retain the original scale.
+
+Lastly, we will use the **QME** package to calculate internal consistency for the NFC Scale. In addition to coefficient alpha and Guttman's lambda reliability statistics, the **QME** package also calculates Feldt-Gilmer and Feldt-Brennan reliability statistics. Using the `analyze()` function, we will first analyze the dataset and then print the results. By default, the `analyze()` function assumes that the dataset include an ID column for respondents but our dataset doesn't have this column. Therefore, we will use `id = FALSE` to change this setting. In addition, we will use `na_to_0 = FALSE` not to recode missing responses as zero when running the analysis (even though the nfc dataset does not include any missing responses).
+
+```{r ctt31, echo=TRUE}
+reliability_qme <- QME::analyze(response_recoded, id = FALSE, na_to_0 = FALSE)
 reliability_qme
 ```
 
+The output gives us some descriptive statistics based on the total score and reliability statistics at the bottom. The reliability values we obtained from **psych**, **CTT**, and **QME** are nearly the same (it is possible to see some minor differences due to rounding error, etc.) 
+
+<br>
+
 ### Spearman-Brown prophecy formula
 
-```{r ctt30, echo=TRUE}
-# old reliability is 0.87, if the measure is shortened
-# by a factor of 1/2, the reliability of new test is:
-CTT::spearman.brown(0.87, 1/2, "n")
+Before we conclude the reliability section, we will also use the Spearman-Brown prophecy formula to predict the internal consistency of the NFC Scale depending on the number of items in the instrument. First, we will examine the scenario where we decide to shorten the length of the NFC scale by a factor of 0.5 (i.e., reducing the length from 16 items to 8 items). In the earlier analysis, we estimated the internal consistency of the NFC scale as $\alpha = 0.87$. Using the `spearman.brown()` function from **CTT**, we will compute how the internal consistency would change if we reduced the length to 8 items. We specify the current value of internal consistency (`r.xx = 0.87`), the desired length (`input = 0.5`), and how we want to use the function (`n.or.r = "n"` for finding the new internal consistency or `n.or.r = "r"` for finding the new length). 
+
+```{r ctt32, echo=TRUE}
+CTT::spearman.brown(r.xx = 0.87, input = 0.5, n.or.r = "n")
 ```
 
-```{r ctt31, echo=TRUE}
-# old relibility is 0.87, if we want a new measure to
-# be 0.95, the new test length is:
-n <- CTT::spearman.brown(0.87, 0.90, "r")
+The output shows that if we had to reduce the length of the NFC Scale from 16 items to 8 items, the internal consistency would become roughly 0.77. In the second scenario, we will see how many more items we would need to increase the internal consistency from 0.87 (current value) to 0.90 (target value). So, we will use `input = 0.90` to indicate our target reliability and `n.or.r = "r"` to request for the new length for the NFC scale. We will save the result as n (the factor that our instrument should be lengthened) and then multiply this value with the current number of items (16) to find the desired number of items required for $\alpha = 0.90$.
 
-round(n$n.new * 16, 0)
+```{r ctt33, echo=TRUE}
+# Save the result as n
+n <- CTT::spearman.brown(r.xx = 0.87, input = 0.90, n.or.r = "r")
+
+# Multiply it with the current length and round it with zero digits
+round(n$n.new * 16, digits = 0)
 ```
+
+The result above shows that we would need 22 items (i.e., 6 additional items with similar characteristics as the original NFC items) to reach the internal consistency level of 0.90. 
 
 <br>
 
 ## Criterion-related validity
 
-xxx
+In the last step of analyzing the dataset from the NFC Scale, we will examine criterion-related validity. Criterion-related validity indicates how well a measurement instrument predicts the outcome for another instrument measuring the same (or similar construct) construct. If both instruments (i.e., the instrument of interest and the criterion measure) are administered at the same time, we can correlate the scores from the two instruments to check *concurrent validity*. If we use the scores from the current instrument to predict scores from a criterion measure in the future, then we can obtain evidence for *predictive validity*.
 
 ***
 
