@@ -195,7 +195,7 @@ str(nfc)
 
 The dataset consists of 1209 rows (i.e., participants) and 29 variables (id, age, sex, education, nfc01 to nfc16 representing the responses to the NFC Scale items, and 9 raw scores for other latent traits).
 
-We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions:
+We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions from the **DataExplorer** package:
 
 ```{r ctt10, echo=TRUE, eval=FALSE}
 DataExplorer::introduce(nfc)
@@ -229,12 +229,12 @@ The **DataExplorer** package also has additional functions to visualize both cat
 DataExplorer::plot_bar(data = nfc[, c("education", "sex")])
 
 # Continuous variables (histogram)
-DataExplorer::plot_histogram(data = nfc[, c("age", "preoccupation", "hesitation", "self_control")])
+DataExplorer::plot_histogram(data = nfc[, c("age", "self_control", "action_orientation", "effortful_control")])
 
 # Continuous variables (boxplot) by a categorical variable
 DataExplorer::plot_boxplot(data = nfc[!is.na(nfc$sex), # select cases where sex is not missing
                                       # Select variables of interest
-                                      c("sex", "preoccupation", "hesitation", "self_control")], 
+                                      c("sex", "self_control", "action_orientation", "effortful_control")], 
                            by = "sex")
 ```
 
@@ -264,10 +264,15 @@ In "Variable type: numeric", we see the number of missing values, complete data 
 skimr::skim(nfc)
 ```
 
-
-```{r ctt15, echo=FALSE, R.options = list(width = 200)}
-skimr::skim_without_charts(nfc) %>%
+```{r ctt15a, echo=FALSE, R.options = list(width = 200)}
+skimr::skim_without_charts(data = nfc) %>%
   print()
+```
+
+The `describe()` function from the **psych** package is another useful function to get basic descriptive statistics for data collected for psychometric and psychology studies (see `?psych::describe` for more details about this function). 
+
+```{r ctt15b, echo=FALSE, R.options = list(width = 200)}
+psych::describe(x = nfc)
 ```
 
 <br>
@@ -308,7 +313,7 @@ cormat %>%
   kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 11)
 ```
 
-One thing that we can see right away is negative values in the correlation matrix, confirming that some items are indeed negatively correlated with each other. However, reviewing the rest of this 16x16 correlation matrix is not necessarily easy. We can't just eyeball the values to evaluate the associations among the items. Therefore, we will create a correlation matrix plot using the **ggcorrplot** package. The package has a function with the same name, `ggcorrplot()`, that transforms a correlation matrix into a nice plot.
+One thing that we can see right away is negative values in the correlation matrix, confirming that some items are indeed negatively correlated with each other. However, reviewing the rest of this 16x16 correlation matrix is not necessarily easy. We can't just eyeball the values to evaluate the associations among the items. Therefore, we will create a correlation matrix plot using the **ggcorrplot** package. The package has a function with the same name, `ggcorrplot()`, that transforms a correlation matrix into a nice plot (note that a similar plot can be created using `corPlot()` from **psych**).
 
 ```{r ctt20, echo=TRUE, fig.width=9, fig.height=6}
 ggcorrplot::ggcorrplot(corr = cormat, # correlation matrix
@@ -575,6 +580,98 @@ The result above shows that we would need 22 items (i.e., 6 additional items wit
 ## Criterion-related validity
 
 In the last step of analyzing the dataset from the NFC Scale, we will examine criterion-related validity. Criterion-related validity indicates how well a measurement instrument predicts the outcome for another instrument measuring the same (or similar construct) construct. If both instruments (i.e., the instrument of interest and the criterion measure) are administered at the same time, we can correlate the scores from the two instruments to check *concurrent validity*. If we use the scores from the current instrument to predict scores from a criterion measure in the future, then we can obtain evidence for *predictive validity*.
+
+In the following example, we will calculate the scores for the NFC scale and then correlate the scores with 
+
+* self-control scores from the short form of the Self-Control Scale [@sc-bertrams],
+* effortful control scores from the Effortful Control Scale of the Adult Temperament Questionnaire [@ec-wiltink], and
+* action orientation scores from the Action Control Scale [@ac-kuhl].
+
+Based on the findings of previous research, we expect to find positive, small to medium associations between NFC and the other three constructs (self-control, effortful control, and action control).
+
+First, we will use the `recode()` function from the **car** package to recode the item scores of 1 to 7 as -3 to +3 for the NFC Scale and then sum up the item scores to calculate the total score for the NFC Scale. Since we want to replicate the same recoding procedure for all 16 items, we will create a custom function for recoding the items and apply it to the whole dataset using `apply()`, use the `rowSums()` function to calculate the total score for each person (i.e., the sum of each row in the recoded dataset), obtain a descriptive summary of the scores using `summary()`, and visualize the distribution of the scores using `hist()`.
+
+```{r ctt34, echo=TRUE}
+# Our custom recode function
+recode_nfc <- function(x) {
+  car::recode(x, "1=-3; 2=-2; 3=-1; 4=0; 5=1; 6=2; 7=3")
+}
+
+# Recode the responses
+response_recoded <- apply(response_recoded, # data to be modified
+                          2, # 2 to apply a function to each column (or 1 for each row)
+                          recode_nfc) # Function to be applied
+
+
+# Compute the NFC Scale scores
+nfc_score <- rowSums(response_recoded)
+
+# Summarize the scores
+summary(nfc_score)
+
+# Visualize the distribution of the NFC Scale scores
+hist(nfc_score,
+     xlab = "NFC Scale Score",
+     main = "Distribution of the NFC Scale Scores")
+```
+
+The histogram shows that the NFC Scale scores have a slightly left-skewed distribution centered around 16.6. Next, we can merge the scores NFC Scale with the scores from the other scales in a single dataset. We will use the `cbind()` function to bind (i.e., combine) the four scores. Note that we can use `cbind()` to add the columns side by side because we have **not** changed the order of respondents in the "response_recoded" and "nfc" datasets. If we had changed the order of respondents, we would have to use `merge()` to merge the datasets based on a common variable (e.g., the "id" variable) to match the respondents properly. 
+
+```{r ctt35, echo=TRUE}
+scores <- cbind(nfc_score, nfc[, c("action_orientation", "self_control", "effortful_control")])
+```
+
+Next, we will calculate the correlations among these four scores (using `cor()`) and also visualize the correlations (using `ggcorrplot()`). `cor()`, by default, calculate Pearson correlations between numerical variables. Although we don't have any missing scores, we will add `use = "pairwise.complete.obs"`--which would keep valid cases for each pair of variables when calculating the correlations. Without specifying this option, `cor()` would fail to calculate the correlations for a dataset with missing (i.e., NA) values and return NA.
+
+```{r ctt36, echo=TRUE, eval=FALSE}
+cormat_scores <- cor(scores, use = "pairwise.complete.obs")
+
+print(cormat_scores)
+
+ggcorrplot::ggcorrplot(corr = cormat_scores,
+                       type = "lower", 
+                       show.diag = TRUE,
+                       lab = TRUE, 
+                       lab_size = 3) 
+```
+
+```{r ctt37, echo=FALSE, eval=TRUE}
+cormat_scores <- cor(scores, use = "pairwise.complete.obs")
+
+cormat_scores %>%
+  round(., 2) %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 13)
+
+ggcorrplot::ggcorrplot(corr = cormat_scores,
+                       type = "lower", 
+                       show.diag = TRUE,
+                       lab = TRUE,                       
+                       lab_size = 3) 
+```
+
+The correlation matrix plot above shows that there is indeed a positive, small to moderate correlation between the NFC Scale scores and the scores from the other scales. Remember that these are just raw correlations among the scale scores. That is, they are **not** corrected for attenuation due to the measurement error involved in each scale. To obtained the disattenuated correlations, we will use the `correct.cor()` function from the **psych** package. To use this function, we need to list a raw correlation matrix of scale scores and a vector of reliability (i.e., internal consistency) estimates. The reliability estimate for the NFC Scale is 0.87 and the reliability estimates for the three criterion measures are [@nfc-grass]: 
+
+* The Action Control Scale: 0.791
+* The Self-Control Scale: 0.817
+* The Effortful Control Scale: 0.783
+
+Using this information, we can calculate the disattenuated correlations as follows:
+
+```{r ctt38, echo=TRUE, eval=FALSE}
+psych::correct.cor(x = cormat_scores, # Raw correlation matrix
+                   y = c(0.87, 0.791, 0.817, 0.783)) # Reliability values in the same order as cormat_scores
+```
+
+```{r ctt39, echo=FALSE, eval=TRUE}
+psych::correct.cor(x = cormat_scores, # Raw correlation matrix
+                   y = c(0.87, 0.791, 0.817, 0.783)) %>%
+  round(., 2) %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 13)
+```
+
+In the new correlation matrix above, the upper-diagonal part shows the correlations among the four scale scores that have been corrected for attenuation, the diagonal part shows the reliability estimates for the four scales, and the lower-diagonal part shows the original (i.e., raw) correlations among the four scale scores. After applying the correction for attenuation, the new correlation values have become higher than their raw counterparts. For example, the scores from the NFC scale has a correlation of $r = .29$ with the scores from the Effortful Control Scale, whereas the corrected correlation between the two scales is $r = .35$.
 
 ***
 
