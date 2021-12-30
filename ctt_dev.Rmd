@@ -432,7 +432,7 @@ ShinyItemAnalysis::DDplot(Data = response_recoded, discrim = "RIR")
 
 ### Split-half reliability
 
-As a simple measure of reliability, split-half reliability can be obtained by splitting a measurement instrument into two equivalent halves, calculating the total scores on the two halves, and correlating them. There are several ways to create the split-half (e.g., selecting every other items, randomly, etc.). Below, we will define a custom R function to calculate the split-half reliability (note that this function originally comes from the [hemp](https://github.com/cddesja/hemp) package). To create the split-half, we can choose either `type = "alternate"` to select every other item (i.e., odd and even numbered items) or `type == "random"` to select two sets of items randomly. The `seed` argument is just an integer for us to control random sampling if we choose `type == "random"`. Changing the seed will allow us to sample a different set of items when we run the function every time.
+As a simple measure of reliability, split-half reliability can be obtained by splitting a measurement instrument into two equivalent halves, calculating the total scores on the two halves, and correlating them. There are several ways to create the split-half (e.g., selecting every other items, randomly, etc.). Below, we will define a custom R function to calculate the split-half reliability (this function originally comes from the [**hemp**](https://github.com/cddesja/hemp) package). To create the split-half, we can choose either `type = "alternate"` to select every other item (i.e., odd and even numbered items) or `type == "random"` to select two sets of items randomly. The `seed` argument is just an integer for us to control random sampling if we choose `type == "random"`. Changing the seed will allow us to sample a different set of items when we run the function every time.
 
 
 ```{r ctt27, echo=TRUE}
@@ -547,11 +547,41 @@ Among these values, we use raw_alpha to interpret the internal consistency. For 
 Lastly, we will use the **QME** package to calculate internal consistency for the NFC Scale. In addition to coefficient alpha and Guttman's lambda reliability statistics, the **QME** package also calculates Feldt-Gilmer and Feldt-Brennan reliability statistics. Using the `analyze()` function, we will first analyze the dataset and then print the results. By default, the `analyze()` function assumes that the dataset include an ID column for respondents but our dataset doesn't have this column. Therefore, we will use `id = FALSE` to change this setting. In addition, we will use `na_to_0 = FALSE` not to recode missing responses as zero when running the analysis (even though the nfc dataset does not include any missing responses).
 
 ```{r ctt31, echo=TRUE}
-reliability_qme <- QME::analyze(response_recoded, id = FALSE, na_to_0 = FALSE)
+reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
 reliability_qme
 ```
 
-The output gives us some descriptive statistics based on the total score and reliability statistics at the bottom. The reliability values we obtained from **psych**, **CTT**, and **QME** are nearly the same (it is possible to see some minor differences due to rounding error, etc.) 
+The output gives us some descriptive statistics based on the total score and reliability statistics at the bottom. The reliability values we obtained from **psych**, **CTT**, and **QME** are nearly the same (it is possible to see some minor differences due to rounding error, etc.)
+
+As we conclude the internal consistency section, we will run a small experiment to see how the correlations among the items affect the internal consistency of an instrument. In the following example, we will replace the responses to the first two items in the NFC Scale. Instead of original responses, we will randomly generate values between 1 and 7, replace the original responses with these random values, and then check the internal consistency again.
+
+```{r ctt31b, echo=TRUE}
+# Create a copy of the original response dataset
+response_experiment <- response_recoded
+
+# Set the seed to control random number generation
+set.seed(seed = 2525)
+
+# Generate random integer values between 1 and 7 and replace the original responses with them
+response_experiment$nfc01 <- sample.int(n = 7, size = nrow(response_experiment), replace = TRUE)
+response_experiment$nfc02 <- sample.int(n = 7, size = nrow(response_experiment), replace = TRUE)
+
+# Check the correlations among the items using the new dataset
+cormat_experiment <- psych::polychoric(response_experiment)$rho
+
+ggcorrplot::ggcorrplot(corr = cormat_experiment,
+                       type = "lower", 
+                       show.diag = TRUE,
+                       lab = TRUE, 
+                       lab_size = 3) 
+
+# Now check the internal consistency
+QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)
+```
+
+After replacing the original responses with random values between 1 and 7, we see that the correlation between the first two items and the remaining items disappeared. In fact, some correlations are even negative. This finding is not surprising because the randomly-generated values would not necessarily be correlated with the other items. The output from the `analyze()` function shows that the internal consistency for this new dataset is 0.79 (as opposed to 0.87 in the original dataset). Given the length of the NFC Scale (16 items), having two poor quality items significantly decreased the internal consistency of the scale. 
+
+Although this is an exaggerated example, it still demonstrates how to identify problematic items in a given measurement instrument. Using the correlations among the items, discrimination values (i.e., item-total correlation), and the impact of removing each item on the internal consistency, we can identify poor quality items (or potentially problematic items) and shorten our measurement instrument (assuming the remaining items indicate a decent level of internal consistency). There are also more sophisticated ways to identify and remove items for the purpose of creating a shorter instrument, such as the genetic algorithm and ant colony optimization (see [my blog post](https://okan.cloud/posts/2021-01-19-how-to-shorten-a-measurement-instrument-automatically-part-ii/) on how to implement these methods in R). 
 
 <br>
 
@@ -673,11 +703,56 @@ psych::correct.cor(x = cormat_scores, # Raw correlation matrix
 
 In the new correlation matrix above, the upper-diagonal part shows the correlations among the four scale scores that have been corrected for attenuation, the diagonal part shows the reliability estimates for the four scales, and the lower-diagonal part shows the original (i.e., raw) correlations among the four scale scores. After applying the correction for attenuation, the new correlation values have become higher than their raw counterparts. For example, the scores from the NFC scale has a correlation of $r = .29$ with the scores from the Effortful Control Scale, whereas the corrected correlation between the two scales is $r = .35$.
 
+In addition to the relationship between the total scores from the NFC Scale and the criterion measures, we can also calculate item-validity index (IVI) to check the relationship between each item in the NFC Scale and the scores from the criterion measures. IVI can range between -0.5 and 0.5, with large values (in absolute magnitude) indicative of higher validity. In the following example, we will create a custom IVI function and apply it to the NFC Scale to calculate the IVI values using the action orientation scores as a criterion measure (the `ivi()` function originally comes from the [**hemp**](https://github.com/cddesja/hemp) package). 
+
+```{r ctt40, echo=TRUE}
+# Custom function for calculating item-validity index
+ivi <- function(item, criterion) {
+    s_i <- sd(item, na.rm = TRUE)
+    r <- cor(item, criterion, use = "complete.obs")
+    index <- s_i * r
+    return(index)
+}
+
+# Apply the ivi function to the NFC items
+nfc_ivi <- apply(response_recoded, 
+                 2,                
+                 function(x) ivi(item = x, criterion = nfc$action_orientation))
+
+# Save the results as a data frame and print them
+nfc_ivi <- as.data.frame(nfc_ivi)
+print(nfc_ivi)
+```
+
+The output above shows that most items in the NFC Scale have small to moderate correlations with the action orientation scores (just like the total scores from the NFC Scale), except for nfc05 and nfc15. This finding provides additional evidence supporting the validity of the NFC Scale. 
+
 ***
 
 # Example 2: A Multiple-Choice Exam
 
-xxx
+In addition to ordinal response data from psychological instruments, we also use CTT to analyze dichotomous (i.e., binary) response data from educational instruments (e.g., multiple-choice exams). With dichotomous response data, we can conduct not only the CTT-based analyses we have have demonstrated above but also additional analyses specific to educational assessments, such as distractor analysis. In the following example, we will use a dataset that consists of the responses of 651 university students to the Homeostasis Concept Inventory (HCI) multiple-choice test. This dataset originally comes from the **ShinyItemAnalysis** package (see `?ShinyItemAnalysis::HCItest`). A clean version of the dataset as a comma-separated-values file (hci.csv) is available [**here**](/data_and_codes/hci.csv). The file has the following variables:
+
+* item1 to item20: Answers to multiple-choice items (A, B, C, D, or E)
+* gender: "F" for female and "M" for male
+* eng_first_lang: "yes" if English is the student's first language, otherwise "no"
+* study_year: The student's year of study at the university
+* major: 1 if the student plans to major in the life sciences, otherwise 0
+
+Now, let's import the [hci.csv](/data_and_codes/hci.csv) dataset into R and review the first six rows using the `head()` function:
+
+```{r ctt41, eval=FALSE}
+hci <- read.csv("hci.csv", header = TRUE)
+
+head(hci)
+```
+
+```{r ctt42, echo=FALSE, R.options = list(width = 100)}
+hci <- read.csv(paste0(getwd(), "/data_and_codes/hci.csv"), header = TRUE)
+paged_table(hci, options = list(cols.print = 12, rows.print = 6))
+
+head(hci)
+```
+
 
 <br>
 
