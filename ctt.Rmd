@@ -879,7 +879,21 @@ The report returned from `distractor_report()` is quite long. So, we will only h
 
 ![](figures/item1.png)
 
-The table shows us the the response options (choice), the answer key (where it is "1"), proportions of students selecting each response option (proportions), and discrimination values for the response options (response discrimination). We also see similar results in the figure above but the proportions of students for each response option are split into three groups (i.e., tercile): low, medium, and high. The figure shows that as we move from the low to high group, the proportions of students selecting the keyed answer (D) is increasing, whereas the proportions of students selecting the distractors (A, B, C, or D) are decreasing. This finding suggests that the response options of item 1 function as expected.
+The table shows us the the response options (choice), the answer key (where it is "1"), proportions of students selecting each response option (proportions), and discrimination values for the response options (response discrimination). We also see similar results in the figure above but the proportions of students for each response option are split into three groups (i.e., tercile): low, medium, and high. Tercile refers to three groups where each contains a third of the total sample. The figure shows that as we move from the low to high group, the proportions of students selecting the keyed answer (D) is increasing, whereas the proportions of students selecting the distractors (A, B, or C) are decreasing. This finding suggests that the response options of item 1 function as expected.
+
+Lastly, if we are interested in creating a distractor functioning figure (similar to the one from the **QME** package) for a specific item, `plotDistractorAnalysis()` from the **ShinyItemAnalysis** package is a better option due to its ease of use. To use this function, we will save the answer key as a vector (called "key3" this time). The function uses the raw responses (`Data = hci_items`), the answer key (`key = key3`), the number of groups to create based on the total score (`num.groups = 3`), and the item to be plotted (`item = 1`). There are also additional arguments to customize the function, such as `criterion` to specify an external score variable instead of calculating the total score and `cut.points` to specify what cut-off points should be used to create the groups according to `num.groups` (see `?ShinyItemAnalysis::plotDistractorAnalysis` for further details).
+
+```{r ctt49b, echo=TRUE, eval=TRUE}
+# Save the key column from the key data frame as a vector
+key3 <- as.vector(key$key)
+
+ShinyItemAnalysis::plotDistractorAnalysis(Data = hci_items, # response data to be analyzed
+                                          key = key3, # answer key
+                                          num.groups = 3, # how many student groups we want (default is 3)
+                                          item = 1) # the number of the item to be plotted
+```
+
+The plot returned from `plotDistractorAnalysis()` is very similar to the one from `distractor_report()` although they are not necessarily identical due to the way student groups are created by the **QME** and **ShinyItemAnalysis** packages.
 
 <br>
 
@@ -888,9 +902,6 @@ The table shows us the the response options (choice), the answer key (where it i
 To conduct further analysis with the items in the hci dataset, we need to transform raw responses (i.e., A, B, C, D, and E) to item scores (i.e., 1 for correct and 0 for incorrect). This procedure is called "scoring". To score the items the hci datasets, we could write a custom scoring function that compares the responses to a given item to the answer key and scores the item dichotomously (i.e., 1 or 0). Then, we would have to apply this function to the entire dataset using a loop (i.e., repeating the process across items and/or students). Luckily, the **CTT** package already includes a `score()` function that calculates item scores, finds the sum of the item scores (i.e., total scores), and computes coefficient alpha in a single analysis. The `score()` function requires the answer key to be a vector instead of a data frame. So, we will first save the answer key as a vector (called "key3" this time) and then score the items using the answer key.
 
 ```{r ctt50, echo=TRUE}
-# Save the key column from the key data frame as a vector
-key3 <- as.vector(key$key)
-
 # Score the items
 hci_scored <- CTT::score(items = hci_items, # data to be scored
                          key = key3, # answer key
@@ -1035,8 +1046,8 @@ The updated item analysis results show that the internal consistency of the hci 
 
 An important test-level statistic for educational assessments is the standard error of measurement (SEM), which can be calculated as follows:
 
-$$SEM = \sigma \sqrt(1-r_{xx})$$
-where $\sigma$ is the standard deviation of the test scores and $r_{xx}$ is the reliability of the test. In practice, SEM is often used to create a confidence interval around observed test scores. Calculating such confidence intervals allows us to capture the variability around the observe score and thereby explain where the true score corresponding to the observe score would be roughly located (with a certain level of confidence). 
+$$SEM = \sigma \sqrt{(1-r_{xx})},$$
+where $\sigma$ is the standard deviation of the test scores and $r_{xx}$ is the reliability of the test. In practice, SEM is often used to create a confidence interval around observed test scores scores. Calculating such confidence intervals allows us to capture the variability around the observe score and thereby explain where the true score corresponding to the observe score would be roughly located (with a certain level of confidence). 
 
 To calculate SEM and confidence intervals, we will create a custom function that takes the item response data as an input and returns SEM as well as confidence intervals for the total score. in the function, we can specify the level of confidence we want (e.g., `ci.level = 0.95` for 95% confidence intervals). The function reports SEM, coefficient alpha, and the formula to calculate confidence intervals. Also, it returns observed (raw) scores and their lower and upper confidence intervals as a data frame. 
 

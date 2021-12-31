@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       fig.align = 'center')
 
 library("fontawesome")
-library("kableExtra")
 
 # automatically create a bib database for R packages
 # knitr::write_bib(x = c(.packages()), file = "packages.bib")
