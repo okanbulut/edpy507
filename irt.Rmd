@@ -18,7 +18,16 @@ library("fontawesome")
 library("kableExtra")
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+# knitr::write_bib(x = c(.packages()), file = "packages.bib")
 ```
 
+
+<br>
+
+<p align="center">
 **Content will be available soon...**
+
+<br>
+
+![](figures/construction.jpg)
+</p>
