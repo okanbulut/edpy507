@@ -330,6 +330,12 @@ QME::distractor_report(x = hci_analysis)
 # Save the key column from the key data frame as a vector
 key3 <- as.vector(key$key)
 
+# Create a distractor functioning plot
+ShinyItemAnalysis::plotDistractorAnalysis(Data = hci_items, # response data to be analyzed
+                                          key = key3, # answer key
+                                          num.groups = 3, # how many student groups we want (default is 3)
+                                          item = 1) # the number of the item to be plotted
+
 # Score the items
 hci_scored <- CTT::score(items = hci_items, # data to be scored
                          key = key3, # answer key
