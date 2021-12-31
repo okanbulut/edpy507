@@ -81,7 +81,7 @@ nfc_items %>%
            footnote_as_chunk = T)
 ```
 
-Responses to the items were recorded on a 7-point rating scale from 1 (completely disagree) to 7 (completely agree). However, to calculate total scores in the NFC Scale, the item responses must be recoded as -3 (completely disagree) to +3 (completely agree). @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. For the following analyses, we will use a subset of the original data including responses to the NFC Scale, demographic variables, and additional data related self-control etc. This dataset can be downloaded from [**here**](data_and_codes/nfc_data.csv). In addition, the R codes for the CTT analyses presented on this page are available [**here**](data_and_codes/ctt.R).
+Responses to the items were recorded on a 7-point rating scale ranging from 1 (completely disagree) to 7 (completely agree). However, to calculate total scores in the NFC Scale, the item responses must be recoded as -3 (completely disagree) to +3 (completely agree). @nfc-grass kindly shared their data files and other materials in an open repository: <https://osf.io/wn8xm/>. For the following analysis, we will use a subset of the original data including responses to the NFC Scale, demographic variables, and additional scores from criterion measures such the Self-Control Scale. This dataset can be downloaded from [**here**](data_and_codes/nfc_data.csv). In addition, the R codes for the CTT analyses presented on this page are available [**here**](data_and_codes/ctt.R).
 
 <br>
 
@@ -119,7 +119,7 @@ kbl(pkg_dat, caption = "") %>%
 
 <br>
 
-We can install all of the above packages by using the `install.packages()` command in R. Please remember that we only need to install these packages <u>once</u>. After that, we will be able to activate the packages in R and conduct CTT-based analysis.
+We can install all of the above packages by using the `install.packages()` function in R. Please remember that we only need to install these packages <u>once</u>. After that, we will be able to activate the packages in R and conduct CTT-based analysis.
 
 ```{r ctt2, eval=FALSE}
 # Install all the packages together
@@ -132,13 +132,13 @@ install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
 # and so on...
 ```
 
-Since the **QME** package [@R-QME] is available on [GitHub](https://github.com/zief0002/QME) instead of [CRAN](https://cran.r-project.org/), we will use the `install_github()` function from the **devtools** package to install it.
+Since the **QME** package [@R-QME] is available on [GitHub](https://github.com/zief0002/QME) instead of [CRAN](https://cran.r-project.org/), we will use the `install_github()` function from the **devtools** package to download the package from its repository and then install it.
 
 ```{r ctt3, eval=FALSE}
 devtools::install_github("zief0002/QME") 
 ```
 
-After you install the packages properly (i.e., no error messages on your R console), you can use the `library()` command to activate these packages in your R session.
+After we install the packages properly (i.e., no error messages on the R console), we can use the `library()` command to activate these packages in our R session.
 
 ```{r ctt4, eval=FALSE}
 # Activate the required packages
@@ -154,7 +154,11 @@ library("QME")
 library("difR")
 ```
 
-Each of these packages comes with several functions. Once you activate a package, you can start using all the functions loaded with that package. To call a particular function from a package, we need to know the function name. For example, we can use the `alpha()` function in the **psych** package to calculate internal consistency values such as coefficient alpha. Since we are going to use multiple functions from different packages, it might be a bit difficult to remember which package each function belongs to. Therefore, I will use the following format in my codes: `packagename::function`. For example, `psych::alpha()` indicates that I am calling the `alpha()` function from the **psych** package.
+Each of these packages comes with several functions. Once we activate a package, we can start using all the functions included in that package. To see what functions are included in a given package, we can go to "Miscellaneous" pane, click on the "Packages" menu option, find the package that we want to check on the list, and click on the package name to open its function directory. For example, we can click on the **CTT** package to see what functions are included in this package.
+
+![](figures/helppage.png)
+
+To call a particular function from a package, we need to know the function name. For example, we can use the `alpha()` function in the **psych** package to calculate internal consistency values such as coefficient alpha. Since we are going to use multiple functions from different packages, it might be a bit difficult to remember which package each function comes from. Therefore, we will use the following format in the codes: `packagename::function`. For example, `psych::alpha()` indicates that we are calling the `alpha()` function from the **psych** package. If there is no "::" included in the function name (e.g., `plot()`), it means that we are using a built-in R function (i.e., a function that comes with the base R). 
 
 ------------------------------------------------------------------------
 
@@ -178,17 +182,19 @@ setwd("C:/Users/Okan/Desktop/CTT Analysis")
 
 ------------------------------------------------------------------------
 
-Next, we will import the data into R. Since nfc_data.csv is a comma-separated-values file (see the .csv extension), we will use the `read.csv()` function to read our data into R. We will save the data as "nfc" in R.
+Next, we will import the data into R. Since nfc_data.csv is a comma-separated-values file (see the .csv extension), we will use the `read.csv()` function to read our data into R and then save it as "nfc".
 
 ```{r ctt6, eval=FALSE}
 nfc <- read.csv("nfc_data.csv", header = TRUE)
 ```
 
-Using the `head()` function, we can view the first 6 rows of the dataset:
+Using the `head()` function, we can now view the first 6 rows of the dataset:
 
 ```{r ctt7, eval=FALSE}
 head(nfc)
 ```
+
+Additionally, we can use `View(nfc)` that opens the data viewer in RStudio and allows us to open the data in a spreadsheet-like format. 
 
 ```{r ctt8, echo=FALSE, R.options = list(width = 110)}
 nfc <- read.csv(paste0(getwd(), "/data_and_codes/nfc_data.csv"), header = TRUE)
@@ -202,9 +208,7 @@ We can also see the names and types of the variables in our dataset using the `s
 str(nfc)
 ```
 
-The dataset consists of 1209 rows (i.e., participants) and 29 variables (id, age, sex, education, nfc01 to nfc16 representing the responses to the NFC Scale items, and 9 raw scores for other latent traits).
-
-We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions from the **DataExplorer** package:
+The dataset consists of 1209 rows (i.e., participants) and 23 variables (id, age, sex, education, nfc01 to nfc16 representing the responses to the NFC Scale items, and three scores for criterion measures). We can obtain a bit more information on the dataset using the `introduce()` and `plot_intro()` functions from the **DataExplorer** package [@R-DataExplorer]:
 
 ```{r ctt10, echo=TRUE, eval=FALSE}
 DataExplorer::introduce(nfc)
@@ -223,7 +227,7 @@ The output above gives us a summary of our dataset with additional information o
 DataExplorer::plot_intro(nfc)
 ```
 
-The plot above shows that most of the variables in the dataset are continuous (note that R recognizes Likert-scale items as continuous variables although they are actually ordinal) while there are also some discrete (i.e., categorical) variables (remember the sex and education variables in the dataset). We also see that some of the variables in the dataset have missing values but the proportion of missing data is very small (only 0.023%). Depending on the sample size, missingness \> 10% is often concerning as the loss of information due to these missing values is likely to influence the results of our analysis.
+The plot above shows that most of the variables are continuous (note that R recognizes Likert-scale items as continuous variables although they are actually ordinal) while there are also some discrete (i.e., categorical) variables (i.e., sex and education) in the dataset. We also see that some of the variables in the dataset have missing values but the proportion of missing data is very small (only 0.023%). Depending on the sample size, missingness \> 10% is often concerning as the loss of information due to these missing values is likely to influence the results of our analysis.
 
 To have a closer look at missing values, we can visualize the proportion of missingness for each variable. The following plot shows that age and sex have some missing values but the proportion of missingness is very small (less than 1%).
 
@@ -231,7 +235,7 @@ To have a closer look at missing values, we can visualize the proportion of miss
 DataExplorer::plot_missing(nfc)
 ```
 
-The **DataExplorer** package also has additional functions to visualize both categorical and continuous variables. The package is using a simpler language to create plots based on the **ggplot2** package in the background.
+The **DataExplorer** package also has additional functions to visualize both categorical and continuous variables. The package is using a simpler language to create plots based on the **ggplot2** package [@R-ggplot2] in the background.
 
 ```{r ctt13b, echo=TRUE, fig.height=4}
 # Categorical variables (bar plots)
@@ -247,7 +251,7 @@ DataExplorer::plot_boxplot(data = nfc[!is.na(nfc$sex), # select cases where sex 
                            by = "sex") # Draw boxplots by sex (a categorical variable)
 ```
 
-To organize all the summary statistics into a single report, we could use the `create_report()` function. It runs most functions in **DataExplorer** and outputs a HTML report file.
+To organize all the summary statistics into a single report, we could use the `create_report()` function. It runs most functions in **DataExplorer** and outputs a HTML report file (assuming **rmarkdown** has been already installed).
 
 ```{r ctt13c, echo=TRUE, eval=FALSE}
 # Drop the id variable so it doesn't get analyzed with the other variables
@@ -259,7 +263,7 @@ DataExplorer::create_report(data = nfc,
                             output_file = "nfc_report.html")
 ```
 
-To obtain a detailed summary of the nfc dataset within a single analysis, we can use the `skim()` function. As you can see from the output below, we obtained similar descriptive statistics for the variables in the nfc dataset:
+To obtain a detailed summary of the nfc dataset within a single analysis, we can use the `skim()` function from the **skimr** package [@R-skimr]. As you can see from the output below, we obtained similar descriptive statistics for the variables in the nfc dataset:
 
 -   "Data Summary" shows the number of columns/rows and column types (i.e., variable types)
 -   "Variable type" tables show a summary of character (i.e., categorical) and numeric (i.e., continuous) variables
@@ -277,7 +281,7 @@ skimr::skim_without_charts(data = nfc) %>%
   print()
 ```
 
-The `describe()` function from the **psych** package is another useful function to get basic descriptive statistics for data collected for psychometric and psychology studies (see `?psych::describe` for more details about this function).
+The `describe()` function from the **psych** package [@R-psych] is another useful function to get basic descriptive statistics for data collected for psychometric and psychology studies (see `?psych::describe` for more details about this function).
 
 ```{r ctt15b, echo=FALSE, R.options = list(width = 200)}
 psych::describe(x = nfc)
@@ -285,11 +289,11 @@ psych::describe(x = nfc)
 
 <br>
 
-Before moving to item analysis, we also need to check the correlation among the items to evaluate how strongly the items are associated with each other. We expect the items to be associated with each other up to a certain degree because we assume that the items measure the same latent trait (the construct of NFC in this example). Having weakly-correlated items suggests that some items may **not** be measuring the same latent trait. Having very highly-correlated items (e.g., $r > .95$) suggests that there is some redundancy in the instrument because some items provide us with the same information about the individuals who answered the items.
+Before moving to item analysis, we should also check the correlations among the items to gauge how strongly the items are associated with each other. We expect the items to be associated with each other up to a certain degree because we assume that the items measure the same latent trait (the construct of NFC in this example). Having weakly-correlated items suggests that some items may **not** be measuring the same latent trait. Having very highly-correlated items (e.g., $r > .95$) suggests that there is some redundancy in the instrument because some items provide us with the same information about the individuals who answered the items.
 
-In addition, we know that some items in the NFC Scale are negatively-worded and thus responses to these items may be in the opposite direction with the rest of the items. For example, individuals with high NFC are likely to choose "7 = completely agree" for positively-worded items (e.g., "Enjoyment of tasks that involve problem-solving") whereas they are expected to choose "1 = completely disagree" for negatively-worded items (e.g., "Anticipation and avoiding of situations that may require in-depth thinking").
+In addition, we know that some items in the NFC Scale are negatively-worded and thus responses to these items may be in the opposite direction with the rest of the items. For example, individuals with high NFC are likely to choose "7 = completely agree" for a positively-worded item such as "Enjoyment of tasks that involve problem-solving" whereas they are expected to choose "1 = completely disagree" for a negatively-worded item such as "Anticipation and avoiding of situations that may require in-depth thinking".
 
-Now, we will create a correlation matrix of the NFC items and review the strength and direction of the relationship among the items. First, we will save the responses as a separate dataset to make our subsequent analyses easier. The items in the nfc dataset are named as nfc01, nfc02, ..., nfc16. That is, they all start with the same prefix: nfc. So, I can use this to select the items more easily. We will use the `select()` function from **dplyr**. `starts_with("nfc")` will help us choose the variables starting with "nfc" as a selection condition.
+Now, we will create a correlation matrix of the NFC items and review the strength and direction of the relationships among the items. First, we will save the responses as a separate dataset to make our subsequent analyses easier. The items in the nfc dataset are named as nfc01, nfc02, ..., nfc16. That is, they all start with the same prefix: nfc. So, we can use this prefix to select the items more easily. We will use the `select()` function from **dplyr**. `starts_with("nfc")` will help us choose the variables starting with "nfc" as a selection condition.
 
 ```{r ctt16, echo=TRUE}
 response <- dplyr::select(nfc, # name of the dataset
@@ -305,11 +309,13 @@ response <- dplyr::select(nfc, # name of the dataset
                           nfc01, nfc02, nfc03, nfc04, ..., nfc16) # variables to be selected
 ```
 
-Next, we will compute the correlations among these items. Remember that the NFC items follow an ordinal scale: 1=completely disagree to 7=completely agree. Therefore, instead of traditional Pearson correlation (which can be obtained using the `cor()` function in R), we will use the `polychoric()` function from **psych** to calculate polychoric correlations. The function produces several outcomes but we want to keep `rho`- (i.e., the correlation matrix of the items).
+Next, we will compute the correlations among these items. Remember that the NFC items follow an ordinal scale: 1=completely disagree to 7=completely agree. Therefore, instead of Pearson correlation (which can be obtained using the `cor()` function in R), we will use the `polychoric()` function from **psych** to calculate polychoric correlations. The `polychoric()` function produces several outcomes but we only want to keep `rho`- (i.e., the correlation matrix of the items).
 
 ```{r ctt18, eval=FALSE}
+# Save the correlation matrix
 cormat <- psych::polychoric(x = response)$rho
 
+# Print the correlation matrix
 print(cormat)
 ```
 
@@ -321,7 +327,7 @@ cormat %>%
   kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 11)
 ```
 
-One thing that we can see right away is negative values in the correlation matrix, confirming that some items are indeed negatively correlated with each other. However, reviewing the rest of this 16x16 correlation matrix is not necessarily easy. We can't just eyeball the values to evaluate the associations among the items. Therefore, we will create a correlation matrix plot using the **ggcorrplot** package. The package has a function with the same name, `ggcorrplot()`, that transforms a correlation matrix into a nice plot (note that a similar plot can be created using `corPlot()` from **psych**).
+One thing that we can see right away is negative values in the correlation matrix, confirming that some items are indeed negatively correlated with each other. However, reviewing the rest of this 16x16 correlation matrix is not necessarily easy. We can't just eyeball the values to evaluate the associations among the items. Therefore, we will create a correlation matrix plot using the **ggcorrplot** package [@R-ggcorrplot]. The package has a function with the same name, `ggcorrplot()`, that transforms a correlation matrix into a nice correlation matrix plot (note that a similar plot can be created using `corPlot()` from **psych**).
 
 ```{r ctt20, echo=TRUE, fig.width=9, fig.height=6}
 ggcorrplot::ggcorrplot(corr = cormat, # correlation matrix
@@ -333,7 +339,7 @@ ggcorrplot::ggcorrplot(corr = cormat, # correlation matrix
 
 There are tons of options to customize the correlation matrix plot (run `?ggcorrplot::ggcorrplot` to see the help page), but this is already a very good visualization for us to evaluate the correlations among the items. We see that several items on the scale (see the blue-coloured boxes) are negatively correlated with the rest of the items. These are the (R) marked items in the NFC Scale (i.e., negatively-worded items). We will go ahead and reverse-code the responses to these items (i.e., 1=completely agree to 7=completely disagree) to put all the items in the same direction.
 
-We will use the `reverse.code()` function from **psych** for this process. We will create a reverse-coding key where "1" keeps the item the same and "-1" reverse-codes the item. In `nfc_key` below, we type "1" three times (no reverse-coding for the first three items), type "1" for the 4th item (reverse-code the item), type 1 for the 5th item (no reverse-coding), and so on. That is, the values in `nfc_key` correspond to the positions of the items in the `response` dataset. Then, we use `reverse.code()` to apply the key and transform the data (saved as `response_recoded`).
+We will use the `reverse.code()` function from **psych** for this process. We will create a reverse-coding key where "1" keeps the item the same and "-1" reverse-codes the item. In `nfc_key` below, we type "1" three times (no reverse-coding for the first three items), type "-1" for the 4th item (reverse-code the item), type 1 for the 5th item (no reverse-coding), and so on. That is, the values in `nfc_key` correspond to the positions of the items in the `response` dataset. Then, we use `reverse.code()` to apply the key and transform the data (saved as `response_recoded`).
 
 ```{r ctt21, echo=TRUE}
 # -1 means reverse-code the item
@@ -358,7 +364,7 @@ ggcorrplot::ggcorrplot(corr = cormat_recoded,
                        lab_size = 3) 
 ```
 
-We can see in the correlation matrix plot that all the items are now positively correlated. Most correlations are moderate while there also some items (e.g., nfc06) that seem to have low correlations with the other items in the NFC scale. Also, we see that `reverse.code()` changed the names of the reverse-coded items by include "-" at the end (e.g., nfc04-). This is not necessarily a problem. However, if we want to keep the original variable names (i.e., nfc01 to nfc16), we can rename the column names using the `colnames()` function. The following will replace the column names of the transformed data (i.e., `response_recoded`) with the column names of the original response data (i.e., `response`) and then save the dataset as a data frame (the typical data format in R).
+We can see in the correlation matrix plot that all the items are now positively correlated with each other. Most correlations are moderate while there also some items (e.g., nfc06) that seem to have low correlations with the other items in the NFC scale. Also, we see that `reverse.code()` changed the names of the reverse-coded items by include "-" at the end (e.g., nfc04-). This is not necessarily a problem. However, if we want to keep the original variable names (i.e., nfc01 to nfc16), we can rename the column names using the `colnames()` function. The following will replace the column names of the transformed data (i.e., `response_recoded`) with the column names of the original response data (i.e., `response`) and then save the dataset as a data frame (the typical data format in R).
 
 ```{r ctt23, echo=TRUE, R.options = list(width = 200)}
 # Rename the columns
@@ -375,9 +381,9 @@ head(response_recoded)
 
 ## Item analysis
 
-Item analysis refers to a comprehensive analysis of individual items on a measurement instrument in terms of descriptive statistics (e.g., mean, standard deviation, min, and max), item-level statistics (e.g., difficulty and discrimination), and their associations with scale-level statistics (e.g., reliability). In R, there are several packages to conduct item analysis on dichotomous items (i.e., 0 or 1) and ordinal items (e.g., Likert-scale items). I will demonstrate three of these packages below:
+Item analysis refers to the analysis of individual items on a measurement instrument in terms of descriptive statistics (e.g., mean, standard deviation, min, and max), item-level statistics (e.g., difficulty and discrimination), and their associations with scale-level statistics (e.g., reliability). In R, there are several packages to conduct item analysis on dichotomous items (i.e., 0 or 1) and ordinal items (e.g., Likert-scale items). I will demonstrate three of these packages below:
 
-1.  **CTT** [@R-CTT]: The `itemAnalysis()` function runs item analysis and returns a brief but useful table of item statistics. Specifying the dataset to be analyzed (response_recoded) in the `itemAnalysis()` function is enough to run item analysis. In the following example, we will also set two flags for point-biserial correlation (pBisFlag) and biserial correlation (bisFlag). Both of these statistics indicate the discriminatory power of the items. In practice, we prefer both point-biserial correlation and biserial correlation values to be at least 0.2 or larger. So, we will set the flag at 0.2 so that the function shows us (using an "X" sign) the items with discrimination of .2 or less (see more details on the help page via `?CTT::itemAnalysis`).
+**CTT** [@R-CTT]: The `itemAnalysis()` function runs item analysis and returns a brief but useful table of item statistics. Specifying the dataset to be analyzed (response_recoded) in the `itemAnalysis()` function is enough to run item analysis. In the following example, we will also set two flags for point-biserial correlation (pBisFlag) and biserial correlation (bisFlag). Both of these statistics indicate the discriminatory power of the items. In practice, we prefer both point-biserial correlation and biserial correlation values to be at least 0.2 or larger. So, we will set the flag at 0.2 so that the function shows us (using an "X" sign) the items with discrimination of .2 or less (see more details on the help page via `?CTT::itemAnalysis`).
 
 ```{r ctt24, echo=TRUE}
 # Run the item analysis and save it as itemanalysis_ctt
@@ -391,7 +397,7 @@ In the output above, "itemMean" is the average response value for each item (whi
 
 <br>
 
-2.  **psych** [@R-psych]: The `alpha()` function runs item analysis and returns a detailed output with both item-level and scale-level statistics. To use the function, we need to specify the response dataset to be analyzed (i.e., `x = response_recoded`). The function also involves other arguments (e.g., `na.rm = TRUE` to remove missing values and find pairwise correlations), but the default values for these arguments are sufficient to conduct item analysis (see more details on the help page via `?psych::alpha`).
+**psych** [@R-psych]: The `alpha()` function runs item analysis and returns a detailed output with both item-level and scale-level statistics. To use the function, we need to specify the response dataset to be analyzed (i.e., `x = response_recoded`). The function also involves other arguments (e.g., `na.rm = TRUE` to remove missing values and find pairwise correlations), but the default values for these arguments are sufficient to conduct item analysis (see more details on the help page via `?psych::alpha`).
 
 ```{r ctt25, echo=TRUE}
 # Run the item analysis and save it as itemanalysis_psych
@@ -409,7 +415,7 @@ The first part of the output shows the results of reliability analysis but we wi
 
 <br>
 
-3.  **ShinyItemAnalysis** [@R-ShinyItemAnalysis]: The `ItemAnalysis()` function runs item analysis and returns much more detailed output compared with those of **CTT** and **psych**. The function has so many options that allows users to customize the item analysis report in several ways (see more details on the help page via `?ShinyItemAnalysis::ItemAnalysis`). Also, using the `startShinyItemAnalysis()` function, we can use the interactive version of `ItemAnalysis()` where we can import the data and select the analysis to be conducted using a nice user interface based on the **shiny** package (for examples of interesting **shiny** applications, see <https://shiny.rstudio.com/>).
+**ShinyItemAnalysis** [@R-ShinyItemAnalysis]: The `ItemAnalysis()` function runs item analysis and returns much more detailed output compared with those of **CTT** and **psych**. The function has so many options that allows users to customize the item analysis report in several ways (see more details on the help page via `?ShinyItemAnalysis::ItemAnalysis`). Also, using the `startShinyItemAnalysis()` function, we can use the interactive version of `ItemAnalysis()` where we can import the data and select the analysis to be conducted using a nice user interface based on the **shiny** package (for examples of interesting **shiny** applications, see <https://shiny.rstudio.com/>).
 
 ```{r ctt26a, echo=TRUE, R.options = list(width = 110)}
 # Run the item analysis and save it as itemanalysis_shiny
@@ -506,7 +512,7 @@ abline(v = mean(sp_rel$raw), col = "red", lwd = 2, lty = 2)
 
 Next, we will calculate internal consistency, more specifically coefficient alpha (**NOT** Cronbach's alpha), for the NFC Scale. Internal consistency is the degree of homogeneity among the items on a measurement instrument. It allows us to gauge how strongly the items in a given instrument are associated with each other. A common misconception about internal consistency is that coefficient alpha and its variants can tell us how well a measurement instrument is actually measuring what we want it to measure, which is **INCORRECT**. If the items measure the same target construct (which may not necessarily be what we wanted to measure), then they are expected to be internally consistent with one another (i.e., correlated) and yield reliable (i.e., consistent) results.
 
-There are multiple ways to compute internal consistency in R. Earlier we conducted item analysis using the *CTT* package, saved the results as `itemanalysis_ctt`, and printed the item analysis results using `itemanalysis_ctt$itemReport`. Using the same results, we can also see the estimate of coefficient alpha for the NFC scale by simply printing the results:
+There are multiple ways to compute internal consistency in R. Earlier we conducted item analysis using the **CTT** package, saved the results as `itemanalysis_ctt`, and printed the item analysis results using `itemanalysis_ctt$itemReport`. Using the same results, we can also see the estimate of coefficient alpha for the NFC Scale by simply printing the results:
 
 ```{r ctt30a, echo=TRUE}
 # Print the results
@@ -559,7 +565,7 @@ In the output above, we see the following statistics:
 
 Among these values, we use raw_alpha to interpret the internal consistency. For the NFC Scale, $\alpha = 0.87$ indicates high internal consistency. The second part of the output under "Reliability if an item is dropped" shows how internal consistency changes after each item is removed from the instrument. In our example, the raw_alpha column shows that the internal consistency either remains the same or goes down to 0.86, suggesting that removing none of the items would help us improve the reliability and so we should retain the original scale.
 
-Lastly, we will use the **QME** package to calculate internal consistency for the NFC Scale. In addition to coefficient alpha and Guttman's lambda reliability statistics, the **QME** package also calculates Feldt-Gilmer and Feldt-Brennan reliability statistics. Using the `analyze()` function, we will first analyze the dataset and then print the results. By default, the `analyze()` function assumes that the dataset include an ID column for respondents but our dataset doesn't have this column. Therefore, we will use `id = FALSE` to change this setting. In addition, we will use `na_to_0 = FALSE` not to recode missing responses as zero when running the analysis (even though the nfc dataset does not include any missing responses).
+Lastly, we will use the **QME** package [@R-QME] to calculate internal consistency for the NFC Scale. In addition to coefficient alpha and Guttman's lambda reliability statistics, the **QME** package also calculates Feldt-Gilmer and Feldt-Brennan reliability statistics. Using the `analyze()` function, we will first analyze the dataset and then print the results. By default, the `analyze()` function assumes that the dataset include an ID column for respondents but our dataset doesn't have this column. Therefore, we will use `id = FALSE` to change this setting. In addition, we will use `na_to_0 = FALSE` not to recode missing responses as zero when running the analysis (even though the nfc dataset does not include any missing responses).
 
 ```{r ctt31, echo=TRUE}
 reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
@@ -634,7 +640,7 @@ In the following example, we will calculate the scores for the NFC scale and the
 
 Based on the findings of previous research, we expect to find positive, small to medium associations between NFC and the other three constructs (self-control, effortful control, and action control).
 
-First, we will use the `recode()` function from the **car** package to recode the item scores of 1 to 7 as -3 to +3 for the NFC Scale and then sum up the item scores to calculate the total score for the NFC Scale. Since we want to replicate the same recoding procedure for all 16 items, we will create a custom function for recoding the items and apply it to the whole dataset using `apply()`, use the `rowSums()` function to calculate the total score for each person (i.e., the sum of each row in the recoded dataset), obtain a descriptive summary of the scores using `summary()`, and visualize the distribution of the scores using `hist()`.
+First, we will use the `recode()` function from the **car** package [@R-car] to recode the item scores of 1 to 7 as -3 to +3 for the NFC Scale and then sum up the item scores to calculate the total score for the NFC Scale. Since we want to replicate the same recoding procedure for all 16 items, we will create a custom function for recoding the items and apply it to the whole dataset using `apply()`, use the `rowSums()` function to calculate the total score for each person (i.e., the sum of each row in the recoded dataset), obtain a descriptive summary of the scores using `summary()`, and visualize the distribution of the scores using `hist()`.
 
 ```{r ctt34, echo=TRUE}
 # Our custom recode function
@@ -666,7 +672,7 @@ The histogram shows that the NFC Scale scores have a slightly left-skewed distri
 scores <- cbind(nfc_score, nfc[, c("action_orientation", "self_control", "effortful_control")])
 ```
 
-Next, we will calculate the correlations among these four scores (using `cor()`) and also visualize the correlations (using `ggcorrplot()`). `cor()`, by default, calculate Pearson correlations between numerical variables. Although we don't have any missing scores, we will add `use = "pairwise.complete.obs"`--which would keep valid cases for each pair of variables when calculating the correlations. Without specifying this option, `cor()` would fail to calculate the correlations for a dataset with missing (i.e., NA) values and return NA.
+Next, we will calculate the correlations among these four scores (using `cor()`) and also visualize the correlations (using `ggcorrplot()`). `cor()`, by default, calculates Pearson correlations between numerical variables. Although we don't have any missing scores, we will add `use = "pairwise.complete.obs"`--which would keep valid cases for each pair of variables when calculating the correlations. Without specifying this option, `cor()` would fail to calculate the correlations for a dataset with missing (i.e., NA) values and return NA.
 
 ```{r ctt36, echo=TRUE, eval=FALSE}
 cormat_scores <- cor(scores, use = "pairwise.complete.obs")
