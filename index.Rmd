@@ -1,8 +1,6 @@
 ---
 title: "EDPY 507 - Measurement Theory I"
-output: 
-  html_document:
-    css: styles.css
+output: html_document
 ---
 
 ```{r load_packages, message=FALSE, warning=FALSE, include=FALSE} 
@@ -35,13 +33,13 @@ EDPY 507 - Measurement Theory I is designed for graduate students, researchers, 
 
 ## Instructor
 
-`r fa("user-tie", fill = "black")` [Dr. Okan Bulut](https://sites.google.com/ualberta.ca/okanbulut/)
+`r fontawesome::fa("user-tie", fill = "black")` [Dr. Okan Bulut](https://sites.google.com/ualberta.ca/okanbulut/)
 
-`r fa("landmark", fill = "black")` Education Centre North 6-110 ([Map](https://www.ualberta.ca/maps.html?l=53.52324945573952,-113.52463416989659&z=17&campus=north_campus&b=edNorth))
+`r fontawesome::fa("landmark", fill = "black")` Education Centre North 6-110 ([Map](https://www.ualberta.ca/maps.html?l=53.52324945573952,-113.52463416989659&z=17&campus=north_campus&b=edNorth))
 
-`r fa("envelope", fill = "black")` <bulut@ualberta.ca>
+`r fontawesome::fa("envelope", fill = "black")` <bulut@ualberta.ca>
 
-`r fa("twitter", fill = "black")` [drokanbulut](https://twitter.com/drokanbulut)
+`r fontawesome::fa("twitter", fill = "black")` [drokanbulut](https://twitter.com/drokanbulut)
 
 
 <br>
