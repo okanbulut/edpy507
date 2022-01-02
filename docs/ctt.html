@@ -1013,20 +1013,20 @@ self_control         23 1209   0.12   8.36      0    0.08   7.41 -22   24    46 
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">starts_with</span>(<span class="st">&quot;nfc&quot;</span>)) <span class="co"># variables to be selected</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(response)</span></code></pre></div>
-<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13
-1     5     7     5     1     6     2     2     5     2     1     2     2     6
-2     5     5     3     2     5     3     3     3     2     4     3     2     3
-3     5     6     5     1     7     3     2     3     1     3     3     1     6
-4     5     5     4     2     5     5     2     2     2     2     4     3     2
-5     2     3     3     5     3     5     6     1     6     6     6     6     2
-6     6     6     6     1     6     3     1     1     1     1     1     1     6
-  nfc14 nfc15 nfc16
-1     5     2     1
-2     2     4     4
-3     5     1     1
-4     3     1     1
-5     1     5     5
-6     6     2     2</code></pre>
+<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14
+1     5     7     5     1     6     2     2     5     2     1     2     2     6     5
+2     5     5     3     2     5     3     3     3     2     4     3     2     3     2
+3     5     6     5     1     7     3     2     3     1     3     3     1     6     5
+4     5     5     4     2     5     5     2     2     2     2     4     3     2     3
+5     2     3     3     5     3     5     6     1     6     6     6     6     2     1
+6     6     6     6     1     6     3     1     1     1     1     1     1     6     6
+  nfc15 nfc16
+1     2     1
+2     4     4
+3     1     1
+4     1     1
+5     5     5
+6     2     2</code></pre>
 <p>Alternatively, we could type each item by one one (which is much more tedious):</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(nfc, <span class="co"># name of the dataset</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) <span class="co"># variables to be selected</span></span></code></pre></div>
