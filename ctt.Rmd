@@ -82,7 +82,7 @@ Responses to the items were recorded on a 7-point rating scale ranging from 1 (c
 
 ## Setting up R
 
-In our example, we will conduct CTT-based analyses using the following R packages:
+In our examples (both Example 1 and Example 2), we will conduct CTT-based analyses using the following R packages:
 
 ```{r ctt1, eval=TRUE, echo=FALSE}
 pkg_dat <- data.frame(
