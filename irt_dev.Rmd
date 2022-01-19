@@ -3,7 +3,7 @@ title: "Item Response Theory (IRT)"
 output:
   html_document:
     toc: TRUE
-bibliography: packages.bib
+bibliography: [mybib.bib, packages.bib]
 csl: apa.csl
 ---
 
@@ -14,27 +14,98 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
                       message = FALSE, fig.width=8, fig.height=6, comment = NA,
                       fig.align = 'center')
 
-library("fontawesome")
-library("kableExtra")
+suppressWarnings({
+  library("rmarkdown")
+  library("fontawesome")
+  library("kableExtra")
+  library("emo")
+  
+  # Required packages
+  library("dplyr")
+  library("psych")
+  library("mirt")
+})
 
 # automatically create a bib database for R packages
-knitr::write_bib(x = c(.packages(), "ggplot2"), file = "packages.bib")
+# knitr::write_bib(x = c(.packages()), file = "packages.bib")
 ```
 
-***
+------------------------------------------------------------------------
 
-# Dichotomous IRT Models {.tabset .tabset-fade .tabset-pills}
-In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item parameters and abilities for each IRT model. 
+# Example 1: Synthetic Aperture Personality Assessment
 
-## Rasch Model
+The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<https://www.sapa-project.org/>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences [@condon2014; @revelle2010]. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence "g". The SAPA dataset (i.e., sapa.csv) is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the **psych** package [@R-psych]. The dataset can be downloaded from [**here**](data_and_codes/sapa.csv). In addition, the R codes for the IRT analyses presented on this page are available [**here**](data_and_codes/irt.R).
+
+## Setting up R
+
+In our examples (both Example 1 and Example 2), we will conduct CTT-based analyses using the following R packages:
+
+```{r irt1, eval=TRUE, echo=FALSE}
+pkg_dat <- data.frame(
+  Package = c("dplyr", "car",
+              "skimr", "DataExplorer", "ggcorrplot",
+              "psych", "CTT", "ShinyItemAnalysis", "QME", "difR",
+              "devtools", "rmarkdown"),
+  URL = c("http://CRAN.R-project.org/package=dplyr", 
+          "http://CRAN.R-project.org/package=car", 
+          "http://CRAN.R-project.org/package=skimr",
+          "http://CRAN.R-project.org/package=DataExplorer",
+          "http://CRAN.R-project.org/package=ggcorrplot",
+          "http://CRAN.R-project.org/package=psych",
+          "http://CRAN.R-project.org/package=CTT",
+          "http://CRAN.R-project.org/package=ShinyItemAnalysis",
+          "https://github.com/zief0002/QME", 
+          "http://CRAN.R-project.org/package=difR",
+          "http://CRAN.R-project.org/package=devtools",
+          "http://CRAN.R-project.org/package=rmarkdown")
+)
+
+kbl(pkg_dat, caption = "") %>%
+  kable_paper("striped") %>%
+  pack_rows("Data Cleaning and Management", 1, 2) %>%
+  pack_rows("Exploratory Data Analysis", 3, 5) %>%
+  pack_rows("Psychometric Analysis", 6, 10) %>%
+  pack_rows("Ancillary Packages", 11, 12)
+```
+
+<br>
+
+We will install the above packages by using the `install.packages()` function in R. Please remember that we only need to install these packages <u>once</u>. After that, we will be able to activate the packages and conduct IRT analysis in R.
+
+```{r irt2, eval=FALSE}
+# Install all the packages together
+install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
+                   "psych", "CTT", "ShinyItemAnalysis", "difR", "devtools", "rmarkdown"))
+
+# Or, we could do it one by one. For example:
+# install.packages("CTT")
+# install.packages("psych")
+# and so on...
+```
+
+
+## Model Estimation {.tabset .tabset-fade .tabset-pills}
+
+In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item and ability parameters for each IRT model. 
+
+### Rasch Model
 content of sub-chapter #1
 
-## 1PL Model
+<br>
+
+### 1PL Model
 content of sub-chapter #2
 
-## 2PL Model
+<br>
+
+### 2PL Model
 content of sub-chapter #3
 
-## 3PL Model
+<br>
+
+### 3PL Model
 content of sub-chapter #4
 
+<br>
+
+# References

@@ -30,6 +30,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -43,9 +45,120 @@
     </style>
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -296,35 +409,208 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#dichotomous-irt-models">Dichotomous IRT Models</a>
+<li><a href="#example-1-synthetic-aperture-personality-assessment">Example 1: Synthetic Aperture Personality Assessment</a>
+<ul>
+<li><a href="#setting-up-r">Setting up R</a></li>
+<li><a href="#model-estimation">Model Estimation</a>
 <ul>
 <li><a href="#rasch-model">Rasch Model</a></li>
 <li><a href="#pl-model">1PL Model</a></li>
 <li><a href="#pl-model-1">2PL Model</a></li>
 <li><a href="#pl-model-2">3PL Model</a></li>
 </ul></li>
+</ul></li>
+<li><a href="#references">References</a></li>
 </ul>
 </div>
 
 <hr />
-<div id="dichotomous-irt-models" class="section level1 tabset tabset-fade tabset-pills">
-<h1 class="tabset tabset-fade tabset-pills">Dichotomous IRT Models</h1>
-<p>In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as “item calibration.” Using the tabs below, you can see the estimation of item parameters and abilities for each IRT model.</p>
-<div id="rasch-model" class="section level2">
-<h2>Rasch Model</h2>
+<div id="example-1-synthetic-aperture-personality-assessment" class="section level1">
+<h1>Example 1: Synthetic Aperture Personality Assessment</h1>
+<p>The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<a href="https://www.sapa-project.org/" class="uri">https://www.sapa-project.org/</a>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences <span class="citation">(Condon &amp; Revelle, 2014; Revelle et al., 2010)</span>. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence “g.” The SAPA dataset (i.e., sapa.csv) is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the <strong>psych</strong> package <span class="citation">(Revelle, 2021)</span>. The dataset can be downloaded from <a href="data_and_codes/sapa.csv"><strong>here</strong></a>. In addition, the R codes for the IRT analyses presented on this page are available <a href="data_and_codes/irt.R"><strong>here</strong></a>.</p>
+<div id="setting-up-r" class="section level2">
+<h2>Setting up R</h2>
+<p>In our examples (both Example 1 and Example 2), we will conduct CTT-based analyses using the following R packages:</p>
+<table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Package
+</th>
+<th style="text-align:left;">
+URL
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="2">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Data Cleaning and Management</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+dplyr
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=dplyr" class="uri">http://CRAN.R-project.org/package=dplyr</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+car
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=car" class="uri">http://CRAN.R-project.org/package=car</a>
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Exploratory Data Analysis</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+skimr
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=skimr" class="uri">http://CRAN.R-project.org/package=skimr</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+DataExplorer
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=DataExplorer" class="uri">http://CRAN.R-project.org/package=DataExplorer</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ggcorrplot
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=ggcorrplot" class="uri">http://CRAN.R-project.org/package=ggcorrplot</a>
+</td>
+</tr>
+<tr grouplength="5">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Psychometric Analysis</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+psych
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=psych" class="uri">http://CRAN.R-project.org/package=psych</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+CTT
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=CTT" class="uri">http://CRAN.R-project.org/package=CTT</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ShinyItemAnalysis
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=ShinyItemAnalysis" class="uri">http://CRAN.R-project.org/package=ShinyItemAnalysis</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+QME
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/zief0002/QME" class="uri">https://github.com/zief0002/QME</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+difR
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=difR" class="uri">http://CRAN.R-project.org/package=difR</a>
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="2" style="border-bottom: 1px solid;">
+<strong>Ancillary Packages</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+devtools
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=devtools" class="uri">http://CRAN.R-project.org/package=devtools</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+rmarkdown
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=rmarkdown" class="uri">http://CRAN.R-project.org/package=rmarkdown</a>
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>We will install the above packages by using the <code>install.packages()</code> function in R. Please remember that we only need to install these packages <u>once</u>. After that, we will be able to activate the packages and conduct IRT analysis in R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install all the packages together</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;car&quot;</span>, <span class="st">&quot;skimr&quot;</span>, <span class="st">&quot;DataExplorer&quot;</span>, <span class="st">&quot;ggcorrplot&quot;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;CTT&quot;</span>, <span class="st">&quot;ShinyItemAnalysis&quot;</span>, <span class="st">&quot;difR&quot;</span>, <span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, we could do it one by one. For example:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;CTT&quot;)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;psych&quot;)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># and so on...</span></span></code></pre></div>
+</div>
+<div id="model-estimation" class="section level2 tabset tabset-fade tabset-pills">
+<h2 class="tabset tabset-fade tabset-pills">Model Estimation</h2>
+<p>In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as “item calibration.” Using the tabs below, you can see the estimation of item and ability parameters for each IRT model.</p>
+<div id="rasch-model" class="section level3">
+<h3>Rasch Model</h3>
 <p>content of sub-chapter #1</p>
+<p><br></p>
 </div>
-<div id="pl-model" class="section level2">
-<h2>1PL Model</h2>
+<div id="pl-model" class="section level3">
+<h3>1PL Model</h3>
 <p>content of sub-chapter #2</p>
+<p><br></p>
 </div>
-<div id="pl-model-1" class="section level2">
-<h2>2PL Model</h2>
+<div id="pl-model-1" class="section level3">
+<h3>2PL Model</h3>
 <p>content of sub-chapter #3</p>
+<p><br></p>
 </div>
-<div id="pl-model-2" class="section level2">
-<h2>3PL Model</h2>
+<div id="pl-model-2" class="section level3">
+<h3>3PL Model</h3>
 <p>content of sub-chapter #4</p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-condon2014" class="csl-entry">
+Condon, D. M., &amp; Revelle, W. (2014). The international cognitive ability resource: Development and initial validation of a public-domain measure. <em>Intelligence</em>, <em>43</em>, 52–64.
+</div>
+<div id="ref-R-psych" class="csl-entry">
+Revelle, W. (2021). <em>Psych: Procedures for psychological, psychometric, and personality research</em>. <a href="https://personality-project.org/r/psych/ https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/ https://personality-project.org/r/psych-manual.pdf</a>
+</div>
+<div id="ref-revelle2010" class="csl-entry">
+Revelle, W., Wilt, J., &amp; Rosenthal, A. (2010). Individual differences in cognition: New methods for examining the personality-cognition link. In <em>Handbook of individual differences in cognition</em> (pp. 27–49). Springer.
+</div>
 </div>
 </div>
 
