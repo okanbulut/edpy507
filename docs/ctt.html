@@ -57,7 +57,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -1014,20 +1013,20 @@ self_control         23 1209   0.12   8.36      0    0.08   7.41 -22   24    46 
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">starts_with</span>(<span class="st">&quot;nfc&quot;</span>)) <span class="co"># variables to be selected</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(response)</span></code></pre></div>
-<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14
-1     5     7     5     1     6     2     2     5     2     1     2     2     6     5
-2     5     5     3     2     5     3     3     3     2     4     3     2     3     2
-3     5     6     5     1     7     3     2     3     1     3     3     1     6     5
-4     5     5     4     2     5     5     2     2     2     2     4     3     2     3
-5     2     3     3     5     3     5     6     1     6     6     6     6     2     1
-6     6     6     6     1     6     3     1     1     1     1     1     1     6     6
-  nfc15 nfc16
-1     2     1
-2     4     4
-3     1     1
-4     1     1
-5     5     5
-6     2     2</code></pre>
+<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14 nfc15
+1     5     7     5     1     6     2     2     5     2     1     2     2     6     5     2
+2     5     5     3     2     5     3     3     3     2     4     3     2     3     2     4
+3     5     6     5     1     7     3     2     3     1     3     3     1     6     5     1
+4     5     5     4     2     5     5     2     2     2     2     4     3     2     3     1
+5     2     3     3     5     3     5     6     1     6     6     6     6     2     1     5
+6     6     6     6     1     6     3     1     1     1     1     1     1     6     6     2
+  nfc16
+1     1
+2     4
+3     1
+4     1
+5     5
+6     2</code></pre>
 <p>Alternatively, we could type each item by one one (which is much more tedious):</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(nfc, <span class="co"># name of the dataset</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) <span class="co"># variables to be selected</span></span></code></pre></div>
@@ -1098,52 +1097,52 @@ nfc16
 nfc01
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.4902745
+0.4903
 </td>
 <td style="text-align:right;">
-0.4206642
+0.4207
 </td>
 <td style="text-align:right;">
--0.3100622
+-0.3101
 </td>
 <td style="text-align:right;">
-0.3664366
+0.3664
 </td>
 <td style="text-align:right;">
--0.2129555
+-0.2130
 </td>
 <td style="text-align:right;">
--0.4443239
+-0.4443
 </td>
 <td style="text-align:right;">
--0.3682254
+-0.3682
 </td>
 <td style="text-align:right;">
--0.3348804
+-0.3349
 </td>
 <td style="text-align:right;">
--0.4170343
+-0.4170
 </td>
 <td style="text-align:right;">
--0.3979982
+-0.3980
 </td>
 <td style="text-align:right;">
--0.3301170
+-0.3301
 </td>
 <td style="text-align:right;">
-0.4784051
+0.4784
 </td>
 <td style="text-align:right;">
-0.3739029
+0.3739
 </td>
 <td style="text-align:right;">
--0.3168246
+-0.3168
 </td>
 <td style="text-align:right;">
--0.3645847
+-0.3646
 </td>
 </tr>
 <tr>
@@ -1151,52 +1150,52 @@ nfc01
 nfc02
 </td>
 <td style="text-align:right;">
-0.4902745
+0.4903
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.5586268
+0.5586
 </td>
 <td style="text-align:right;">
--0.3518608
+-0.3519
 </td>
 <td style="text-align:right;">
-0.4302197
+0.4302
 </td>
 <td style="text-align:right;">
--0.1714928
+-0.1715
 </td>
 <td style="text-align:right;">
--0.5024895
+-0.5025
 </td>
 <td style="text-align:right;">
--0.4101025
+-0.4101
 </td>
 <td style="text-align:right;">
--0.3043553
+-0.3044
 </td>
 <td style="text-align:right;">
--0.3396839
+-0.3397
 </td>
 <td style="text-align:right;">
--0.3501303
+-0.3501
 </td>
 <td style="text-align:right;">
--0.2940613
+-0.2941
 </td>
 <td style="text-align:right;">
-0.4328523
+0.4329
 </td>
 <td style="text-align:right;">
-0.4344971
+0.4345
 </td>
 <td style="text-align:right;">
--0.3412820
+-0.3413
 </td>
 <td style="text-align:right;">
--0.3391467
+-0.3391
 </td>
 </tr>
 <tr>
@@ -1204,52 +1203,52 @@ nfc02
 nfc03
 </td>
 <td style="text-align:right;">
-0.4206642
+0.4207
 </td>
 <td style="text-align:right;">
-0.5586268
+0.5586
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
--0.3285576
+-0.3286
 </td>
 <td style="text-align:right;">
-0.4036880
+0.4037
 </td>
 <td style="text-align:right;">
--0.2341821
+-0.2342
 </td>
 <td style="text-align:right;">
--0.3956683
+-0.3957
 </td>
 <td style="text-align:right;">
--0.3289920
+-0.3290
 </td>
 <td style="text-align:right;">
--0.1764341
+-0.1764
 </td>
 <td style="text-align:right;">
--0.2570604
+-0.2571
 </td>
 <td style="text-align:right;">
--0.2960401
+-0.2960
 </td>
 <td style="text-align:right;">
--0.2650049
+-0.2650
 </td>
 <td style="text-align:right;">
-0.4211096
+0.4211
 </td>
 <td style="text-align:right;">
-0.3674297
+0.3674
 </td>
 <td style="text-align:right;">
--0.2462771
+-0.2463
 </td>
 <td style="text-align:right;">
--0.2068671
+-0.2069
 </td>
 </tr>
 <tr>
@@ -1257,52 +1256,52 @@ nfc03
 nfc04
 </td>
 <td style="text-align:right;">
--0.3100622
+-0.3101
 </td>
 <td style="text-align:right;">
--0.3518608
+-0.3519
 </td>
 <td style="text-align:right;">
--0.3285576
+-0.3286
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
--0.3525128
+-0.3525
 </td>
 <td style="text-align:right;">
-0.1755489
+0.1755
 </td>
 <td style="text-align:right;">
-0.4340969
+0.4341
 </td>
 <td style="text-align:right;">
-0.3819535
+0.3820
 </td>
 <td style="text-align:right;">
-0.3273752
+0.3274
 </td>
 <td style="text-align:right;">
-0.2870367
+0.2870
 </td>
 <td style="text-align:right;">
-0.3533191
+0.3533
 </td>
 <td style="text-align:right;">
-0.3746371
+0.3746
 </td>
 <td style="text-align:right;">
--0.2351161
+-0.2351
 </td>
 <td style="text-align:right;">
--0.2095721
+-0.2096
 </td>
 <td style="text-align:right;">
-0.2878428
+0.2878
 </td>
 <td style="text-align:right;">
-0.2236609
+0.2237
 </td>
 </tr>
 <tr>
@@ -1310,52 +1309,52 @@ nfc04
 nfc05
 </td>
 <td style="text-align:right;">
-0.3664366
+0.3664
 </td>
 <td style="text-align:right;">
-0.4302197
+0.4302
 </td>
 <td style="text-align:right;">
-0.4036880
+0.4037
 </td>
 <td style="text-align:right;">
--0.3525128
+-0.3525
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
--0.1670120
+-0.1670
 </td>
 <td style="text-align:right;">
--0.3831624
+-0.3832
 </td>
 <td style="text-align:right;">
--0.3043216
+-0.3043
 </td>
 <td style="text-align:right;">
--0.2884139
+-0.2884
 </td>
 <td style="text-align:right;">
--0.2200394
+-0.2200
 </td>
 <td style="text-align:right;">
--0.3305253
+-0.3305
 </td>
 <td style="text-align:right;">
--0.2572521
+-0.2573
 </td>
 <td style="text-align:right;">
-0.3158859
+0.3159
 </td>
 <td style="text-align:right;">
-0.2573391
+0.2573
 </td>
 <td style="text-align:right;">
--0.2913227
+-0.2913
 </td>
 <td style="text-align:right;">
--0.2208485
+-0.2208
 </td>
 </tr>
 <tr>
@@ -1363,52 +1362,52 @@ nfc05
 nfc06
 </td>
 <td style="text-align:right;">
--0.2129555
+-0.2130
 </td>
 <td style="text-align:right;">
--0.1714928
+-0.1715
 </td>
 <td style="text-align:right;">
--0.2341821
+-0.2342
 </td>
 <td style="text-align:right;">
-0.1755489
+0.1755
 </td>
 <td style="text-align:right;">
--0.1670120
+-0.1670
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.3214179
+0.3214
 </td>
 <td style="text-align:right;">
-0.2003728
+0.2004
 </td>
 <td style="text-align:right;">
-0.2179882
+0.2180
 </td>
 <td style="text-align:right;">
-0.2964199
+0.2964
 </td>
 <td style="text-align:right;">
-0.1882097
+0.1882
 </td>
 <td style="text-align:right;">
-0.2165816
+0.2166
 </td>
 <td style="text-align:right;">
--0.1894823
+-0.1895
 </td>
 <td style="text-align:right;">
--0.1342153
+-0.1342
 </td>
 <td style="text-align:right;">
-0.1524393
+0.1524
 </td>
 <td style="text-align:right;">
-0.1891512
+0.1892
 </td>
 </tr>
 <tr>
@@ -1416,52 +1415,52 @@ nfc06
 nfc07
 </td>
 <td style="text-align:right;">
--0.4443239
+-0.4443
 </td>
 <td style="text-align:right;">
--0.5024895
+-0.5025
 </td>
 <td style="text-align:right;">
--0.3956683
+-0.3957
 </td>
 <td style="text-align:right;">
-0.4340969
+0.4341
 </td>
 <td style="text-align:right;">
--0.3831624
+-0.3832
 </td>
 <td style="text-align:right;">
-0.3214179
+0.3214
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.5226418
+0.5226
 </td>
 <td style="text-align:right;">
-0.4446690
+0.4447
 </td>
 <td style="text-align:right;">
-0.4498439
+0.4498
 </td>
 <td style="text-align:right;">
-0.4896835
+0.4897
 </td>
 <td style="text-align:right;">
-0.4943161
+0.4943
 </td>
 <td style="text-align:right;">
--0.4082126
+-0.4082
 </td>
 <td style="text-align:right;">
--0.3530903
+-0.3531
 </td>
 <td style="text-align:right;">
-0.3762733
+0.3763
 </td>
 <td style="text-align:right;">
-0.3402142
+0.3402
 </td>
 </tr>
 <tr>
@@ -1469,52 +1468,52 @@ nfc07
 nfc08
 </td>
 <td style="text-align:right;">
--0.3682254
+-0.3682
 </td>
 <td style="text-align:right;">
--0.4101025
+-0.4101
 </td>
 <td style="text-align:right;">
--0.3289920
+-0.3290
 </td>
 <td style="text-align:right;">
-0.3819535
+0.3820
 </td>
 <td style="text-align:right;">
--0.3043216
+-0.3043
 </td>
 <td style="text-align:right;">
-0.2003728
+0.2004
 </td>
 <td style="text-align:right;">
-0.5226418
+0.5226
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.4514346
+0.4514
 </td>
 <td style="text-align:right;">
-0.3984487
+0.3984
 </td>
 <td style="text-align:right;">
-0.5124883
+0.5125
 </td>
 <td style="text-align:right;">
-0.3659696
+0.3660
 </td>
 <td style="text-align:right;">
--0.3531705
+-0.3532
 </td>
 <td style="text-align:right;">
--0.3338932
+-0.3339
 </td>
 <td style="text-align:right;">
-0.2992594
+0.2993
 </td>
 <td style="text-align:right;">
-0.3034186
+0.3034
 </td>
 </tr>
 <tr>
@@ -1522,52 +1521,52 @@ nfc08
 nfc09
 </td>
 <td style="text-align:right;">
--0.3348804
+-0.3349
 </td>
 <td style="text-align:right;">
--0.3043553
+-0.3044
 </td>
 <td style="text-align:right;">
--0.1764341
+-0.1764
 </td>
 <td style="text-align:right;">
-0.3273752
+0.3274
 </td>
 <td style="text-align:right;">
--0.2884139
+-0.2884
 </td>
 <td style="text-align:right;">
-0.2179882
+0.2180
 </td>
 <td style="text-align:right;">
-0.4446690
+0.4447
 </td>
 <td style="text-align:right;">
-0.4514346
+0.4514
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.4039954
+0.4040
 </td>
 <td style="text-align:right;">
-0.4915927
+0.4916
 </td>
 <td style="text-align:right;">
-0.4466499
+0.4466
 </td>
 <td style="text-align:right;">
--0.2520765
+-0.2521
 </td>
 <td style="text-align:right;">
--0.2129343
+-0.2129
 </td>
 <td style="text-align:right;">
-0.3017600
+0.3018
 </td>
 <td style="text-align:right;">
-0.2611840
+0.2612
 </td>
 </tr>
 <tr>
@@ -1575,52 +1574,52 @@ nfc09
 nfc10
 </td>
 <td style="text-align:right;">
--0.4170343
+-0.4170
 </td>
 <td style="text-align:right;">
--0.3396839
+-0.3397
 </td>
 <td style="text-align:right;">
--0.2570604
+-0.2571
 </td>
 <td style="text-align:right;">
-0.2870367
+0.2870
 </td>
 <td style="text-align:right;">
--0.2200394
+-0.2200
 </td>
 <td style="text-align:right;">
-0.2964199
+0.2964
 </td>
 <td style="text-align:right;">
-0.4498439
+0.4498
 </td>
 <td style="text-align:right;">
-0.3984487
+0.3984
 </td>
 <td style="text-align:right;">
-0.4039954
+0.4040
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.4075905
+0.4076
 </td>
 <td style="text-align:right;">
-0.4707113
+0.4707
 </td>
 <td style="text-align:right;">
--0.2951438
+-0.2951
 </td>
 <td style="text-align:right;">
--0.2215370
+-0.2215
 </td>
 <td style="text-align:right;">
-0.2306346
+0.2306
 </td>
 <td style="text-align:right;">
-0.2640125
+0.2640
 </td>
 </tr>
 <tr>
@@ -1628,52 +1627,52 @@ nfc10
 nfc11
 </td>
 <td style="text-align:right;">
--0.3979982
+-0.3980
 </td>
 <td style="text-align:right;">
--0.3501303
+-0.3501
 </td>
 <td style="text-align:right;">
--0.2960401
+-0.2960
 </td>
 <td style="text-align:right;">
-0.3533191
+0.3533
 </td>
 <td style="text-align:right;">
--0.3305253
+-0.3305
 </td>
 <td style="text-align:right;">
-0.1882097
+0.1882
 </td>
 <td style="text-align:right;">
-0.4896835
+0.4897
 </td>
 <td style="text-align:right;">
-0.5124883
+0.5125
 </td>
 <td style="text-align:right;">
-0.4915927
+0.4916
 </td>
 <td style="text-align:right;">
-0.4075905
+0.4076
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.4316886
+0.4317
 </td>
 <td style="text-align:right;">
--0.3984187
+-0.3984
 </td>
 <td style="text-align:right;">
--0.3468447
+-0.3468
 </td>
 <td style="text-align:right;">
-0.2793425
+0.2793
 </td>
 <td style="text-align:right;">
-0.2887587
+0.2888
 </td>
 </tr>
 <tr>
@@ -1681,52 +1680,52 @@ nfc11
 nfc12
 </td>
 <td style="text-align:right;">
--0.3301170
+-0.3301
 </td>
 <td style="text-align:right;">
--0.2940613
+-0.2941
 </td>
 <td style="text-align:right;">
--0.2650049
+-0.2650
 </td>
 <td style="text-align:right;">
-0.3746371
+0.3746
 </td>
 <td style="text-align:right;">
--0.2572521
+-0.2573
 </td>
 <td style="text-align:right;">
-0.2165816
+0.2166
 </td>
 <td style="text-align:right;">
-0.4943161
+0.4943
 </td>
 <td style="text-align:right;">
-0.3659696
+0.3660
 </td>
 <td style="text-align:right;">
-0.4466499
+0.4466
 </td>
 <td style="text-align:right;">
-0.4707113
+0.4707
 </td>
 <td style="text-align:right;">
-0.4316886
+0.4317
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
--0.2978599
+-0.2979
 </td>
 <td style="text-align:right;">
--0.2043646
+-0.2044
 </td>
 <td style="text-align:right;">
-0.2973833
+0.2974
 </td>
 <td style="text-align:right;">
-0.2840847
+0.2841
 </td>
 </tr>
 <tr>
@@ -1734,52 +1733,52 @@ nfc12
 nfc13
 </td>
 <td style="text-align:right;">
-0.4784051
+0.4784
 </td>
 <td style="text-align:right;">
-0.4328523
+0.4329
 </td>
 <td style="text-align:right;">
-0.4211096
+0.4211
 </td>
 <td style="text-align:right;">
--0.2351161
+-0.2351
 </td>
 <td style="text-align:right;">
-0.3158859
+0.3159
 </td>
 <td style="text-align:right;">
--0.1894823
+-0.1895
 </td>
 <td style="text-align:right;">
--0.4082126
+-0.4082
 </td>
 <td style="text-align:right;">
--0.3531705
+-0.3532
 </td>
 <td style="text-align:right;">
--0.2520765
+-0.2521
 </td>
 <td style="text-align:right;">
--0.2951438
+-0.2951
 </td>
 <td style="text-align:right;">
--0.3984187
+-0.3984
 </td>
 <td style="text-align:right;">
--0.2978599
+-0.2979
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.6012045
+0.6012
 </td>
 <td style="text-align:right;">
--0.2304441
+-0.2304
 </td>
 <td style="text-align:right;">
--0.2548785
+-0.2549
 </td>
 </tr>
 <tr>
@@ -1787,52 +1786,52 @@ nfc13
 nfc14
 </td>
 <td style="text-align:right;">
-0.3739029
+0.3739
 </td>
 <td style="text-align:right;">
-0.4344971
+0.4345
 </td>
 <td style="text-align:right;">
-0.3674297
+0.3674
 </td>
 <td style="text-align:right;">
--0.2095721
+-0.2096
 </td>
 <td style="text-align:right;">
-0.2573391
+0.2573
 </td>
 <td style="text-align:right;">
--0.1342153
+-0.1342
 </td>
 <td style="text-align:right;">
--0.3530903
+-0.3531
 </td>
 <td style="text-align:right;">
--0.3338932
+-0.3339
 </td>
 <td style="text-align:right;">
--0.2129343
+-0.2129
 </td>
 <td style="text-align:right;">
--0.2215370
+-0.2215
 </td>
 <td style="text-align:right;">
--0.3468447
+-0.3468
 </td>
 <td style="text-align:right;">
--0.2043646
+-0.2044
 </td>
 <td style="text-align:right;">
-0.6012045
+0.6012
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
--0.2058702
+-0.2059
 </td>
 <td style="text-align:right;">
--0.1995835
+-0.1996
 </td>
 </tr>
 <tr>
@@ -1840,52 +1839,52 @@ nfc14
 nfc15
 </td>
 <td style="text-align:right;">
--0.3168246
+-0.3168
 </td>
 <td style="text-align:right;">
--0.3412820
+-0.3413
 </td>
 <td style="text-align:right;">
--0.2462771
+-0.2463
 </td>
 <td style="text-align:right;">
-0.2878428
+0.2878
 </td>
 <td style="text-align:right;">
--0.2913227
+-0.2913
 </td>
 <td style="text-align:right;">
-0.1524393
+0.1524
 </td>
 <td style="text-align:right;">
-0.3762733
+0.3763
 </td>
 <td style="text-align:right;">
-0.2992594
+0.2993
 </td>
 <td style="text-align:right;">
-0.3017600
+0.3018
 </td>
 <td style="text-align:right;">
-0.2306346
+0.2306
 </td>
 <td style="text-align:right;">
-0.2793425
+0.2793
 </td>
 <td style="text-align:right;">
-0.2973833
+0.2974
 </td>
 <td style="text-align:right;">
--0.2304441
+-0.2304
 </td>
 <td style="text-align:right;">
--0.2058702
+-0.2059
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 <td style="text-align:right;">
-0.7530236
+0.7530
 </td>
 </tr>
 <tr>
@@ -1893,52 +1892,52 @@ nfc15
 nfc16
 </td>
 <td style="text-align:right;">
--0.3645847
+-0.3646
 </td>
 <td style="text-align:right;">
--0.3391467
+-0.3391
 </td>
 <td style="text-align:right;">
--0.2068671
+-0.2069
 </td>
 <td style="text-align:right;">
-0.2236609
+0.2237
 </td>
 <td style="text-align:right;">
--0.2208485
+-0.2208
 </td>
 <td style="text-align:right;">
-0.1891512
+0.1892
 </td>
 <td style="text-align:right;">
-0.3402142
+0.3402
 </td>
 <td style="text-align:right;">
-0.3034186
+0.3034
 </td>
 <td style="text-align:right;">
-0.2611840
+0.2612
 </td>
 <td style="text-align:right;">
-0.2640125
+0.2640
 </td>
 <td style="text-align:right;">
-0.2887587
+0.2888
 </td>
 <td style="text-align:right;">
-0.2840847
+0.2841
 </td>
 <td style="text-align:right;">
--0.2548785
+-0.2549
 </td>
 <td style="text-align:right;">
--0.1995835
+-0.1996
 </td>
 <td style="text-align:right;">
-0.7530236
+0.7530
 </td>
 <td style="text-align:right;">
-1.0000000
+1.0000
 </td>
 </tr>
 </tbody>
@@ -1996,23 +1995,23 @@ nfc16
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item report</span></span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>itemanalysis_ctt<span class="sc">$</span>itemReport</span></code></pre></div>
-<pre><code>   itemName itemMean      pBis       bis alphaIfDeleted lowPBis lowBis
-1     nfc01 5.535153 0.5830007 0.6324858      0.8603155               
-2     nfc02 4.944582 0.5983857 0.6212552      0.8587924               
-3     nfc03 4.435897 0.5120628 0.5278773      0.8626385               
-4     nfc04 5.526882 0.4275829 0.4678823      0.8665634               
-5     nfc05 5.818859 0.4657545 0.5132235      0.8646917               
-6     nfc06 4.254756 0.3164060 0.3254804      0.8717944               
-7     nfc07 5.299421 0.6637826 0.7012827      0.8562648               
-8     nfc08 4.660050 0.5697411 0.5895616      0.8598588               
-9     nfc09 5.549214 0.4916520 0.5349076      0.8636576               
-10    nfc10 4.837055 0.5032326 0.5251349      0.8631153               
-11    nfc11 5.254756 0.5772984 0.6088347      0.8596070               
-12    nfc12 5.554177 0.5069643 0.5468089      0.8628642               
-13    nfc13 4.104218 0.5384126 0.5524339      0.8614377               
-14    nfc14 3.570720 0.4585722 0.4710690      0.8651300               
-15    nfc15 5.752688 0.4678062 0.5152649      0.8645620               
-16    nfc16 5.524400 0.4585389 0.4943813      0.8650091               </code></pre>
+<pre><code>   itemName itemMean   pBis    bis alphaIfDeleted lowPBis lowBis
+1     nfc01    5.535 0.5830 0.6325         0.8603               
+2     nfc02    4.945 0.5984 0.6213         0.8588               
+3     nfc03    4.436 0.5121 0.5279         0.8626               
+4     nfc04    5.527 0.4276 0.4679         0.8666               
+5     nfc05    5.819 0.4658 0.5132         0.8647               
+6     nfc06    4.255 0.3164 0.3255         0.8718               
+7     nfc07    5.299 0.6638 0.7013         0.8563               
+8     nfc08    4.660 0.5697 0.5896         0.8599               
+9     nfc09    5.549 0.4917 0.5349         0.8637               
+10    nfc10    4.837 0.5032 0.5251         0.8631               
+11    nfc11    5.255 0.5773 0.6088         0.8596               
+12    nfc12    5.554 0.5070 0.5468         0.8629               
+13    nfc13    4.104 0.5384 0.5524         0.8614               
+14    nfc14    3.571 0.4586 0.4711         0.8651               
+15    nfc15    5.753 0.4678 0.5153         0.8646               
+16    nfc16    5.524 0.4585 0.4944         0.8650               </code></pre>
 <p>In the output above, “itemMean” is the average response value for each item (which is not necessarily useful given that our items are ordinal), “pBis” and “bis” refer to point-biserial and bi-serial correlations respectively, “alphaIfDeleted” indicates how the reliability of the instrument would change if each item were to be removed (we will discuss reliability in the next section), and the last two columns (“lowPBis” and “lowBis”) are the columns where we would see flags (i.e., X marks) if the values are less than 0.2. In this example, all the items seem to have pBis and bis values larger than 0.2 and thus there are no flagged items.</p>
 <p><br></p>
 <p><strong>psych</strong> <span class="citation">(Revelle, 2021)</span>: The <code>alpha()</code> function runs item analysis and returns a detailed output with both item-level and scale-level statistics. To use the function, we need to specify the response dataset to be analyzed (i.e., <code>x = response_recoded</code>). The function also involves other arguments (e.g., <code>na.rm = TRUE</code> to remove missing values and find pairwise correlations), but the default values for these arguments are sufficient to conduct item analysis (see more details on the help page via <code>?psych::alpha</code>).</p>
@@ -2097,40 +2096,40 @@ nfc16 0.01 0.03 0.06 0.08 0.22 0.31 0.28    0</code></pre>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>itemanalysis_shiny</span></code></pre></div>
-<pre><code>      Difficulty     Mean       SD Prop.max.score Min.score Max.score Obs.min Obs.max      gULI       ULI
-nfc01  0.7558588 5.535153 1.188645     0.17866005         1         7       1       7 0.2650951 0.2650951
-nfc02  0.6574304 4.944582 1.390390     0.12406948         1         7       1       7 0.3312655 0.3312655
-nfc03  0.5726496 4.435897 1.396922     0.04962779         1         7       1       7 0.2973532 0.2973532
-nfc04  0.7544803 5.526882 1.473097     0.27791563         1         7       1       7 0.2787428 0.2787428
-nfc05  0.8031431 5.818859 1.227220     0.34491315         1         7       1       7 0.2138131 0.2138131
-nfc06  0.5424593 4.254756 1.499872     0.04797353         1         7       1       7 0.2187758 0.2187758
-nfc07  0.7165702 5.299421 1.318365     0.17038875         1         7       1       7 0.3308519 0.3308519
-nfc08  0.6100083 4.660050 1.554549     0.10918114         1         7       1       7 0.3763441 0.3763441
-nfc09  0.7582024 5.549214 1.515188     0.33995037         1         7       1       7 0.3155500 0.3155500
-nfc10  0.6395092 4.837055 1.524876     0.11579818         1         7       1       7 0.3159636 0.3159636
-nfc11  0.7091260 5.254756 1.448205     0.21339950         1         7       1       7 0.3407775 0.3407775
-nfc12  0.7590295 5.554177 1.399119     0.29859388         1         7       1       7 0.2849462 0.2849462
-nfc13  0.5173697 4.104218 1.420891     0.03639371         1         7       1       7 0.3176179 0.3176179
-nfc14  0.4284533 3.570720 1.471642     0.02564103         1         7       1       7 0.3089330 0.3089330
-nfc15  0.7921147 5.752688 1.344924     0.35649297         1         7       1       7 0.2493797 0.2493797
-nfc16  0.7540667 5.524400 1.402319     0.27956989         1         7       1       7 0.2588916 0.2588916
-            RIT       RIR Index.rel Index.rel.drop Alpha.drop Perc.miss Perc.nr
-nfc01 0.6409212 0.5830007 0.7615128      0.6926944  0.8603155         0       0
-nfc02 0.6639133 0.5983857 0.9227167      0.8316453  0.8587924         0       0
-nfc03 0.5880748 0.5120628 0.8211551      0.7150161  0.8626385         0       0
-nfc04 0.5166594 0.4275829 0.7607743      0.6296104  0.8665634         0       0
-nfc05 0.5370291 0.4657545 0.6587800      0.5713466  0.8646917         0       0
-nfc06 0.4168850 0.3164060 0.6250154      0.4743722  0.8717944         0       0
-nfc07 0.7178357 0.6637826 0.9459783      0.8747460  0.8562648         0       0
-nfc08 0.6466604 0.5697411 1.0048495      0.8853241  0.8598588         0       0
-nfc09 0.5762896 0.4916520 0.8728262      0.7446374  0.8636576         0       0
-nfc10 0.5870436 0.5032326 0.8947987      0.7670501  0.8631153         0       0
-nfc11 0.6481750 0.5772984 0.9383019      0.8357006  0.8596070         0       0
-nfc12 0.5836499 0.5069643 0.8162579      0.7090100  0.8628642         0       0
-nfc13 0.6126837 0.5384126 0.8701966      0.7647091  0.8614377         0       0
-nfc14 0.5444198 0.4585722 0.8008598      0.6745751  0.8651300         0       0
-nfc15 0.5455510 0.4678062 0.7334209      0.6289033  0.8645620         0       0
-nfc16 0.5404478 0.4585389 0.7575667      0.6427519  0.8650091         0       0</code></pre>
+<pre><code>      Difficulty  Mean    SD Prop.max.score Min.score Max.score Obs.min Obs.max   gULI    ULI    RIT    RIR
+nfc01     0.7559 5.535 1.189        0.17866         1         7       1       7 0.2651 0.2651 0.6409 0.5830
+nfc02     0.6574 4.945 1.390        0.12407         1         7       1       7 0.3313 0.3313 0.6639 0.5984
+nfc03     0.5726 4.436 1.397        0.04963         1         7       1       7 0.2974 0.2974 0.5881 0.5121
+nfc04     0.7545 5.527 1.473        0.27792         1         7       1       7 0.2787 0.2787 0.5167 0.4276
+nfc05     0.8031 5.819 1.227        0.34491         1         7       1       7 0.2138 0.2138 0.5370 0.4658
+nfc06     0.5425 4.255 1.500        0.04797         1         7       1       7 0.2188 0.2188 0.4169 0.3164
+nfc07     0.7166 5.299 1.318        0.17039         1         7       1       7 0.3309 0.3309 0.7178 0.6638
+nfc08     0.6100 4.660 1.555        0.10918         1         7       1       7 0.3763 0.3763 0.6467 0.5697
+nfc09     0.7582 5.549 1.515        0.33995         1         7       1       7 0.3156 0.3156 0.5763 0.4917
+nfc10     0.6395 4.837 1.525        0.11580         1         7       1       7 0.3160 0.3160 0.5870 0.5032
+nfc11     0.7091 5.255 1.448        0.21340         1         7       1       7 0.3408 0.3408 0.6482 0.5773
+nfc12     0.7590 5.554 1.399        0.29859         1         7       1       7 0.2849 0.2849 0.5836 0.5070
+nfc13     0.5174 4.104 1.421        0.03639         1         7       1       7 0.3176 0.3176 0.6127 0.5384
+nfc14     0.4285 3.571 1.472        0.02564         1         7       1       7 0.3089 0.3089 0.5444 0.4586
+nfc15     0.7921 5.753 1.345        0.35649         1         7       1       7 0.2494 0.2494 0.5456 0.4678
+nfc16     0.7541 5.524 1.402        0.27957         1         7       1       7 0.2589 0.2589 0.5404 0.4585
+      Index.rel Index.rel.drop Alpha.drop Perc.miss Perc.nr
+nfc01    0.7615         0.6927     0.8603         0       0
+nfc02    0.9227         0.8316     0.8588         0       0
+nfc03    0.8212         0.7150     0.8626         0       0
+nfc04    0.7608         0.6296     0.8666         0       0
+nfc05    0.6588         0.5713     0.8647         0       0
+nfc06    0.6250         0.4744     0.8718         0       0
+nfc07    0.9460         0.8747     0.8563         0       0
+nfc08    1.0048         0.8853     0.8599         0       0
+nfc09    0.8728         0.7446     0.8637         0       0
+nfc10    0.8948         0.7671     0.8631         0       0
+nfc11    0.9383         0.8357     0.8596         0       0
+nfc12    0.8163         0.7090     0.8629         0       0
+nfc13    0.8702         0.7647     0.8614         0       0
+nfc14    0.8009         0.6746     0.8651         0       0
+nfc15    0.7334         0.6289     0.8646         0       0
+nfc16    0.7576         0.6428     0.8650         0       0</code></pre>
 <p>In the output above, there is tons of information regarding the items, but the ones we will focus on include:</p>
 <ul>
 <li>Difficulty: A standardized difficulty value between 0 and 1 based on the average score of the item divided by its range</li>
@@ -2158,13 +2157,13 @@ nfc16 0.5404478 0.4585389 0.7575667      0.6427519  0.8650091         0       0<
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    second_half <span class="ot">&lt;-</span> data[, <span class="fu">seq</span>(<span class="dv">2</span>, <span class="fu">ncol</span>(data), <span class="at">by =</span> <span class="dv">2</span>)]</span>
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    first_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(first_half, <span class="at">na.rm =</span> T)</span>
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    second_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(second_half, <span class="at">na.rm =</span> T)</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    rel <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(first_total, second_total), <span class="dv">3</span>)}</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    rel <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(first_total, second_total), <span class="dv">3</span>)} <span class="cf">else</span></span>
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select two halves randomly</span></span>
 <span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (type <span class="sc">==</span> <span class="st">&quot;random&quot;</span>) {</span>
 <span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
 <span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    num_items <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(data)</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    first_items <span class="ot">&lt;-</span> <span class="fu">sample</span>(num_items, <span class="fu">ncol</span>(data)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    first_items <span class="ot">&lt;-</span> <span class="fu">sample</span>(num_items, <span class="fu">round</span>(<span class="fu">ncol</span>(data)<span class="sc">/</span><span class="dv">2</span>, <span class="dv">0</span>))</span>
 <span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    first_half <span class="ot">&lt;-</span> data[, first_items]</span>
 <span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    second_half <span class="ot">&lt;-</span> data[, <span class="sc">-</span>first_items]</span>
 <span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    first_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(first_half, <span class="at">na.rm =</span> T)</span>
@@ -2351,7 +2350,7 @@ Coefficient Alpha     0.79   0.77   0.81 5.5</code></pre>
 <p>Before we conclude the reliability section, we will also use the Spearman-Brown prophecy formula to predict the internal consistency of the NFC Scale depending on the number of items in the instrument. First, we will examine the scenario where we decide to shorten the length of the NFC scale by a factor of 0.5 (i.e., reducing the length from 16 items to 8 items). In the earlier analysis, we estimated the internal consistency of the NFC scale as <span class="math inline">\(\alpha = 0.87\)</span>. Using the <code>spearman.brown()</code> function from <strong>CTT</strong>, we will compute how the internal consistency would change if we reduced the length to 8 items. We specify the current value of internal consistency (<code>r.xx = 0.87</code>), the desired length (<code>input = 0.5</code>), and how we want to use the function (<code>n.or.r = "n"</code> for finding the new internal consistency or <code>n.or.r = "r"</code> for finding the new length).</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>CTT<span class="sc">::</span><span class="fu">spearman.brown</span>(<span class="at">r.xx =</span> <span class="fl">0.87</span>, <span class="at">input =</span> <span class="fl">0.5</span>, <span class="at">n.or.r =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <pre><code>$r.new
-[1] 0.7699115</code></pre>
+[1] 0.7699</code></pre>
 <p>The output shows that if we had to reduce the length of the NFC Scale from 16 items to 8 items, the internal consistency would become roughly 0.77. In the second scenario, we will see how many more items we would need to increase the internal consistency from 0.87 (current value) to 0.90 (target value). So, we will use <code>input = 0.90</code> to indicate our target reliability and <code>n.or.r = "r"</code> to request for the new length for the NFC scale. We will save the result as n (the factor that our instrument should be lengthened) and then multiply this value with the current number of items (16) to find the desired number of items required for <span class="math inline">\(\alpha = 0.90\)</span>.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the result as n</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> CTT<span class="sc">::</span><span class="fu">spearman.brown</span>(<span class="at">r.xx =</span> <span class="fl">0.87</span>, <span class="at">input =</span> <span class="fl">0.90</span>, <span class="at">n.or.r =</span> <span class="st">&quot;r&quot;</span>)</span>
@@ -2391,7 +2390,7 @@ Coefficient Alpha     0.79   0.77   0.81 5.5</code></pre>
 <span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the scores</span></span>
 <span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nfc_score)</span></code></pre></div>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- -43.00    9.00   18.00   16.62   26.00   48.00 </code></pre>
+  -43.0     9.0    18.0    16.6    26.0    48.0 </code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the distribution of the NFC Scale scores</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(nfc_score,</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;NFC Scale Score&quot;</span>,</span>
@@ -2617,23 +2616,23 @@ effortful_control
 <span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the results as a data frame and print them</span></span>
 <span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>nfc_ivi <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(nfc_ivi)</span>
 <span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(nfc_ivi)</span></code></pre></div>
-<pre><code>         nfc_ivi
-nfc01 0.37297915
-nfc02 0.21153487
-nfc03 0.19981987
-nfc04 0.14540417
-nfc05 0.06209198
-nfc06 0.20228579
-nfc07 0.26048244
-nfc08 0.25950684
-nfc09 0.25584111
-nfc10 0.44981819
-nfc11 0.27994998
-nfc12 0.24413937
-nfc13 0.29590845
-nfc14 0.29309729
-nfc15 0.03979380
-nfc16 0.10474004</code></pre>
+<pre><code>      nfc_ivi
+nfc01 0.37298
+nfc02 0.21153
+nfc03 0.19982
+nfc04 0.14540
+nfc05 0.06209
+nfc06 0.20229
+nfc07 0.26048
+nfc08 0.25951
+nfc09 0.25584
+nfc10 0.44982
+nfc11 0.27995
+nfc12 0.24414
+nfc13 0.29591
+nfc14 0.29310
+nfc15 0.03979
+nfc16 0.10474</code></pre>
 <p>The output above shows that most items in the NFC Scale have small to moderate correlations with the action orientation scores (just like the total scores from the NFC Scale), except for nfc05 and nfc15. This finding provides additional evidence supporting the validity of the NFC Scale.</p>
 <hr />
 </div>
@@ -2765,164 +2764,164 @@ nfc16 0.10474004</code></pre>
 <p>Next, we will use <code>distractorAnalysis()</code> from the <strong>CTT</strong> package to conduct distractor analysis:</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>CTT<span class="sc">::</span><span class="fu">distractorAnalysis</span>(<span class="at">items =</span> hci_items, <span class="at">key =</span> key)</span></code></pre></div>
 <pre><code>$item1
-  correct key   n       rspP       pBis     discrim      lower      mid50       mid75      upper
-A           A  27 0.04147465 -0.2461507 -0.09049774 0.09049774 0.05263158 0.005524862 0.00000000
-B           B  59 0.09062980 -0.1662783 -0.05838780 0.11764706 0.07017544 0.093922652 0.05925926
-C           C 110 0.16897081 -0.4081448 -0.28422993 0.32126697 0.16666667 0.082872928 0.03703704
-D       *   D 455 0.69892473  0.2884191  0.43311547 0.47058824 0.71052632 0.817679558 0.90370370
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.000000000 0.00000000
+  correct key   n    rspP    pBis  discrim  lower   mid50    mid75   upper
+A           A  27 0.04147 -0.2462 -0.09050 0.0905 0.05263 0.005525 0.00000
+B           B  59 0.09063 -0.1663 -0.05839 0.1176 0.07018 0.093923 0.05926
+C           C 110 0.16897 -0.4081 -0.28423 0.3213 0.16667 0.082873 0.03704
+D       *   D 455 0.69892  0.2884  0.43312 0.4706 0.71053 0.817680 0.90370
+E           E   0 0.00000      NA  0.00000 0.0000 0.00000 0.000000 0.00000
 
 $item2
-  correct key   n       rspP       pBis     discrim     lower     mid50      mid75      upper
-A           A  96 0.14746544 -0.3951782 -0.24062343 0.2850679 0.1140351 0.07734807 0.04444444
-B       *   B 490 0.75268817  0.2206134  0.32575834 0.5927602 0.7280702 0.83977901 0.91851852
-C           C  65 0.09984639 -0.1896673 -0.08513491 0.1221719 0.1578947 0.08287293 0.03703704
-D           D   0 0.00000000         NA  0.00000000 0.0000000 0.0000000 0.00000000 0.00000000
-E           E   0 0.00000000         NA  0.00000000 0.0000000 0.0000000 0.00000000 0.00000000
+  correct key   n    rspP    pBis  discrim  lower  mid50   mid75   upper
+A           A  96 0.14747 -0.3952 -0.24062 0.2851 0.1140 0.07735 0.04444
+B       *   B 490 0.75269  0.2206  0.32576 0.5928 0.7281 0.83978 0.91852
+C           C  65 0.09985 -0.1897 -0.08513 0.1222 0.1579 0.08287 0.03704
+D           D   0 0.00000      NA  0.00000 0.0000 0.0000 0.00000 0.00000
+E           E   0 0.00000      NA  0.00000 0.0000 0.0000 0.00000 0.00000
 
 $item3
-  correct key   n       rspP       pBis    discrim     lower      mid50      mid75       upper
-A       *   A 552 0.84792627  0.3500418  0.3229093 0.6696833 0.82456140 0.97237569 0.992592593
-B           B  45 0.06912442 -0.3794204 -0.1583710 0.1583710 0.07017544 0.01104972 0.000000000
-C           C  54 0.08294931 -0.3411496 -0.1645383 0.1719457 0.10526316 0.01657459 0.007407407
-D           D   0 0.00000000         NA  0.0000000 0.0000000 0.00000000 0.00000000 0.000000000
-E           E   0 0.00000000         NA  0.0000000 0.0000000 0.00000000 0.00000000 0.000000000
+  correct key   n    rspP    pBis discrim  lower   mid50   mid75    upper
+A       *   A 552 0.84793  0.3500  0.3229 0.6697 0.82456 0.97238 0.992593
+B           B  45 0.06912 -0.3794 -0.1584 0.1584 0.07018 0.01105 0.000000
+C           C  54 0.08295 -0.3411 -0.1645 0.1719 0.10526 0.01657 0.007407
+D           D   0 0.00000      NA  0.0000 0.0000 0.00000 0.00000 0.000000
+E           E   0 0.00000      NA  0.0000 0.0000 0.00000 0.00000 0.000000
 
 $item4
-  correct key   n       rspP       pBis     discrim      lower      mid50       mid75     upper
-A           A  14 0.02150538 -0.2471775 -0.05882353 0.05882353 0.00877193 0.000000000 0.0000000
-B           B  20 0.03072197 -0.2652578 -0.08144796 0.08144796 0.00877193 0.005524862 0.0000000
-C           C 354 0.54377880 -0.2883596 -0.28493380 0.61085973 0.59649123 0.591160221 0.3259259
-D       *   D 263 0.40399386  0.1729866  0.42520530 0.24886878 0.38596491 0.403314917 0.6740741
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.000000000 0.0000000
+  correct key   n    rspP    pBis  discrim   lower    mid50    mid75  upper
+A           A  14 0.02151 -0.2472 -0.05882 0.05882 0.008772 0.000000 0.0000
+B           B  20 0.03072 -0.2653 -0.08145 0.08145 0.008772 0.005525 0.0000
+C           C 354 0.54378 -0.2884 -0.28493 0.61086 0.596491 0.591160 0.3259
+D       *   D 263 0.40399  0.1730  0.42521 0.24887 0.385965 0.403315 0.6741
+E           E   0 0.00000      NA  0.00000 0.00000 0.000000 0.000000 0.0000
 
 $item5
-  correct key   n      rspP       pBis    discrim     lower     mid50      mid75      upper
-A           A  68 0.1044547 -0.2274639 -0.1122842 0.1493213 0.1228070 0.08839779 0.03703704
-B       *   B 288 0.4423963  0.2767838  0.5297134 0.2036199 0.4649123 0.50276243 0.73333333
-C           C  98 0.1505376 -0.2614192 -0.1118485 0.2081448 0.1578947 0.11602210 0.09629630
-D           D 197 0.3026114 -0.3195977 -0.3055807 0.4389140 0.2543860 0.29281768 0.13333333
-E           E   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.00000000
+  correct key   n   rspP    pBis discrim  lower  mid50  mid75   upper
+A           A  68 0.1045 -0.2275 -0.1123 0.1493 0.1228 0.0884 0.03704
+B       *   B 288 0.4424  0.2768  0.5297 0.2036 0.4649 0.5028 0.73333
+C           C  98 0.1505 -0.2614 -0.1118 0.2081 0.1579 0.1160 0.09630
+D           D 197 0.3026 -0.3196 -0.3056 0.4389 0.2544 0.2928 0.13333
+E           E   0 0.0000      NA  0.0000 0.0000 0.0000 0.0000 0.00000
 
 $item6
-  correct key   n       rspP       pBis    discrim     lower     mid50      mid75       upper
-A           A  56 0.08602151 -0.3026338 -0.1464387 0.1538462 0.1315789 0.03314917 0.007407407
-B           B 359 0.55145929 -0.4253397 -0.4054634 0.7239819 0.6228070 0.46961326 0.318518519
-C       *   C 236 0.36251920  0.3418847  0.5519021 0.1221719 0.2456140 0.49723757 0.674074074
-D           D   0 0.00000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.000000000
-E           E   0 0.00000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.000000000
+  correct key   n    rspP    pBis discrim  lower  mid50   mid75    upper
+A           A  56 0.08602 -0.3026 -0.1464 0.1538 0.1316 0.03315 0.007407
+B           B 359 0.55146 -0.4253 -0.4055 0.7240 0.6228 0.46961 0.318519
+C       *   C 236 0.36252  0.3419  0.5519 0.1222 0.2456 0.49724 0.674074
+D           D   0 0.00000      NA  0.0000 0.0000 0.0000 0.00000 0.000000
+E           E   0 0.00000      NA  0.0000 0.0000 0.0000 0.00000 0.000000
 
 $item7
-  correct key   n      rspP       pBis    discrim     lower     mid50     mid75      upper
-A           A  72 0.1105991 -0.2413236 -0.1242165 0.1538462 0.1140351 0.1160221 0.02962963
-B           B 223 0.3425499 -0.2651716 -0.1582705 0.4027149 0.3947368 0.3093923 0.24444444
-C       *   C 356 0.5468510  0.1009380  0.2824870 0.4434389 0.4912281 0.5745856 0.72592593
-D           D   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.0000000 0.00000000
-E           E   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.0000000 0.00000000
+  correct key   n   rspP    pBis discrim  lower  mid50  mid75   upper
+A           A  72 0.1106 -0.2413 -0.1242 0.1538 0.1140 0.1160 0.02963
+B           B 223 0.3425 -0.2652 -0.1583 0.4027 0.3947 0.3094 0.24444
+C       *   C 356 0.5469  0.1009  0.2825 0.4434 0.4912 0.5746 0.72593
+D           D   0 0.0000      NA  0.0000 0.0000 0.0000 0.0000 0.00000
+E           E   0 0.0000      NA  0.0000 0.0000 0.0000 0.0000 0.00000
 
 $item8
-  correct key   n      rspP       pBis    discrim     lower     mid50      mid75      upper
-A           A 110 0.1689708 -0.3799236 -0.2871125 0.3167421 0.1666667 0.09392265 0.02962963
-B           B  82 0.1259601 -0.3515895 -0.1994972 0.2217195 0.1403509 0.07734807 0.02222222
-C       *   C 459 0.7050691  0.3252153  0.4866097 0.4615385 0.6929825 0.82872928 0.94814815
-D           D   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.00000000
-E           E   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.00000000
+  correct key   n   rspP    pBis discrim  lower  mid50   mid75   upper
+A           A 110 0.1690 -0.3799 -0.2871 0.3167 0.1667 0.09392 0.02963
+B           B  82 0.1260 -0.3516 -0.1995 0.2217 0.1404 0.07735 0.02222
+C       *   C 459 0.7051  0.3252  0.4866 0.4615 0.6930 0.82873 0.94815
+D           D   0 0.0000      NA  0.0000 0.0000 0.0000 0.00000 0.00000
+E           E   0 0.0000      NA  0.0000 0.0000 0.0000 0.00000 0.00000
 
 $item9
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75      upper
-A           A 306 0.47004608 -0.3031336 -0.30718954 0.52941176 0.52631579 0.54696133 0.22222222
-B           B  50 0.07680492 -0.2709100 -0.09582705 0.14027149 0.05263158 0.03867403 0.04444444
-C           C  13 0.01996928 -0.2320653 -0.05882353 0.05882353 0.00000000 0.00000000 0.00000000
-D       *   D 282 0.43317972  0.2129679  0.46184012 0.27149321 0.42105263 0.41436464 0.73333333
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+  correct key   n    rspP    pBis  discrim   lower   mid50   mid75   upper
+A           A 306 0.47005 -0.3031 -0.30719 0.52941 0.52632 0.54696 0.22222
+B           B  50 0.07680 -0.2709 -0.09583 0.14027 0.05263 0.03867 0.04444
+C           C  13 0.01997 -0.2321 -0.05882 0.05882 0.00000 0.00000 0.00000
+D       *   D 282 0.43318  0.2130  0.46184 0.27149 0.42105 0.41436 0.73333
+E           E   0 0.00000      NA  0.00000 0.00000 0.00000 0.00000 0.00000
 
 $item10
-  correct key   n      rspP       pBis    discrim     lower     mid50     mid75      upper
-A       *   A 422 0.6482335  0.2643568  0.4915368 0.4343891 0.5701754 0.7513812 0.92592593
-B           B 114 0.1751152 -0.3273501 -0.2463885 0.2760181 0.2017544 0.1436464 0.02962963
-C           C 115 0.1766513 -0.3437457 -0.2451483 0.2895928 0.2280702 0.1049724 0.04444444
-D           D   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.0000000 0.00000000
-E           E   0 0.0000000         NA  0.0000000 0.0000000 0.0000000 0.0000000 0.00000000
+  correct key   n   rspP    pBis discrim  lower  mid50  mid75   upper
+A       *   A 422 0.6482  0.2644  0.4915 0.4344 0.5702 0.7514 0.92593
+B           B 114 0.1751 -0.3274 -0.2464 0.2760 0.2018 0.1436 0.02963
+C           C 115 0.1767 -0.3437 -0.2451 0.2896 0.2281 0.1050 0.04444
+D           D   0 0.0000      NA  0.0000 0.0000 0.0000 0.0000 0.00000
+E           E   0 0.0000      NA  0.0000 0.0000 0.0000 0.0000 0.00000
 
 $item11
-  correct key   n       rspP       pBis    discrim     lower      mid50      mid75      upper
-A       *   A 507 0.77880184  0.2851116  0.3582705 0.5972851 0.75438596 0.88397790 0.95555556
-B           B  53 0.08141321 -0.3704061 -0.1764706 0.1764706 0.07017544 0.03314917 0.00000000
-C           C  91 0.13978495 -0.3118272 -0.1817999 0.2262443 0.17543860 0.08287293 0.04444444
-D           D   0 0.00000000         NA  0.0000000 0.0000000 0.00000000 0.00000000 0.00000000
-E           E   0 0.00000000         NA  0.0000000 0.0000000 0.00000000 0.00000000 0.00000000
+  correct key   n    rspP    pBis discrim  lower   mid50   mid75   upper
+A       *   A 507 0.77880  0.2851  0.3583 0.5973 0.75439 0.88398 0.95556
+B           B  53 0.08141 -0.3704 -0.1765 0.1765 0.07018 0.03315 0.00000
+C           C  91 0.13978 -0.3118 -0.1818 0.2262 0.17544 0.08287 0.04444
+D           D   0 0.00000      NA  0.0000 0.0000 0.00000 0.00000 0.00000
+E           E   0 0.00000      NA  0.0000 0.0000 0.00000 0.00000 0.00000
 
 $item12
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75      upper
-A           A  66 0.10138249 -0.2708640 -0.14067371 0.16289593 0.13157895 0.06629834 0.02222222
-B           B  12 0.01843318 -0.1478828 -0.01685939 0.03167421 0.00877193 0.01104972 0.01481481
-C           C  29 0.04454685 -0.2144364 -0.07239819 0.07239819 0.06140351 0.03314917 0.00000000
-D       *   D 373 0.57296467  0.3155934  0.53759008 0.34389140 0.48245614 0.67955801 0.88148148
-E           E 171 0.26267281 -0.3558190 -0.30765879 0.38914027 0.31578947 0.20994475 0.08148148
+  correct key   n    rspP    pBis  discrim   lower    mid50   mid75   upper
+A           A  66 0.10138 -0.2709 -0.14067 0.16290 0.131579 0.06630 0.02222
+B           B  12 0.01843 -0.1479 -0.01686 0.03167 0.008772 0.01105 0.01481
+C           C  29 0.04455 -0.2144 -0.07240 0.07240 0.061404 0.03315 0.00000
+D       *   D 373 0.57296  0.3156  0.53759 0.34389 0.482456 0.67956 0.88148
+E           E 171 0.26267 -0.3558 -0.30766 0.38914 0.315789 0.20994 0.08148
 
 $item13
-  correct key   n       rspP       pBis    discrim     lower     mid50      mid75       upper
-A       *   A 396 0.60829493  0.3612177  0.5877996 0.3529412 0.4473684 0.77348066 0.940740741
-B           B  50 0.07680492 -0.2922788 -0.1373890 0.1447964 0.0877193 0.03867403 0.007407407
-C           C  89 0.13671275 -0.3357834 -0.2056645 0.2352941 0.1929825 0.06077348 0.029629630
-D           D 116 0.17818740 -0.3207030 -0.2447461 0.2669683 0.2719298 0.12707182 0.022222222
-E           E   0 0.00000000         NA  0.0000000 0.0000000 0.0000000 0.00000000 0.000000000
+  correct key   n   rspP    pBis discrim  lower   mid50   mid75    upper
+A       *   A 396 0.6083  0.3612  0.5878 0.3529 0.44737 0.77348 0.940741
+B           B  50 0.0768 -0.2923 -0.1374 0.1448 0.08772 0.03867 0.007407
+C           C  89 0.1367 -0.3358 -0.2057 0.2353 0.19298 0.06077 0.029630
+D           D 116 0.1782 -0.3207 -0.2447 0.2670 0.27193 0.12707 0.022222
+E           E   0 0.0000      NA  0.0000 0.0000 0.00000 0.00000 0.000000
 
 $item14
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75      upper
-A       *   A 494 0.75883257  0.3385578  0.43807609 0.52488688 0.74561404 0.90055249 0.96296296
-B           B  34 0.05222734 -0.2222059 -0.07115804 0.08597285 0.09649123 0.01104972 0.01481481
-C           C  76 0.11674347 -0.3161656 -0.19949723 0.22171946 0.11403509 0.06077348 0.02222222
-D           D  47 0.07219662 -0.3581467 -0.16742081 0.16742081 0.04385965 0.02762431 0.00000000
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+  correct key   n    rspP    pBis  discrim   lower   mid50   mid75   upper
+A       *   A 494 0.75883  0.3386  0.43808 0.52489 0.74561 0.90055 0.96296
+B           B  34 0.05223 -0.2222 -0.07116 0.08597 0.09649 0.01105 0.01481
+C           C  76 0.11674 -0.3162 -0.19950 0.22172 0.11404 0.06077 0.02222
+D           D  47 0.07220 -0.3581 -0.16742 0.16742 0.04386 0.02762 0.00000
+E           E   0 0.00000      NA  0.00000 0.00000 0.00000 0.00000 0.00000
 
 $item15
-  correct key   n      rspP       pBis     discrim     lower     mid50     mid75      upper
-A           A  79 0.1213518 -0.2416434 -0.12213843 0.2036199 0.0877193 0.0718232 0.08148148
-B           B 153 0.2350230 -0.4241449 -0.34757835 0.3846154 0.3245614 0.1436464 0.03703704
-C       *   C 289 0.4439324  0.3005640  0.56346573 0.2217195 0.3333333 0.5303867 0.78518519
-D           D 130 0.1996928 -0.1593722 -0.09374895 0.1900452 0.2543860 0.2541436 0.09629630
-E           E   0 0.0000000         NA  0.00000000 0.0000000 0.0000000 0.0000000 0.00000000
+  correct key   n   rspP    pBis  discrim  lower   mid50   mid75   upper
+A           A  79 0.1214 -0.2416 -0.12214 0.2036 0.08772 0.07182 0.08148
+B           B 153 0.2350 -0.4241 -0.34758 0.3846 0.32456 0.14365 0.03704
+C       *   C 289 0.4439  0.3006  0.56347 0.2217 0.33333 0.53039 0.78519
+D           D 130 0.1997 -0.1594 -0.09375 0.1900 0.25439 0.25414 0.09630
+E           E   0 0.0000      NA  0.00000 0.0000 0.00000 0.00000 0.00000
 
 $item16
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75      upper
-A       *   A 395 0.60675883  0.3822268  0.58079437 0.33031674 0.55263158 0.75138122 0.91111111
-B           B 161 0.24731183 -0.4452814 -0.38089492 0.42533937 0.28947368 0.15469613 0.04444444
-C           C  56 0.08602151 -0.3213548 -0.15260600 0.16742081 0.08771930 0.03867403 0.01481481
-D           D  39 0.05990783 -0.1517499 -0.04729345 0.07692308 0.07017544 0.05524862 0.02962963
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+  correct key   n    rspP    pBis  discrim   lower   mid50   mid75   upper
+A       *   A 395 0.60676  0.3822  0.58079 0.33032 0.55263 0.75138 0.91111
+B           B 161 0.24731 -0.4453 -0.38089 0.42534 0.28947 0.15470 0.04444
+C           C  56 0.08602 -0.3214 -0.15261 0.16742 0.08772 0.03867 0.01481
+D           D  39 0.05991 -0.1517 -0.04729 0.07692 0.07018 0.05525 0.02963
+E           E   0 0.00000      NA  0.00000 0.00000 0.00000 0.00000 0.00000
 
 $item17
-  correct key   n      rspP        pBis     discrim     lower     mid50     mid75      upper
-A           A 202 0.3102919 -0.09020780  0.02808782 0.2533937 0.3684211 0.3646409 0.28148148
-B           B 174 0.2672811 -0.29346777 -0.22289258 0.3710407 0.1929825 0.2762431 0.14814815
-C       *   C 193 0.2964670  0.04340407  0.24290263 0.2533937 0.2456140 0.2320442 0.49629630
-D           D  82 0.1259601 -0.13266468 -0.04809787 0.1221719 0.1929825 0.1270718 0.07407407
-E           E   0 0.0000000          NA  0.00000000 0.0000000 0.0000000 0.0000000 0.00000000
+  correct key   n   rspP     pBis  discrim  lower  mid50  mid75   upper
+A           A 202 0.3103 -0.09021  0.02809 0.2534 0.3684 0.3646 0.28148
+B           B 174 0.2673 -0.29347 -0.22289 0.3710 0.1930 0.2762 0.14815
+C       *   C 193 0.2965  0.04340  0.24290 0.2534 0.2456 0.2320 0.49630
+D           D  82 0.1260 -0.13266 -0.04810 0.1222 0.1930 0.1271 0.07407
+E           E   0 0.0000       NA  0.00000 0.0000 0.0000 0.0000 0.00000
 
 $item18
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75       upper
-A           A  42 0.06451613 -0.3140941 -0.12833920 0.13574661 0.05263158 0.02762431 0.007407407
-B           B  65 0.09984639 -0.4090210 -0.21307190 0.23529412 0.07017544 0.01104972 0.022222222
-C       *   C 519 0.79723502  0.4171207  0.42738395 0.54298643 0.84210526 0.95027624 0.970370370
-D           D  25 0.03840246 -0.2569481 -0.08597285 0.08597285 0.03508772 0.01104972 0.000000000
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.00000000 0.000000000
+  correct key   n    rspP    pBis  discrim   lower   mid50   mid75    upper
+A           A  42 0.06452 -0.3141 -0.12834 0.13575 0.05263 0.02762 0.007407
+B           B  65 0.09985 -0.4090 -0.21307 0.23529 0.07018 0.01105 0.022222
+C       *   C 519 0.79724  0.4171  0.42738 0.54299 0.84211 0.95028 0.970370
+D           D  25 0.03840 -0.2569 -0.08597 0.08597 0.03509 0.01105 0.000000
+E           E   0 0.00000      NA  0.00000 0.00000 0.00000 0.00000 0.000000
 
 $item19
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75       upper
-A           A  41 0.06298003 -0.2840018 -0.11023965 0.11764706 0.07017544 0.03314917 0.007407407
-B           B  44 0.06758833 -0.3302629 -0.13450645 0.14932127 0.05263158 0.01657459 0.014814815
-C       *   C 511 0.78494624  0.3665060  0.41833417 0.55203620 0.80701754 0.91712707 0.970370370
-D           D  30 0.04608295 -0.2013994 -0.07856544 0.08597285 0.05263158 0.02209945 0.007407407
-E           E  25 0.03840246 -0.2483756 -0.09502262 0.09502262 0.01754386 0.01104972 0.000000000
+  correct key   n    rspP    pBis  discrim   lower   mid50   mid75    upper
+A           A  41 0.06298 -0.2840 -0.11024 0.11765 0.07018 0.03315 0.007407
+B           B  44 0.06759 -0.3303 -0.13451 0.14932 0.05263 0.01657 0.014815
+C       *   C 511 0.78495  0.3665  0.41833 0.55204 0.80702 0.91713 0.970370
+D           D  30 0.04608 -0.2014 -0.07857 0.08597 0.05263 0.02210 0.007407
+E           E  25 0.03840 -0.2484 -0.09502 0.09502 0.01754 0.01105 0.000000
 
 $item20
-  correct key   n       rspP       pBis     discrim      lower      mid50      mid75      upper
-A           A  10 0.01536098 -0.1639141 -0.04072398 0.04072398 0.00877193 0.00000000 0.00000000
-B           B  36 0.05529954 -0.3382951 -0.13574661 0.13574661 0.02631579 0.01657459 0.00000000
-C           C 135 0.20737327 -0.3909296 -0.28915703 0.34841629 0.21929825 0.13812155 0.05925926
-D       *   D 470 0.72196621  0.3395533  0.46562762 0.47511312 0.74561404 0.84530387 0.94074074
-E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.00000000 0.00000000</code></pre>
+  correct key   n    rspP    pBis  discrim   lower    mid50   mid75   upper
+A           A  10 0.01536 -0.1639 -0.04072 0.04072 0.008772 0.00000 0.00000
+B           B  36 0.05530 -0.3383 -0.13575 0.13575 0.026316 0.01657 0.00000
+C           C 135 0.20737 -0.3909 -0.28916 0.34842 0.219298 0.13812 0.05926
+D       *   D 470 0.72197  0.3396  0.46563 0.47511 0.745614 0.84530 0.94074
+E           E   0 0.00000      NA  0.00000 0.00000 0.000000 0.00000 0.00000</code></pre>
 <p>In the output, we see the keyed option for each item (shown with *), the number of students who selected each response option (n), the proportion of students who selected each response option (rspP), point-biserial correlation between the response option and the total score with the item removed (pBis), discrimination of the response option calculated as the upper proportion minus the lower proportion (discrim), proportion of students from the lowest score group choosing the response option (lower), and proportion of students from the highest score group choosing the response option (higher). We expect most students from the mid75 and upper groups to choose the keyed option. For example, in item 1, nearly 70% of the students selected the keyed option of D. We see that the proportion of students answering the item correctly is increasing as we move from the lower group (43%) to the upper group (90%). The opposite trend seems to occur for the distractors (i.e., A, B, and C).</p>
 <p>We can also go over the items one by one and identify if there are any items where distractors did not seem to attract enough students. For example, in item 20, two distractors (A and B) were only selected by 1.5% and 5.5% of the students, respectively. Most students either selected the keyed option of D or option C as one of the distractors. The distractors of this particular item should be examined to increase the plausibility of the first two distractors. A similar issue is happening with item 18 where only 3.8% of the students selected option D and item 12 where only 1.8% of the students selected option B. We also see that for all of the items, the distractors have negative pBis and discrim values whereas the keyed options have positive values for the same indices, suggesting that the items function properly.</p>
 <p><code>distractorAnalysis()</code> calculates the total score for each student by comparing the responses to the answer key and uses the total score to split students into four groups (lower, mid50, mid75, upper). If we wanted to increase or decrease the number of groups, we could use the <code>nGroups</code> argument in <code>distractorAnalysis()</code> (e.g., <code>nGroups = 6</code> to run the analysis with 6 groups based on the total score). Alternatively, we could use the <code>defineGroups</code> argument to define the quantile breakpoints for groups based on the total score (e.g., <code>defineGroups = c(.25,.50,.25)</code> to request three groups with 25% of the students in the top and the bottom groups and the remaining 50% in the middle group). In addition, we can save the distractor analysis results into a comma-separated-values (csv) file by using the <code>csvReport</code> argument in <code>distractorAnalysis()</code> (e.g., <code>csvReport = "hci_distactors.csv"</code>)</p>
@@ -3005,7 +3004,7 @@ E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.0000
 <span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the scores</span></span>
 <span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(scores)</span></code></pre></div>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   3.00   10.00   12.00   12.21   15.00   20.00 </code></pre>
+    3.0    10.0    12.0    12.2    15.0    20.0 </code></pre>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the distribution of the scores using a histogram</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We will also customize the histogram a little bit</span></span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="at">x =</span> scores, <span class="co"># scores to be visualized</span></span>
@@ -3112,27 +3111,27 @@ E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.0000
  0.715 </code></pre>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item report</span></span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>hci_itemanalysis<span class="sc">$</span>itemReport</span></code></pre></div>
-<pre><code>   itemName  itemMean       pBis        bis alphaIfDeleted lowPBis lowBis
-1     item1 0.6989247 0.28841909 0.37990903      0.7041972               
-2     item2 0.7526882 0.22061343 0.30125951      0.7099362               
-3     item3 0.8479263 0.35004183 0.53420292      0.7006955               
-4     item4 0.4039939 0.17298662 0.21914922      0.7150766       X       
-5     item5 0.4423963 0.27678377 0.34822354      0.7053505               
-6     item6 0.3625192 0.34188468 0.43826145      0.6991489               
-7     item7 0.5468510 0.10093796 0.12682596      0.7219621       X      X
-8     item8 0.7050691 0.32521530 0.42986414      0.7009218               
-9     item9 0.4331797 0.21296787 0.26829359      0.7114344               
-10   item10 0.6482335 0.26435677 0.34018971      0.7064185               
-11   item11 0.7788018 0.28511163 0.39841785      0.7046640               
-12   item12 0.5729647 0.31559335 0.39797842      0.7015908               
-13   item13 0.6082949 0.36121767 0.45898953      0.6972122               
-14   item14 0.7588326 0.33855783 0.46465921      0.7001197               
-15   item15 0.4439324 0.30056400 0.37806512      0.7030488               
-16   item16 0.6067588 0.38222680 0.48549208      0.6951640               
-17   item17 0.2964670 0.04340407 0.05732028      0.7253267       X      X
-18   item18 0.7972350 0.41712069 0.59412579      0.6943156               
-19   item19 0.7849462 0.36650603 0.51528308      0.6981434               
-20   item20 0.7219662 0.33955329 0.45348132      0.6997382               </code></pre>
+<pre><code>   itemName itemMean   pBis     bis alphaIfDeleted lowPBis lowBis
+1     item1   0.6989 0.2884 0.37991         0.7042               
+2     item2   0.7527 0.2206 0.30126         0.7099               
+3     item3   0.8479 0.3500 0.53420         0.7007               
+4     item4   0.4040 0.1730 0.21915         0.7151       X       
+5     item5   0.4424 0.2768 0.34822         0.7054               
+6     item6   0.3625 0.3419 0.43826         0.6991               
+7     item7   0.5469 0.1009 0.12683         0.7220       X      X
+8     item8   0.7051 0.3252 0.42986         0.7009               
+9     item9   0.4332 0.2130 0.26829         0.7114               
+10   item10   0.6482 0.2644 0.34019         0.7064               
+11   item11   0.7788 0.2851 0.39842         0.7047               
+12   item12   0.5730 0.3156 0.39798         0.7016               
+13   item13   0.6083 0.3612 0.45899         0.6972               
+14   item14   0.7588 0.3386 0.46466         0.7001               
+15   item15   0.4439 0.3006 0.37807         0.7030               
+16   item16   0.6068 0.3822 0.48549         0.6952               
+17   item17   0.2965 0.0434 0.05732         0.7253       X      X
+18   item18   0.7972 0.4171 0.59413         0.6943               
+19   item19   0.7849 0.3665 0.51528         0.6981               
+20   item20   0.7220 0.3396 0.45348         0.6997               </code></pre>
 <p>The results of our item analysis show that the internal consistency of the hci items is around 0.72 (not good enough for a summative assessment) and that three items (items 4, 7, and 17) have been flagged for showing low discrimination. We can see that item 17 is a very difficult item (<span class="math inline">\(p = 0.29\)</span>) and both items7 and 17 have low discrimination. We can remove these two items from the test and rerun the item analysis:</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the item analysis and save it as hci_itemanalysis2</span></span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>hci_itemanalysis2 <span class="ot">&lt;-</span> CTT<span class="sc">::</span><span class="fu">itemAnalysis</span>(<span class="at">items =</span> hci_items_scored[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">17</span>)], </span>
@@ -3152,25 +3151,25 @@ E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.0000
  0.733 </code></pre>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item report</span></span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>hci_itemanalysis2<span class="sc">$</span>itemReport</span></code></pre></div>
-<pre><code>   itemName  itemMean      pBis       bis alphaIfDeleted lowPBis lowBis
-1     item1 0.6989247 0.2948723 0.3884093      0.7228366               
-2     item2 0.7526882 0.2352250 0.3212124      0.7278005               
-3     item3 0.8479263 0.3584801 0.5470807      0.7187943               
-4     item4 0.4039939 0.1703088 0.2157568      0.7347497       X       
-5     item5 0.4423963 0.2737195 0.3443684      0.7251008               
-6     item6 0.3625192 0.3401596 0.4360500      0.7186537               
-7     item8 0.7050691 0.3283374 0.4339909      0.7198352               
-8     item9 0.4331797 0.1987390 0.2503683      0.7322322       X       
-9    item10 0.6482335 0.2751882 0.3541283      0.7247489               
-10   item11 0.7788018 0.2894657 0.4045023      0.7232886               
-11   item12 0.5729647 0.3206200 0.4043173      0.7205367               
-12   item13 0.6082949 0.3715534 0.4721228      0.7155900               
-13   item14 0.7588326 0.3533586 0.4849728      0.7179002               
-14   item15 0.4439324 0.3061087 0.3850396      0.7219610               
-15   item16 0.6067588 0.3916629 0.4974776      0.7136207               
-16   item18 0.7972350 0.4246352 0.6048291      0.7125853               
-17   item19 0.7849462 0.3547787 0.4987953      0.7180327               
-18   item20 0.7219662 0.3423104 0.4571635      0.7186383               </code></pre>
+<pre><code>   itemName itemMean   pBis    bis alphaIfDeleted lowPBis lowBis
+1     item1   0.6989 0.2949 0.3884         0.7228               
+2     item2   0.7527 0.2352 0.3212         0.7278               
+3     item3   0.8479 0.3585 0.5471         0.7188               
+4     item4   0.4040 0.1703 0.2158         0.7347       X       
+5     item5   0.4424 0.2737 0.3444         0.7251               
+6     item6   0.3625 0.3402 0.4361         0.7187               
+7     item8   0.7051 0.3283 0.4340         0.7198               
+8     item9   0.4332 0.1987 0.2504         0.7322       X       
+9    item10   0.6482 0.2752 0.3541         0.7247               
+10   item11   0.7788 0.2895 0.4045         0.7233               
+11   item12   0.5730 0.3206 0.4043         0.7205               
+12   item13   0.6083 0.3716 0.4721         0.7156               
+13   item14   0.7588 0.3534 0.4850         0.7179               
+14   item15   0.4439 0.3061 0.3850         0.7220               
+15   item16   0.6068 0.3917 0.4975         0.7136               
+16   item18   0.7972 0.4246 0.6048         0.7126               
+17   item19   0.7849 0.3548 0.4988         0.7180               
+18   item20   0.7220 0.3423 0.4572         0.7186               </code></pre>
 <p>The updated item analysis results show that the internal consistency of the hci test increased to 0.73 (still not good but slightly better than the previous value). Although items 4 and 9 have been flagged for showing low point-biserial correlations, their pBis values are not too low. So, we can retain the remaining items on the test but remember that the overall internal consistency of this test is not sufficient for making summative evaluations or high-stakes decisions.</p>
 </div>
 <div id="standard-error-of-measurement" class="section level2">
@@ -3220,25 +3219,25 @@ E           E   0 0.00000000         NA  0.00000000 0.00000000 0.00000000 0.0000
  
 **************************************************** 
  
-Coefficient alpha =  0.7154535 
+Coefficient alpha =  0.7155 
  
-Standard deviation =  3.639684 
+Standard deviation =  3.64 
  
-SEM =  1.941513 
+SEM =  1.942 
  
 To calculate confidence intervals with SEM, use: 
  
-Observed Score ± ( 1.941513 * 1.959964 ) 
+Observed Score ± ( 1.942 * 1.96 ) 
  </code></pre>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See observed scores and their lower/upper confidence intervals</span></span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sem_hci)</span></code></pre></div>
 <pre><code>  lower_CI observed upper_CI
-1  12.1947       16  19.8053
-2  15.1947       19  22.8053
-3  13.1947       17  20.8053
-4  16.1947       20  23.8053
-5  15.1947       19  22.8053
-6  16.1947       20  23.8053</code></pre>
+1    12.19       16    19.81
+2    15.19       19    22.81
+3    13.19       17    20.81
+4    16.19       20    23.81
+5    15.19       19    22.81
+6    16.19       20    23.81</code></pre>
 <p><br></p>
 </div>
 <div id="differential-item-functioning" class="section level2">
@@ -3299,7 +3298,7 @@ item20 0.0161 0.8990
 
 Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1  
 
-Detection threshold: 3.8415 (significance level: 0.05)
+Detection threshold: 3.841 (significance level: 0.05)
 
 Items detected as DIF items: 
        
@@ -3394,7 +3393,7 @@ item20  6.2415  0.0441 *
 
 Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1  
 
-Detection threshold: 5.9915 (significance level: 0.05)
+Detection threshold: 5.992 (significance level: 0.05)
 
 Items detected as DIF items:
        
@@ -3498,12 +3497,13 @@ Magis, D., Béland, S., Tuerlinckx, F., &amp; De Boeck, P. (2010). A general fra
 Martinkova, P., Hladka, A., &amp; Netik, J. (2021). <em>ShinyItemAnalysis: Test and item analysis via shiny</em>. <a href="https://CRAN.R-project.org/package=ShinyItemAnalysis">https://CRAN.R-project.org/package=ShinyItemAnalysis</a>
 </div>
 <div id="ref-R-psych" class="csl-entry">
-Revelle, W. (2021). <em>Psych: Procedures for psychological, psychometric, and personality research</em>. <a href="https://personality-project.org/r/psych/
-https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/
-https://personality-project.org/r/psych-manual.pdf</a>
+Revelle, W. (2021). <em>Psych: Procedures for psychological, psychometric, and personality research</em>. <a href="https://personality-project.org/r/psych/ https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/ https://personality-project.org/r/psych-manual.pdf</a>
 </div>
 <div id="ref-R-skimr" class="csl-entry">
 Waring, E., Quinn, M., McNamara, A., Arino de la Rubia, E., Zhu, H., &amp; Ellis, S. (2021). <em>Skimr: Compact and flexible summaries of data</em>. <a href="https://CRAN.R-project.org/package=skimr">https://CRAN.R-project.org/package=skimr</a>
+</div>
+<div id="ref-R-ggplot2" class="csl-entry">
+Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2021). <em>ggplot2: Create elegant data visualisations using the grammar of graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>
 </div>
 <div id="ref-R-ggplot2" class="csl-entry">
 Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2021). <em>ggplot2: Create elegant data visualisations using the grammar of graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>
