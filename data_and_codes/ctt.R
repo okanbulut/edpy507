@@ -142,13 +142,13 @@ split_half <- function(data, type = "alternate", seed = 2022) {
     second_half <- data[, seq(2, ncol(data), by = 2)]
     first_total <- rowSums(first_half, na.rm = T)
     second_total <- rowSums(second_half, na.rm = T)
-    rel <- round(cor(first_total, second_total), 3)}
+    rel <- round(cor(first_total, second_total), 3)} else
   
   # Select two halves randomly
   if (type == "random") {
     set.seed(seed)
     num_items <- 1:ncol(data)
-    first_items <- sample(num_items, ncol(data)/2)
+    first_items <- sample(num_items, round(ncol(data)/2, 0))
     first_half <- data[, first_items]
     second_half <- data[, -first_items]
     first_total <- rowSums(first_half, na.rm = T)
