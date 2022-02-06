@@ -278,7 +278,7 @@ skimr::skim_without_charts(data = nfc) %>%
 
 The `describe()` function from the **psych** package [@R-psych] is another useful function to get basic descriptive statistics for data collected for psychometric and psychology studies (see `?psych::describe` for more details about this function).
 
-```{r ctt15b, echo=FALSE, R.options = list(width = 200)}
+```{r ctt15b, R.options = list(width = 200)}
 psych::describe(x = nfc)
 ```
 

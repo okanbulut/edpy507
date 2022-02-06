@@ -3,7 +3,7 @@ title: "Item Response Theory (IRT)"
 output:
   html_document:
     toc: TRUE
-bibliography: [mybib.bib, packages.bib]
+bibliography: [mybib.bib, packages_irt.bib]
 csl: apa.csl
 ---
 
@@ -21,70 +21,246 @@ suppressWarnings({
   library("emo")
   
   # Required packages
-  library("dplyr")
+  library("DataExplorer")
+  library("ggcorrplot")
   library("psych")
+  library("lavaan")
   library("mirt")
 })
 
 # automatically create a bib database for R packages
-# knitr::write_bib(x = c(.packages()), file = "packages.bib")
+knitr::write_bib(x = c(.packages()), file = "packages_irt.bib")
 ```
 
 ------------------------------------------------------------------------
 
 # Example 1: Synthetic Aperture Personality Assessment
 
-The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<https://www.sapa-project.org/>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences [@condon2014; @revelle2010]. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence "g". The SAPA dataset (i.e., sapa.csv) is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the **psych** package [@R-psych]. The dataset can be downloaded from [**here**](data_and_codes/sapa.csv). In addition, the R codes for the IRT analyses presented on this page are available [**here**](data_and_codes/irt.R).
+The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<https://www.sapa-project.org/>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences [@condon2014; @revelle2010]. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence "g". The SAPA dataset is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the **psych** package [@R-psych]. The dataset can be downloaded from [**here**](data_and_codes/sapa.csv). In addition, the R codes for the item response theory (IRT) analyses presented on this page are available [**here**](data_and_codes/irt.R).
+
+<br>
 
 ## Setting up R
 
-In our examples (both Example 1 and Example 2), we will conduct CTT-based analyses using the following R packages:
+In our examples (both Example 1 and Example 2), we will conduct IRT and other relevant analyses using the following packages:
 
 ```{r irt1, eval=TRUE, echo=FALSE}
 pkg_dat <- data.frame(
-  Package = c("dplyr", "car",
-              "skimr", "DataExplorer", "ggcorrplot",
-              "psych", "CTT", "ShinyItemAnalysis", "QME", "difR",
-              "devtools", "rmarkdown"),
-  URL = c("http://CRAN.R-project.org/package=dplyr", 
-          "http://CRAN.R-project.org/package=car", 
-          "http://CRAN.R-project.org/package=skimr",
-          "http://CRAN.R-project.org/package=DataExplorer",
+  Package = c("DataExplorer", "ggcorrplot", "psych", "lavaan", "mirt"),
+  URL = c("http://CRAN.R-project.org/package=DataExplorer",
           "http://CRAN.R-project.org/package=ggcorrplot",
           "http://CRAN.R-project.org/package=psych",
-          "http://CRAN.R-project.org/package=CTT",
-          "http://CRAN.R-project.org/package=ShinyItemAnalysis",
-          "https://github.com/zief0002/QME", 
-          "http://CRAN.R-project.org/package=difR",
-          "http://CRAN.R-project.org/package=devtools",
-          "http://CRAN.R-project.org/package=rmarkdown")
+          "http://CRAN.R-project.org/package=lavaan",
+          "http://CRAN.R-project.org/package=mirt")
 )
 
 kbl(pkg_dat, caption = "") %>%
   kable_paper("striped") %>%
-  pack_rows("Data Cleaning and Management", 1, 2) %>%
-  pack_rows("Exploratory Data Analysis", 3, 5) %>%
-  pack_rows("Psychometric Analysis", 6, 10) %>%
-  pack_rows("Ancillary Packages", 11, 12)
+  pack_rows("Exploratory Data Analysis", 1, 2) %>%
+  pack_rows("Psychometric Analysis", 3, 5)
 ```
 
 <br>
 
-We will install the above packages by using the `install.packages()` function in R. Please remember that we only need to install these packages <u>once</u>. After that, we will be able to activate the packages and conduct IRT analysis in R.
+We have already installed and used some of the above packages in the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section. Therefore, we will only install the new R packages this time:
+
 
 ```{r irt2, eval=FALSE}
 # Install all the packages together
-install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
-                   "psych", "CTT", "ShinyItemAnalysis", "difR", "devtools", "rmarkdown"))
+install.packages(c("lavaan", "mirt"))
+```
 
-# Or, we could do it one by one. For example:
-# install.packages("CTT")
-# install.packages("psych")
-# and so on...
+We will use **lavaan** [@R-lavaan] to conduct confirmatory factor analysis and **mirt** [@R-mirt] to estimate dichotomous and polytomous IRT models.
+
+***
+
+> `r emo::ji("bell")` [**INFORMATION:**]{style="color:blue"} There are many other packages for estimating IRT models in R, such as **ltm** [@R-ltm], **eRm** [@R-eRm], **TAM** [@R-TAM], and **irtoys** [@R-irtoys]. I prefer the **mirt** package because it includes functions to estimate various IRT models (e.g., unidimensional, multidimensional, and explanatory IRT models), additional functions to check model assumptions (e.g., local independence), and various tools to visualize IRT-related objects (e.g., item characteristic curve, item information function, and test information function). You can check out @irtpkg for a detailed review of IRT packages available in R.
+
+***
+
+## Exploratory data analysis
+
+We will begin our analysis by conducting [exploratory data analysis (EDA)](https://okanbulut.github.io/bigdata/eda.html). As you may remember from the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section, we use EDA to check the quality of our data and identify potential problems (i.e., missing values) in the data. In this section, we will import [sapa.csv](data_and_codes/sapa.csv) into R, review the variables in the dataset, and then perform exploratory factor analysis (EFA) to evaluate the dimensionality of the SAPA items. 
+
+First, we need to set up our working directory. I created a new folder called "IRT Analysis" on my desktop and put our data ([sapa_data.csv](data_and_codes/sapa_data.csv)) into this folder. Now, we will change our working directory to this new folder:
+
+```{r irt3, eval=FALSE}
+setwd("C:/Users/Okan/Desktop/IRT Analysis")
+```
+
+Next, we will import the data into R using the `read.csv()` function and save it as "sapa".
+
+```{r irt4, eval=FALSE}
+sapa <- read.csv("sapa_data.csv", header = TRUE)
+```
+
+Using the `head()` function, we can now view the first 6 rows of the `sapa` dataset:
+
+```{r irt5, eval=FALSE}
+head(sapa)
+```
+
+```{r irt6, echo=FALSE, R.options = list(width = 110)}
+sapa <- read.csv(paste0(getwd(), "/data_and_codes/sapa_data.csv"), header = TRUE)
+head(sapa)
+```
+
+We can also see the names and types of the variables in our dataset using the `str()` function:
+
+```{r irt7, echo=TRUE}
+str(sapa)
+```
+
+The dataset consists of 1525 rows (i.e., participants) and 16 variables (i.e., SAPA items). We can get more information on the dataset using the `introduce()` and `plot_intro()` functions from the **DataExplorer** package [@R-DataExplorer]:
+
+```{r irt8, echo=TRUE, eval=FALSE}
+DataExplorer::introduce(sapa)
+
+DataExplorer::plot_intro(sapa)
+```
+
+```{r irt9, echo=FALSE}
+kbl(t(introduce(sapa)), 
+    row.names = TRUE, col.names = "", 
+    format.args = list(big.mark = ",")) %>%
+  kable_styling()
+```
+
+```{r irt10, echo=FALSE}
+DataExplorer::plot_intro(sapa)
+```
+
+The plot above shows that all of the variables in the dataset are continuous. We also see that some of the variables have missing values but the proportion of missing data is very small (only 0.10%). To have a closer look at missing values, we can visualize the proportion of missingness for each variable using `plot_missing()` from **DataExplorer**.
+
+```{r irt11, echo=TRUE}
+DataExplorer::plot_missing(sapa)
+```
+
+To obtain a detailed summary of the sapa dataset, we will use the `describe()` function from the **psych** package [@R-psych].
+
+```{r irt12, R.options = list(width = 200)}
+psych::describe(x = sapa)
+```
+
+From the output above, we can see the number of individuals who responded to each SAPA item, the mean response value (i.e., proportion-correct or item difficulty), and other descriptive statistics. We see that most SAPA items have moderate difficulty values although the rotation items (i.e., rotate.3, rotate.4, rotate.6, and rotate.8) are more difficult than the remaining items in the dataset. 
+
+In [CTT](https://okanbulut.github.io/edpy507/ctt.html) section, we checked the correlations among the nfc items to gauge how strongly the items were associated with each other. We expected the items to be associated with each other because they were designed to measure the same latent trait (i.e., need for cognition). For the sapa dataset, we will have to make a similar assumption: all SAPA items measure the same latent trait (general intelligence or g). However, given that the items come from different content areas (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations), we must ensure that these items are sufficiently correlated with each other and measure a single latent trait.  
+
+To compute the correlations among the SAPA items, we will use the `tetrachoric()` function from **psych**. Since the SAPA items are dichotomously scored (i.e., 0: incorrect and 1: correct), we cannot use Pearson correlations (which could be obtained using the `cor()` function in R). We will compute the correlations and then extract `rho`- (i.e., the correlation matrix of the items).
+
+```{r irt13, eval=FALSE}
+# Save the correlation matrix
+cormat <- psych::tetrachoric(x = sapa)$rho
+
+# Print the correlation matrix
+print(cormat)
 ```
 
 
-## Model Estimation {.tabset .tabset-fade .tabset-pills}
+```{r irt14, echo=FALSE}
+cormat <- psych::tetrachoric(x = sapa)$rho
+
+cormat %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), font_size = 11)
+```
+
+The correlation matrix does not show any negative or low correlations (which is a very good sign! `r emo::ji("+1")`). To check the associations among the items more carefully, we will also create a correlation matrix plot using the `ggcorrplot()` function from the **ggcorrplot** package [@R-ggcorrplot]. We will include the `hc.order = TRUE` argument to perform hierarchical clustering. This will look for groups (i.e., clusters) of items that are strongly associated with each other. If all SAPA items measure the same latent trait, we should see a single cluster of items.
+
+```{r irt15, echo=TRUE, fig.width=9, fig.height=6}
+ggcorrplot::ggcorrplot(corr = cormat, # correlation matrix
+                       type = "lower", # print only the lower part of the correlation matrix
+                       hc.order = TRUE, # hierarchical clustering
+                       show.diag = TRUE, # show the diagonal values of 1
+                       lab = TRUE, # add correlation values as labels
+                       lab_size = 3) # Size of the labels
+```
+
+The figure above shows that the four rotation items have created a cluster (see the cluster on the top-right corner), while the remaining SAPA items have created another cluster (see the cluster on the bottom-left corner). The rotation items are strongly correlated with each other (not surprising given that they all focus on the rotation skills); however, the same items have relatively lower correlations with the other items in the dataset. Also, matrix.55 seems to have relatively low correlations with the items from both clusters. 
+
+Findings of hierarchical clustering suggest that the SAPA items may not be measuring a single latent trait. However, hierarchical clustering is not a test of dimensionality. To ensure that there is a single factor (i.e., latent trait) underlying the SAPA items, we need to perform factor analysis and evaluate the factor structure of the SAPA items (i.e., dimensionality).
+
+<br>
+
+### Exploratory factor analysis 
+
+Factor analysis is a statistical modeling technique that aims to explain the common variability among a set of observed variables a reduced set of variables known as factors (or dimensions). At the core of factor analysis is the desire to reduce the dimensionality of the data from $p$ indicators to $q$ factors, such that $q < p$. During instrument development or when there are no prior beliefs about the dimensionality or structure of an existing instrument, exploratory factor analysis (EFA) should be considered to investigate the factorial structure of the instrument. To perform EFA, we need to specify the number of factors to extract, how to rotate factors (if the number of factors > 1), which type of estimation method should be used depending on the nature of the data (e.g., categorical vs. continuous variables).
+
+The **psych** package includes several functions to perform factor analytic analysis with different estimation methods. We will use the `fa()` function in the **psych** package to perform EFA. To use the function, we need to specify the following items:
+
+* r = Our data set (either raw data or a correlation matrix)
+* n.obs = Number of observations in the data (necessary only when using a correlation matrix)
+* nfactors = number of factors that we expect to find in the data
+* rotate = Type of rotation if n > 1. We can use "varimax" for an orthogonal rotation that assumes no correlation between factors or "oblimin" for an oblique rotation that assumes factors are somewhat correlated
+* fm = Factor analysis method. "pa" is principal axis (typical EFA)
+* cor = How to find the correlations when using raw data. For continuous variable, use `cor = "Pearson"` (Pearson correlation); for dichotomous variables, use `cor = "tet"` (tetrachoric correlation); for polytomous variables (e.g., Likert scales), use `cor = "poly"` (polychoric correlation).
+
+First, we will try a one-factor model, evaluate model fit, and determine whether a one-factor (i.e., unidimensional) structure is acceptable for the SAPA items:
+
+```{r irt16, echo=TRUE}
+# Try one-factor EFA model --> nfactors=1
+efa.model1 <- psych::fa(r = sapa, nfactors = 1, fm = "pa", cor = "tet")
+print(efa.model1, sort = TRUE) # Show the factor loadings sorted by absolute value
+```
+
+The output shows the factor loadings for each item (see the `PA1` column) and the proportion of explained variance (42\%; see `Proportion Var`). The factor loadings seem fine (i.e., > 0.3 -- which is the typical cut-off value to determine significant loadings). We can determine model fit based on model fit indices of root mean square of residuals (RMSR), root mean square error of approximation (RMSEA), and Tucker-Lewis Index. We can use @hu1999cutoff's guidelines for these model fit indices: Tucker-Lewis index (TLI) > .95, RMSEA < .06, and RMSR near zero indicate good model fit. The fit measures in the output show that the one-factor model does not necessarily fit the sapa dataset. Therefore, we will try a two-factor model in the next run: 
+
+```{r irt17, echo=TRUE}
+# Try two-factor EFA model --> nfactors=2
+efa.model2 <- psych::fa(sapa, nfactors = 2, rotate = "oblimin", fm = "pa", cor = "tet")
+print(efa.model2, sort = TRUE) # Show the factor loadings sorted by absolute value
+```
+
+Based on the factor loadings listed under the PA1 and PA2 columns, we see that the first 12 items are highly loaded on the first factor whereas the last four items (i.e., rotation items) are loaded on the second factor. This finding is aligned with what we have observed in the correlation matrix plot earlier. Another important finding is that one of the items (matrix.55) is not sufficiently loaded on either of the two factors. 
+
+The rest of the output shows that the first factor explains 30\% of the total variance while the second factor explains 19\% of the total variance (see `Proportion Var`). Compared to the one-factor model, the two-factor model explains an additional 7\% of variance in the data. The two factors seem to be moderately correlated ($r = .63$). The model fit indices show that the two-factor model fits the data better (though the model fit indices do not entirely meet the guidelines).
+
+At this point, we need to make a theoretical decision informed by the statistical output: Can we still assume that all the items in the sapa dataset measure the same latent trait? Or, should we exclude the items that do not seem to correlate well with the rest of the items in the dataset? The evidence we obtained from the EFA models suggests that the rotation items may not be the part of the construct measured by the rest of the SAPA items. Also, matrix.55 appears to be a bit problematic. Therefore, we can choose to exclude these five items from the dataset.
+
+In the following section, we will first use the `subset()` function (from base R) to drop the rotation items and matrix.55 and save the new dataset as `sapa_clean`. Next, we will run the one-factor EFA model using the remaining items.
+
+```{r irt18, echo=TRUE}
+# Drop the problematic items
+sapa_clean <- subset(sapa, select = -c(rotate.3, rotate.4, rotate.6, rotate.8, matrix.55))
+
+# Try one-factor EFA model with the clean dataset
+efa.model3 <- psych::fa(sapa_clean, nfactors = 1, fm = "pa", cor = "tet")
+print(efa.model3, sort=TRUE)
+```
+
+The output above shows that the model fit has improved significantly after removing the rotation items and matrix.55 from the dataset. Thus, we will use the sapa_clean dataset for subsequent analyses. Please note that for the sake of brevity, we followed a data-driven approach to determine whether the problematic items need to be removed in this example. A more suitable solution would be to review the content of these items carefully and the output of the EFA models, and make a decision considering both the theoretical assumptions regarding the items and the statistical findings. 
+
+<br>
+
+### Confirmatory factor analysis 
+
+After an instrument has been developed and validated, we have a sense of the dimensionality of the instrument and which indicators should load onto which factor(s). In this setting, it is appropriate to consider confirmatory factor analysis (CFA) for examining the factor structure, not EFA. Unlike with EFA, in CFA we define the factor(s) and which items are associated with each factor. In other words, the researcher must create a theoretically-justified factor model and evaluate its fit to the data using CFA. 
+
+Following the results of EFA from the previous section, we will go ahead and fit a one-factor CFA model to the sapa_clean dataset. To perform CFA in R, as well as path analysis and structural equation modeling (SEM), we can use the **lavaan** package [@R-lavaan], which stands for **la**tent **va**riable **an**alysis. The **lavaan** package uses its own special model syntax. For conducting a CFA, we need to define a model and then estimate the model using the `cfa()` function. The model definition below begins with a single quote and ends with the same single quote. We named our factor as "f" (or, it could be a word such as "intelligence") and listed the items related to this factor. 
+
+```{r irt19, echo=TRUE}
+# Define a single factor
+sapa_model <- 'f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 + 
+               letter.33 + letter.34 + letter.58 + matrix.45 + matrix.46 + matrix.47'
+```
+
+Next, we will run the CFA model for the model defined above. If the items are dichotomous or polytomous, then estimator should be either "MLR" or "WLSMV" because these estimators are more robust against non-normality which is usually the case for categorical data. In this example, we will use "MLR" (i.e., Robust Maximum Likelihood) to estimate our CFA model. 
+
+```{r irt20, echo=TRUE}
+# Estimate the model
+cfa_sapa <- lavaan::cfa(sapa_model, data = sapa_clean, estimator = "MLR")
+
+# Print the output
+summary(cfa_sapa, fit.measures=TRUE, standardized = TRUE)
+```
+
+The `cfa()` function returns a long output with model fit statistics, model parameters, and additional information, but we will only focus on model fit indices of Comparative Fit Index (CFI), Tucker-Lewis Index (TLI), and Root Mean Square Error of Approximation (RMSEA) to interpret the fit of the one-factor model to the sapa_clean dataset (please refer to [UCLA Statistical Consulting Group's website](https://stats.oarc.ucla.edu/r/seminars/rcfa/) for a more detailed coverage of CFA model estimation using **lavaan**. The website also includes annotated examples of a variety of statistical analyses using different software programs such as SPSS, SAS, R, and Mplus). 
+
+In the output, both CFI and TLI values (under the "Robust" column) are larger than .95, indicating good model fit. Similarly, the RMSEA value of .042 for the one-factor model suggests good model fit (less than .06). Also, the "Std.all" column in the "Latent Variables: f =~" section shows standardized factor loadings for the items. We see that all the items in sapa_clean have a high factor loading (> 0.3), indicating an adequate relationship with the estimated factor.
+
+<br>
+
+## Model estimation {.tabset .tabset-fade .tabset-pills}
 
 In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item and ability parameters for each IRT model. 
 
@@ -105,6 +281,24 @@ content of sub-chapter #3
 
 ### 3PL Model
 content of sub-chapter #4
+
+<br>
+
+# Example 2: NFC
+
+xxx
+
+<br>
+
+## Setting up R
+
+xxx
+
+<br>
+
+## Model estimation
+
+xxx
 
 <br>
 
