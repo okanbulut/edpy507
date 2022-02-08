@@ -234,9 +234,9 @@ The output above shows that the model fit has improved significantly after remov
 
 ### Confirmatory factor analysis 
 
-After an instrument has been developed and validated, we have a sense of the dimensionality of the instrument and which indicators should load onto which factor(s). In this setting, it is appropriate to consider confirmatory factor analysis (CFA) for examining the factor structure, not EFA. Unlike with EFA, in CFA we define the factor(s) and which items are associated with each factor. In other words, the researcher must create a theoretically-justified factor model and evaluate its fit to the data using CFA. 
+After an instrument has been developed and validated, we have a sense of the dimensionality of the instrument and which indicators should load onto which factor(s). In this setting, it is more appropriate to consider confirmatory factor analysis (CFA) for examining the factor structure. Unlike with EFA, in CFA the researcher must create a theoretically-justified factor model by specifying the factor(s) and which items are associated with each factor and evaluate its fit to the data. 
 
-Following the results of EFA from the previous section, we will go ahead and fit a one-factor CFA model to the sapa_clean dataset. To perform CFA in R, as well as path analysis and structural equation modeling (SEM), we can use the **lavaan** package [@R-lavaan], which stands for **la**tent **va**riable **an**alysis. The **lavaan** package uses its own special model syntax. For conducting a CFA, we need to define a model and then estimate the model using the `cfa()` function. The model definition below begins with a single quote and ends with the same single quote. We named our factor as "f" (or, it could be a word such as "intelligence") and listed the items related to this factor. 
+Following the results of EFA from the previous section, we will go ahead and fit a one-factor CFA model to the sapa_clean dataset. To perform CFA in R, as well as path analysis and structural equation modeling (SEM), we can use the **lavaan** package [@R-lavaan], which stands for **la**tent **va**riable **an**alysis. The **lavaan** package uses its own special model syntax. For conducting a CFA, we need to define a model and then estimate the model using the `cfa()` function. The model definition below begins with a single quote and ends with the same single quote. We named our factor as "f" (or, we could name it as "intelligence") and listed the items associated with this factor (i.e., SAPA items). 
 
 ```{r irt19, echo=TRUE}
 # Define a single factor
@@ -256,16 +256,142 @@ summary(cfa_sapa, fit.measures=TRUE, standardized = TRUE)
 
 The `cfa()` function returns a long output with model fit statistics, model parameters, and additional information, but we will only focus on model fit indices of Comparative Fit Index (CFI), Tucker-Lewis Index (TLI), and Root Mean Square Error of Approximation (RMSEA) to interpret the fit of the one-factor model to the sapa_clean dataset (please refer to [UCLA Statistical Consulting Group's website](https://stats.oarc.ucla.edu/r/seminars/rcfa/) for a more detailed coverage of CFA model estimation using **lavaan**. The website also includes annotated examples of a variety of statistical analyses using different software programs such as SPSS, SAS, R, and Mplus). 
 
-In the output, both CFI and TLI values (under the "Robust" column) are larger than .95, indicating good model fit. Similarly, the RMSEA value of .042 for the one-factor model suggests good model fit (less than .06). Also, the "Std.all" column in the "Latent Variables: f =~" section shows standardized factor loadings for the items. We see that all the items in sapa_clean have a high factor loading (> 0.3), indicating an adequate relationship with the estimated factor.
+In the output, both CFI and TLI values (under the "Robust" column) are larger than .95, indicating good model fit. Similarly, the RMSEA value of .042 for the one-factor model suggests good model fit (since it is less than the suggested cut-off value of .06). Also, the "Std.all" column in the "Latent Variables: f =~" section shows standardized factor loadings for the items. We see that all the items in sapa_clean have a high factor loading (> 0.3), indicating an adequate relationship with the estimated factor.
 
 <br>
 
 ## Model estimation {.tabset .tabset-fade .tabset-pills}
 
-In this section, we will see how to estimate different types of dichotomous IRT models. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item and ability parameters for each IRT model. 
+In this section, we will see how to estimate different types of dichotomous IRT models using the sapa_clean dataset. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item and ability parameters for each IRT model. 
+
+```{r irt21, eval=TRUE, echo=FALSE}
+models <- data.frame(
+  Model = c("Rasch", "1PL", "2PL", "3PL"),
+  Description = c("Rasch Model", "One-Parameter Logistic Model", "Two-Parameter Logistic Model", 
+                  "Three-Parameter Logistic Model"),
+  Parameters = c("b", "b, a (same for all items)", "b, a (unique to each item)", "b, a (unique to each item), c")
+)
+
+kbl(models, caption = "") %>%
+  kable_paper("striped")
+```
+
+<br>
 
 ### Rasch Model
-content of sub-chapter #1
+
+In the Rasch model, the probability of answering item $j$ correctly for examinee $j$ with ability $\theta_j$ (i.e., $P(X_{ij} = 1)$) can be written as follows:
+
+$$P(X_{ij} = 1) = \frac{e^{(\theta_j - b_i)}}{1 + e^{(\theta_j - b_i)}}$$
+
+where $b_i$ is the item difficulty level of item $i$. Using the Rasch model, we can estimate a difficulty parameter for each item and an ability parameter for each examinee. 
+
+Now, let's calibrate the items in the sapa_clean dataset using the Rasch model.
+
+```{r irt22, echo=TRUE, eval=FALSE}
+# Estimate the item parameters
+model_rasch <- mirt::mirt(data = sapa_clean, # data with only item responses
+                          model = 1, # 1 refers to the unidimensional IRT model
+                          itemtype = "Rasch") # IRT model we want to use for item calibration
+```
+
+```{r irt23, echo=FALSE, eval=TRUE}
+# Estimate the item parameters
+model_rasch <- mirt::mirt(data = sapa_clean, # data with only item responses
+                          model = 1, # 1 refers to the unidimensional IRT model
+                          itemtype = "Rasch", # IRT model we want to use for item calibration
+                          verbose = FALSE)
+```
+
+Next, we will extract the estimated item parameters using the `coef()` function and print them. 
+
+```{r irt24, echo=TRUE}
+# Extract the item parameters
+param_rasch <- coef(model_rasch, # the model object with the estimated parameters
+                    IRTpars = TRUE, # whether we want to get traditional IRT parameters
+                    simplify = TRUE) # simplify the model output
+
+# What is saved in this object?
+str(param_rasch)
+
+# It is a list with a bunch of stuff, but... we only want to keep the item parameters
+param_rasch <- param_rasch$items
+
+# Print the item parameters
+param_rasch
+```
+
+In the output, we see that the a parameter is fixed to "1" for all items, the b parameters are uniquely estimated for item item, and the c parameter (shown as "g" as guessing) is fixed to zero for all items. The "u" column indicates the upper asymptote representing the maximum value of the probability of success (this parameter only matters for the 4-parameter logistic (4PL) model and yes, there is indeed a 4PL model... `r emo::ji("weary")`).
+
+<br>
+
+#### Ability estimation
+
+Since we already estimated the item parameters, we can also go ahead and estimate ability parameters for the examinees using the `fscores()` function. We will use expected a priori (EAP) to estimate the ability parameters for all response patterns. Alternatively, we could use `method = "ML"` for the maximum likelihood estimation but this will not return a valid ability estimate for examinees who answered all of the items correctly or incorrectly. 
+
+```{r irt25, echo=TRUE}
+# Estimate ability parameters
+theta_rasch <- mirt::fscores(model_rasch, # estimated IRT model
+                             method = "EAP", # estimation method
+                             full.scores.SE = TRUE) # return the standard errors
+
+# See the estimated ability parameters
+head(theta_rasch)
+
+# See the distribution of the estimated ability parameters
+# (i.e., first column) in theta_rasch
+hist(theta_rasch[, 1], 
+     xlab = "Theta", # label for the x axis
+     main = "Ability Distribution - Rasch") # title for the plot
+```
+
+#### Visualizing response functions
+
+```{r irt26, echo=TRUE}
+# Test characteristic curve
+plot(model_rasch, type = "score")
+
+# Test information function and standard error
+# Use only "info" or "SE" to plot them separately
+plot(model_rasch, type = "infoSE")
+
+# Plot individual item characteristic curve
+mirt::itemplot(model_rasch, 
+               item = 1, # which item to plot
+               type = "trace")
+
+# Plot individual item information functions and standard error
+# Use only "info" or "SE" to plot them separately
+mirt::itemplot(model_rasch, 
+               item = 1, # which item to plot
+               type = "infoSE")
+
+# Alternatively, we can plots all the items together
+# Let's see the item characteristic curves for all items
+plot(model_rasch, type = "trace")
+
+# Here are the item information plots for all items
+plot(model_rasch, type = "infotrace")
+
+# Or, plot only some items
+# Here are the item characteristic curves for items 1, 3, and 5
+plot(model_rasch, type = "trace", which.items = c(1, 3, 5))
+```
+
+#### Reliability
+
+The IRT test reliability coefficient ($\rho_{xx'}$) can be defined as the ratio of the true score variance (i.e., variance of theta scores) to the observed score variance (the sum of the variance of theta scores and the average of squared standard errors):
+
+
+$$\rho_{xx'} = \frac{Var(\hat{\theta})}{Var(\hat{\theta}) + SE(\hat{\theta})^2}$$
+
+```{r irt27, echo=TRUE}
+# Empirical reliability
+mirt::empirical_rxx(theta_rasch)
+
+# Reliability plot
+plot(model_rasch, type = "rxx")
+```
 
 <br>
 
