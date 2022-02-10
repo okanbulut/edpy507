@@ -983,54 +983,30 @@ Group variables            None
 21 self_control               0         1       0.117   8.36   -22    -5     0     5    24</code></pre>
 <p>The <code>describe()</code> function from the <strong>psych</strong> package <span class="citation">(Revelle, 2021)</span> is another useful function to get basic descriptive statistics for data collected for psychometric and psychology studies (see <code>?psych::describe</code> for more details about this function).</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(<span class="at">x =</span> nfc)</span></code></pre></div>
-<pre><code>                   vars    n   mean     sd median trimmed    mad min  max range  skew kurtosis
-id                    1 1209 881.61 490.93    888  883.82 624.17   1 1735  1734 -0.03    -1.18
-age                   2 1204  24.43   3.93     24   24.00   2.97  18   50    32  1.54     4.79
-sex*                  3 1206   1.41   0.49      1    1.39   0.00   1    2     1  0.36    -1.87
-education*            4 1209   1.04   0.31      1    1.00   0.00   1    4     3  7.59    58.45
-nfc01                 5 1209   5.54   1.19      6    5.68   1.48   1    7     6 -1.18     1.56
-nfc02                 6 1209   4.94   1.39      5    5.01   1.48   1    7     6 -0.49    -0.31
-nfc03                 7 1209   4.44   1.40      5    4.51   1.48   1    7     6 -0.32    -0.48
-nfc04                 8 1209   2.47   1.47      2    2.25   1.48   1    7     6  1.16     0.68
-nfc05                 9 1209   5.82   1.23      6    6.01   1.48   1    7     6 -1.33     2.09
-nfc06                10 1209   3.75   1.50      4    3.69   1.48   1    7     6  0.24    -0.60
-nfc07                11 1209   2.70   1.32      2    2.57   1.48   1    7     6  0.79     0.20
-nfc08                12 1209   3.34   1.55      3    3.27   1.48   1    7     6  0.40    -0.65
-nfc09                13 1209   2.45   1.52      2    2.23   1.48   1    7     6  1.03     0.32
-nfc10                14 1209   3.16   1.52      3    3.06   1.48   1    7     6  0.61    -0.30
-nfc11                15 1209   2.75   1.45      2    2.61   1.48   1    7     6  0.72    -0.15
-nfc12                16 1209   2.45   1.40      2    2.26   1.48   1    7     6  0.93     0.18
-nfc13                17 1209   4.10   1.42      4    4.13   1.48   1    7     6 -0.13    -0.54
-nfc14                18 1209   3.57   1.47      4    3.54   1.48   1    7     6  0.11    -0.50
-nfc15                19 1209   2.25   1.34      2    2.03   1.48   1    7     6  1.25     1.23
-nfc16                20 1209   2.48   1.40      2    2.28   1.48   1    7     6  1.06     0.77
-action_orientation   21 1209   9.84   4.96      9    9.65   4.45   0   24    24  0.33    -0.40
-effortful_control    22 1209   6.84  13.97      7    6.93  13.34 -45   57   102 -0.08     0.27
-self_control         23 1209   0.12   8.36      0    0.08   7.41 -22   24    46  0.06    -0.26
-                      se
-id                 14.12
-age                 0.11
-sex*                0.01
-education*          0.01
-nfc01               0.03
-nfc02               0.04
-nfc03               0.04
-nfc04               0.04
-nfc05               0.04
-nfc06               0.04
-nfc07               0.04
-nfc08               0.04
-nfc09               0.04
-nfc10               0.04
-nfc11               0.04
-nfc12               0.04
-nfc13               0.04
-nfc14               0.04
-nfc15               0.04
-nfc16               0.04
-action_orientation  0.14
-effortful_control   0.40
-self_control        0.24</code></pre>
+<pre><code>                   vars    n   mean     sd median trimmed    mad min  max range  skew kurtosis    se
+id                    1 1209 881.61 490.93    888  883.82 624.17   1 1735  1734 -0.03    -1.18 14.12
+age                   2 1204  24.43   3.93     24   24.00   2.97  18   50    32  1.54     4.79  0.11
+sex*                  3 1206   1.41   0.49      1    1.39   0.00   1    2     1  0.36    -1.87  0.01
+education*            4 1209   1.04   0.31      1    1.00   0.00   1    4     3  7.59    58.45  0.01
+nfc01                 5 1209   5.54   1.19      6    5.68   1.48   1    7     6 -1.18     1.56  0.03
+nfc02                 6 1209   4.94   1.39      5    5.01   1.48   1    7     6 -0.49    -0.31  0.04
+nfc03                 7 1209   4.44   1.40      5    4.51   1.48   1    7     6 -0.32    -0.48  0.04
+nfc04                 8 1209   2.47   1.47      2    2.25   1.48   1    7     6  1.16     0.68  0.04
+nfc05                 9 1209   5.82   1.23      6    6.01   1.48   1    7     6 -1.33     2.09  0.04
+nfc06                10 1209   3.75   1.50      4    3.69   1.48   1    7     6  0.24    -0.60  0.04
+nfc07                11 1209   2.70   1.32      2    2.57   1.48   1    7     6  0.79     0.20  0.04
+nfc08                12 1209   3.34   1.55      3    3.27   1.48   1    7     6  0.40    -0.65  0.04
+nfc09                13 1209   2.45   1.52      2    2.23   1.48   1    7     6  1.03     0.32  0.04
+nfc10                14 1209   3.16   1.52      3    3.06   1.48   1    7     6  0.61    -0.30  0.04
+nfc11                15 1209   2.75   1.45      2    2.61   1.48   1    7     6  0.72    -0.15  0.04
+nfc12                16 1209   2.45   1.40      2    2.26   1.48   1    7     6  0.93     0.18  0.04
+nfc13                17 1209   4.10   1.42      4    4.13   1.48   1    7     6 -0.13    -0.54  0.04
+nfc14                18 1209   3.57   1.47      4    3.54   1.48   1    7     6  0.11    -0.50  0.04
+nfc15                19 1209   2.25   1.34      2    2.03   1.48   1    7     6  1.25     1.23  0.04
+nfc16                20 1209   2.48   1.40      2    2.28   1.48   1    7     6  1.06     0.77  0.04
+action_orientation   21 1209   9.84   4.96      9    9.65   4.45   0   24    24  0.33    -0.40  0.14
+effortful_control    22 1209   6.84  13.97      7    6.93  13.34 -45   57   102 -0.08     0.27  0.40
+self_control         23 1209   0.12   8.36      0    0.08   7.41 -22   24    46  0.06    -0.26  0.24</code></pre>
 <p><br></p>
 <p>Before moving to item analysis, we should also check the correlations among the items to gauge how strongly the items are associated with each other. We expect the items to be associated with each other up to a certain degree because we assume that the items measure the same latent trait (the construct of NFC in this example). Having weakly-correlated items suggests that some items may <strong>not</strong> be measuring the same latent trait. Having very highly-correlated items (e.g., <span class="math inline">\(r &gt; .95\)</span>) suggests that there is some redundancy in the instrument because some items provide us with the same information about the individuals who answered the items.</p>
 <p>In addition, we know that some items in the NFC Scale are negatively-worded and thus responses to these items may be in the opposite direction with the rest of the items. For example, individuals with high NFC are likely to choose “7 = completely agree” for a positively-worded item such as “Enjoyment of tasks that involve problem-solving” whereas they are expected to choose “1 = completely disagree” for a negatively-worded item such as “Anticipation and avoiding of situations that may require in-depth thinking.”</p>
@@ -1039,13 +1015,20 @@ self_control        0.24</code></pre>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">starts_with</span>(<span class="st">&quot;nfc&quot;</span>)) <span class="co"># variables to be selected</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(response)</span></code></pre></div>
-<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14 nfc15 nfc16
-1     5     7     5     1     6     2     2     5     2     1     2     2     6     5     2     1
-2     5     5     3     2     5     3     3     3     2     4     3     2     3     2     4     4
-3     5     6     5     1     7     3     2     3     1     3     3     1     6     5     1     1
-4     5     5     4     2     5     5     2     2     2     2     4     3     2     3     1     1
-5     2     3     3     5     3     5     6     1     6     6     6     6     2     1     5     5
-6     6     6     6     1     6     3     1     1     1     1     1     1     6     6     2     2</code></pre>
+<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14 nfc15
+1     5     7     5     1     6     2     2     5     2     1     2     2     6     5     2
+2     5     5     3     2     5     3     3     3     2     4     3     2     3     2     4
+3     5     6     5     1     7     3     2     3     1     3     3     1     6     5     1
+4     5     5     4     2     5     5     2     2     2     2     4     3     2     3     1
+5     2     3     3     5     3     5     6     1     6     6     6     6     2     1     5
+6     6     6     6     1     6     3     1     1     1     1     1     1     6     6     2
+  nfc16
+1     1
+2     4
+3     1
+4     1
+5     5
+6     2</code></pre>
 <p>Alternatively, we could type each item by one one (which is much more tedious):</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(nfc, <span class="co"># name of the dataset</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) <span class="co"># variables to be selected</span></span></code></pre></div>
