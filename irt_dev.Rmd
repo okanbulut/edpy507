@@ -26,6 +26,7 @@ suppressWarnings({
   library("psych")
   library("lavaan")
   library("mirt")
+  library("ShinyItemAnalysis")
 })
 
 # automatically create a bib database for R packages
@@ -34,7 +35,7 @@ knitr::write_bib(x = c(.packages()), file = "packages_irt.bib")
 
 ------------------------------------------------------------------------
 
-# Example 1: Synthetic Aperture Personality Assessment
+# Example: Synthetic Aperture Personality Assessment
 
 The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<https://www.sapa-project.org/>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences [@condon2014; @revelle2010]. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence "g". The SAPA dataset is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the **psych** package [@R-psych]. The dataset can be downloaded from [**here**](data_and_codes/sapa.csv). In addition, the R codes for the item response theory (IRT) analyses presented on this page are available [**here**](data_and_codes/irt.R).
 
@@ -46,28 +47,37 @@ In our examples (both Example 1 and Example 2), we will conduct IRT and other re
 
 ```{r irt1, eval=TRUE, echo=FALSE}
 pkg_dat <- data.frame(
-  Package = c("DataExplorer", "ggcorrplot", "psych", "lavaan", "mirt"),
+  Package = c("DataExplorer", "ggcorrplot", "psych", "lavaan", "mirt", "ShinyItemAnalysis"),
   URL = c("http://CRAN.R-project.org/package=DataExplorer",
           "http://CRAN.R-project.org/package=ggcorrplot",
           "http://CRAN.R-project.org/package=psych",
           "http://CRAN.R-project.org/package=lavaan",
-          "http://CRAN.R-project.org/package=mirt")
+          "http://CRAN.R-project.org/package=mirt",
+          "http://CRAN.R-project.org/package=ShinyItemAnalysis")
 )
 
 kbl(pkg_dat, caption = "") %>%
   kable_paper("striped") %>%
   pack_rows("Exploratory Data Analysis", 1, 2) %>%
-  pack_rows("Psychometric Analysis", 3, 5)
+  pack_rows("Psychometric Analysis", 3, 6)
 ```
 
 <br>
 
-We have already installed and used some of the above packages in the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section. Therefore, we will only install the new R packages this time:
+We have already installed and used some of the above packages in the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section. Therefore, we will only install the new R packages this time and then activate all the required packages using `library()`:
 
 
 ```{r irt2, eval=FALSE}
-# Install all the packages together
+# Install the missing packages
 install.packages(c("lavaan", "mirt"))
+
+# Activate the required packages
+library("DataExplorer")
+library("ggcorrplot")
+library("psych")
+library("lavaan")
+library("mirt")
+library("ShinyItemAnalysis")
 ```
 
 We will use **lavaan** [@R-lavaan] to conduct confirmatory factor analysis and **mirt** [@R-mirt] to estimate dichotomous and polytomous IRT models.
@@ -246,7 +256,7 @@ sapa_model <- 'f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 +
 
 Next, we will run the CFA model for the model defined above. If the items are dichotomous or polytomous, then estimator should be either "MLR" or "WLSMV" because these estimators are more robust against non-normality which is usually the case for categorical data. In this example, we will use "MLR" (i.e., Robust Maximum Likelihood) to estimate our CFA model. 
 
-```{r irt20, echo=TRUE}
+```{r irt20a, echo=TRUE}
 # Estimate the model
 cfa_sapa <- lavaan::cfa(sapa_model, data = sapa_clean, estimator = "MLR")
 
@@ -260,9 +270,25 @@ In the output, both CFI and TLI values (under the "Robust" column) are larger th
 
 <br>
 
-## Model estimation {.tabset .tabset-fade .tabset-pills}
+### Item analysis
 
-In this section, we will see how to estimate different types of dichotomous IRT models using the sapa_clean dataset. This process is also known as "item calibration". Using the tabs below, you can see the estimation of item and ability parameters for each IRT model. 
+Before we start the IRT analysis, let's take a look at the items by running item analysis based on Classical Test Theory (CTT). This step will allow us to have a final look at the items that we identified based on EFA and CFA and ensure that the response dataset is ready for IRT analysis. We will use the `alpha()` function from the **psych** package for running CTT-based item analysis.
+
+```{r irt20b, echo=TRUE}
+# Run the item analysis and save it as itemanalysis_psych
+itemanalysis_psych <- psych::alpha(x = sapa_clean)
+
+# Print the results
+itemanalysis_psych
+```
+
+The output shows that the reliability is $\alpha = .81$, suggesting that the SAPA items have high internal consistency. In the "Reliability if an item is dropped" section, we see that removing any of the SAPA items does not necessarily improve the coefficient alpha, suggesting that all the items are essential. Lastly, in the "Item statistics" section, we can see that point-biserial correlations under the r.drop and r.cor columns are quite high (i.e., $> .20$), indicating that all the SAPA items can distinguish low- and high-achieving students adequately. 
+
+<br>
+
+## Item calibration {.tabset .tabset-fade .tabset-pills}
+
+In this section, we will see how to estimate different types of dichotomous IRT models using the sapa_clean dataset. This process is known as "item calibration". We will calibrate the SAPA items using the following IRT models:
 
 ```{r irt21, eval=TRUE, echo=FALSE}
 models <- data.frame(
@@ -278,13 +304,17 @@ kbl(models, caption = "") %>%
 
 <br>
 
+By clicking on each of the following tabs, you can see the estimation of item parameters for the four IRT models listed above. 
+
+<br>
+
 ### Rasch Model
 
-In the Rasch model, the probability of answering item $j$ correctly for examinee $j$ with ability $\theta_j$ (i.e., $P(X_{ij} = 1)$) can be written as follows:
+In the Rasch model, the probability of answering item $i$ correctly for examinee $j$ with ability $\theta_j$ (i.e., $P(X_{ij} = 1)$) can be written as follows:
 
 $$P(X_{ij} = 1) = \frac{e^{(\theta_j - b_i)}}{1 + e^{(\theta_j - b_i)}}$$
 
-where $b_i$ is the item difficulty level of item $i$. Using the Rasch model, we can estimate a difficulty parameter for each item and an ability parameter for each examinee. 
+where $b_i$ is the item difficulty level of item $i$. Using the Rasch model, we can estimate a unique difficulty parameter for each item and an ability parameter for each examinee. 
 
 Now, let's calibrate the items in the sapa_clean dataset using the Rasch model.
 
@@ -315,7 +345,7 @@ param_rasch <- coef(model_rasch, # the model object with the estimated parameter
 str(param_rasch)
 
 # It is a list with a bunch of stuff, but... we only want to keep the item parameters
-param_rasch <- param_rasch$items
+param_rasch <- as.data.frame(param_rasch$items)
 
 # Print the item parameters
 param_rasch
@@ -325,11 +355,239 @@ In the output, we see that the a parameter is fixed to "1" for all items, the b 
 
 <br>
 
-#### Ability estimation
+### 1PL Model
+
+In the one-parameter logistic (1PL) model, the probability of answering item $i$ correctly for examinee $j$ with ability $\theta_j$ can be written as follows:
+
+$$P(X_{ij} = 1) = \frac{e^{a(\theta_j - b_i)}}{1 + e^{a(\theta_j - b_i)}}$$
+
+where $b_i$ is the item difficulty level of item $i$ and $a$ is the item discrimination parameter of item $i$ (though it is **not** unique to item $i$). Using the 1PL model, we can estimate a unique difficulty parameter for each item, a discrimination parameter fixed across all the items, and an ability parameter for each examinee. 
+
+Now, we will calibrate the items in the sapa_clean dataset using the 1PL model. Estimating the 1PL model requires a special setup in the **mirt** package. We will use the two-parameter logistic (2PL) model but constrain the discrimination parameters to be fixed across all the items, which will give us the 1PL model (i.e., unique difficulty parameters but a fixed discrimination). Instead of using `model = 1` in the `mirt()` function, we will define a model where we indicate the latent variable (called "F" in the following example), how many items are defining this model (i.e., `F = 1-11`), and which parameters are to be constrained. We use `CONSTRAIN = (1-11, a1)` to estimate a single discrimination parameter (called "a1" in **mirt**) for all of the 11 items in the dataset. 
+
+```{r irt25, echo=TRUE, eval=FALSE}
+# Define the 1PL model explicitly
+model <- "F = 1-11
+          CONSTRAIN = (1-11, a1)"
+
+# Estimate the item parameters
+model_1PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = model, # our specical model for 1PL
+                        itemtype = "2PL") # IRT model we want to use for item calibration
+```
+
+```{r irt26, echo=FALSE, eval=TRUE}
+# Define the 1PL model explicitly
+model <- "F = 1-11
+          CONSTRAIN = (1-11, a1)"
+
+# Estimate the item parameters
+model_1PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = model, # our specical model for 1PL
+                        itemtype = "2PL", # IRT model we want to use for item calibration
+                        verbose = FALSE)
+```
+
+Next, we will extract the estimated item parameters using the `coef()` function and print them. 
+
+```{r irt27, echo=TRUE}
+# Extract the item parameters
+param_1PL <- coef(model_1PL, # the model object with the estimated parameters
+                  IRTpars = TRUE, # whether we want to get traditional IRT parameters
+                  simplify = TRUE) # simplify the model output
+
+# Only keep the item parameters
+param_1PL <- as.data.frame(param_1PL$items)
+
+# Print the item parameters
+param_1PL
+```
+
+In the output, we see that the a parameter is estimated but it is fixed to "1.478" for all items, the b parameters are uniquely estimated for item item, and the c parameter (i.e., g) is fixed to zero, and the upper asymptote (i.e., "u") is fixed to 1 for all items. If we compare the difficulty parameters from Rasch and 1PL, we can see that they are not necessarily the same. Estimating the discrimination parameter (instead of assuming $a = 1$) has changed the parameter estimates in the 1PL model. However, they are perfectly correlated. 
+
+```{r irt28, echo=TRUE}
+# Combine the difficulty parameters
+b_pars <- data.frame(rasch = param_rasch$b,
+                     onePL = param_1PL$b)
+
+# Print the difficulty parameters
+b_pars
+
+# Are they correlated?
+cor(b_pars$rasch, b_pars$onePL)
+
+# Let's also plot them -- see that they are perfectly aligned on a diagonal line
+plot(b_pars$rasch, b_pars$onePL, 
+     xlab = "Difficulty (Rasch)", 
+     ylab = "Difficulty (1PL)",
+     main = "Rasch vs. 1PL Difficulty Parameters")
+```
+
+<br>
+
+### 2PL Model
+
+In the two-parameter logistic (2PL) model, the probability of answering item $i$ correctly for examinee $j$ with ability $\theta_j$ can be written as follows:
+
+$$P(X_{ij} = 1) = \frac{e^{a_i(\theta_j - b_i)}}{1 + e^{a_i(\theta_j - b_i)}}$$
+
+where $b_i$ is the item difficulty level of item $i$ and $a_i$ is the item discrimination parameter of item $i$. Using the 1PL model, we can estimate a unique difficulty parameter and a unique discrimination parameter for each item, and an ability parameter for each examinee. 
+
+Let's calibrate the items in the sapa_clean dataset using the 2PL model. Fortunately, estimating the 2PL model does not require any special set up. We will simply define itemtype as "2PL" and estimate the parameters as we have done for the Rasch model. 
+
+```{r irt29, echo=TRUE, eval=FALSE}
+# Estimate the item parameters
+model_2PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = 1, # 1 refers to the unidimensional IRT model
+                        itemtype = "2PL") # IRT model we want to use for item calibration
+```
+
+```{r irt30, echo=FALSE, eval=TRUE}
+model_2PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = 1, # 1 refers to the unidimensional IRT model
+                        itemtype = "2PL", # IRT model we want to use for item calibration
+                        verbose = FALSE)
+```
+
+Next, we will extract the estimated item parameters using the `coef()` function and print them. 
+
+```{r irt31, echo=TRUE}
+# Extract the item parameters
+param_2PL <- coef(model_2PL, # the model object with the estimated parameters
+                  IRTpars = TRUE, # whether we want to get traditional IRT parameters
+                  simplify = TRUE) # simplify the model output
+
+# Only keep the item parameters
+param_2PL <- as.data.frame(param_2PL$items)
+
+# Print the item parameters
+param_2PL
+```
+
+In the output, we see that the a and b parameters are uniquely estimated for item item, and the c parameter (i.e., g) is fixed to zero, and the upper asymptote (i.e., "u") is fixed to 1 for all items. The discrimination parameters seem to vary across the items (e.g., $a = 1.816$ for reason.17 and $a = 1.112$ for matrix.45). Let's see whether the difficulty parameters from the 1PL and 2PL models are similar:
+
+
+```{r irt32, echo=TRUE}
+# Combine the difficulty parameters
+b_pars <- data.frame(onePL = param_1PL$b,
+                     twoPL = param_2PL$b)
+
+# Print the difficulty parameters
+b_pars
+
+# Are they correlated? Yes, they are!
+cor(b_pars$onePL, b_pars$twoPL)
+```
+
+<br>
+
+### 3PL Model
+
+In the three-parameter logistic (3PL) model, the probability of answering item $i$ correctly for examinee $j$ with ability $\theta_j$ can be written as follows:
+
+$$P(X_{ij} = 1) = c_i + (1 - c_i)\frac{e^{a_i(\theta_j - b_i)}}{1 + e^{a_i(\theta_j - b_i)}}$$
+
+where $b_i$ is the item difficulty level of item $i$, $a_i$ is the item discrimination parameter of item $i$, and $c_i$ is the guessing parameter of item $i$. Using the 3PL model, we can estimate unique difficulty, discrimination, and guessing parameter for each item, and an ability parameter for each examinee. 
+
+Let's calibrate the items in the sapa_clean dataset using the 3PL model. This time, we will define itemtype as "3PL" and estimate the parameters as we have done for the Rasch model. 
+
+```{r irt33, echo=TRUE, eval=FALSE}
+# Estimate the item parameters
+model_3PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = 1, # 1 refers to the unidimensional IRT model
+                        itemtype = "3PL") # IRT model we want to use for item calibration
+```
+
+```{r irt34, echo=FALSE, eval=TRUE}
+model_3PL <- mirt::mirt(data = sapa_clean, # data with only item responses
+                        model = 1, # 1 refers to the unidimensional IRT model
+                        itemtype = "3PL", # IRT model we want to use for item calibration
+                        verbose = FALSE)
+```
+
+Next, we will extract the estimated item parameters using the `coef()` function and print them. 
+
+```{r irt35, echo=TRUE}
+# Extract the item parameters
+param_3PL <- coef(model_3PL, # the model object with the estimated parameters
+                  IRTpars = TRUE, # whether we want to get traditional IRT parameters
+                  simplify = TRUE) # simplify the model output
+
+# Only keep the item parameters
+param_3PL <- as.data.frame(param_3PL$items)
+
+# Print the item parameters
+param_3PL
+```
+
+In the output, we see that the a, b, and c parameters are uniquely estimated for item item, and the upper asymptote (i.e., "u") is fixed to 1 for all items. Overall, most SAPA items have very low guessing parameters. The largest guessing parameter belongs to matrix.46 ($c = 0.147$).
+
+<br>
+
+## Visualizing IRT models
+
+Once we calibrate the items using a particular IRT model, we can also check the response functions for each item, as well as for the entire instrument, visually. In the following section, we will create item- and test-level visualizations for the SAPA items using the item parameters we have obtained from the IRT models.
+
+Let's begin with item characteristic curves (ICCs). We will use `itemplot()` to see the item characteristic curve for a specific item (i.e., `item = 10` for creating an ICC for item 10).
+
+```{r irt36, echo=TRUE}
+# Item 10 - Rasch Model
+mirt::itemplot(model_rasch, 
+               item = 10, # which item to plot
+               type = "trace") # traceline (i.e., ICC)
+
+# Item 10 - 3PL
+mirt::itemplot(model_3PL, 
+               item = 10, # which item to plot
+               type = "trace") # traceline (i.e., ICC)
+```
+
+If we want to plot ICCs for more than one item, then we can the `plot()` function and `type = "trace"` (because ICCs are also known as tracelines). We also need to specify for which items we want to plot an ICC using `which.items`:
+
+```{r irt37, echo=TRUE, fig.height=5}
+# ICCs for items 1, 3, and 5 in the 2PL model
+plot(model_2PL, type = "trace", which.items = c(1, 3, 5))
+```
+
+Also, we can plots all the items together using the same `plot()` function. Deleting the `which.items` argument will return the ICCs for all the items in a single plot. Let's see the ICCs for all items in the 3PL model:
+
+```{r irt38, echo=TRUE}
+plot(model_3PL, type = "trace")
+```
+
+Next, we will use the `plot()` function and `type = "score"` to obtain test characteristic curves (i.e., sum of the individual ICCs) for the 2PL model:
+
+```{r irt39, echo=TRUE}
+plot(model_2PL, type = "score")
+```
+
+
+
+```{r irt40, echo=TRUE}
+# Test information function and standard error
+# Use only "info" or "SE" to plot them separately
+plot(model_rasch, type = "infoSE")
+
+# Plot individual item information functions and standard error
+# Use only "info" or "SE" to plot them separately
+mirt::itemplot(model_rasch, 
+               item = 1, # which item to plot
+               type = "infoSE")
+
+# Here are the item information plots for all items
+plot(model_rasch, type = "infotrace")
+
+# Or, plot only some items
+
+```
+
+<br>
+
+## Ability estimation
 
 Since we already estimated the item parameters, we can also go ahead and estimate ability parameters for the examinees using the `fscores()` function. We will use expected a priori (EAP) to estimate the ability parameters for all response patterns. Alternatively, we could use `method = "ML"` for the maximum likelihood estimation but this will not return a valid ability estimate for examinees who answered all of the items correctly or incorrectly. 
 
-```{r irt25, echo=TRUE}
+```{r irt25b, echo=TRUE}
 # Estimate ability parameters
 theta_rasch <- mirt::fscores(model_rasch, # estimated IRT model
                              method = "EAP", # estimation method
@@ -345,86 +603,20 @@ hist(theta_rasch[, 1],
      main = "Ability Distribution - Rasch") # title for the plot
 ```
 
-#### Visualizing response functions
-
-```{r irt26, echo=TRUE}
-# Test characteristic curve
-plot(model_rasch, type = "score")
-
-# Test information function and standard error
-# Use only "info" or "SE" to plot them separately
-plot(model_rasch, type = "infoSE")
-
-# Plot individual item characteristic curve
-mirt::itemplot(model_rasch, 
-               item = 1, # which item to plot
-               type = "trace")
-
-# Plot individual item information functions and standard error
-# Use only "info" or "SE" to plot them separately
-mirt::itemplot(model_rasch, 
-               item = 1, # which item to plot
-               type = "infoSE")
-
-# Alternatively, we can plots all the items together
-# Let's see the item characteristic curves for all items
-plot(model_rasch, type = "trace")
-
-# Here are the item information plots for all items
-plot(model_rasch, type = "infotrace")
-
-# Or, plot only some items
-# Here are the item characteristic curves for items 1, 3, and 5
-plot(model_rasch, type = "trace", which.items = c(1, 3, 5))
-```
-
-#### Reliability
+## Reliability
 
 The IRT test reliability coefficient ($\rho_{xx'}$) can be defined as the ratio of the true score variance (i.e., variance of theta scores) to the observed score variance (the sum of the variance of theta scores and the average of squared standard errors):
 
 
 $$\rho_{xx'} = \frac{Var(\hat{\theta})}{Var(\hat{\theta}) + SE(\hat{\theta})^2}$$
 
-```{r irt27, echo=TRUE}
+```{r irt27c, echo=TRUE}
 # Empirical reliability
 mirt::empirical_rxx(theta_rasch)
 
 # Reliability plot
 plot(model_rasch, type = "rxx")
 ```
-
-<br>
-
-### 1PL Model
-content of sub-chapter #2
-
-<br>
-
-### 2PL Model
-content of sub-chapter #3
-
-<br>
-
-### 3PL Model
-content of sub-chapter #4
-
-<br>
-
-# Example 2: NFC
-
-xxx
-
-<br>
-
-## Setting up R
-
-xxx
-
-<br>
-
-## Model estimation
-
-xxx
 
 <br>
 

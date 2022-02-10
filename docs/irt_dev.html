@@ -409,34 +409,33 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#example-1-synthetic-aperture-personality-assessment">Example 1: Synthetic Aperture Personality Assessment</a>
+<li><a href="#example-synthetic-aperture-personality-assessment">Example: Synthetic Aperture Personality Assessment</a>
 <ul>
 <li><a href="#setting-up-r">Setting up R</a></li>
 <li><a href="#exploratory-data-analysis">Exploratory data analysis</a>
 <ul>
 <li><a href="#exploratory-factor-analysis">Exploratory factor analysis</a></li>
 <li><a href="#confirmatory-factor-analysis">Confirmatory factor analysis</a></li>
+<li><a href="#item-analysis">Item analysis</a></li>
 </ul></li>
-<li><a href="#model-estimation">Model estimation</a>
+<li><a href="#item-calibration">Item calibration</a>
 <ul>
 <li><a href="#rasch-model">Rasch Model</a></li>
 <li><a href="#pl-model">1PL Model</a></li>
 <li><a href="#pl-model-1">2PL Model</a></li>
 <li><a href="#pl-model-2">3PL Model</a></li>
 </ul></li>
-</ul></li>
-<li><a href="#example-2-nfc">Example 2: NFC</a>
-<ul>
-<li><a href="#setting-up-r-1">Setting up R</a></li>
-<li><a href="#model-estimation-1">Model estimation</a></li>
+<li><a href="#visualizing-irt-models">Visualizing IRT models</a></li>
+<li><a href="#ability-estimation">Ability estimation</a></li>
+<li><a href="#reliability">Reliability</a></li>
 </ul></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
 
 <hr />
-<div id="example-1-synthetic-aperture-personality-assessment" class="section level1">
-<h1>Example 1: Synthetic Aperture Personality Assessment</h1>
+<div id="example-synthetic-aperture-personality-assessment" class="section level1">
+<h1>Example: Synthetic Aperture Personality Assessment</h1>
 <p>The Synthetic Aperture Personality Assessment (SAPA) is a web based personality assessment project (<a href="https://www.sapa-project.org/" class="uri">https://www.sapa-project.org/</a>). The purpose of SAPA is to find patterns among the vast number of ways that people differ from one another in terms of their thoughts, feelings, interests, abilities, desires, values, and preferences <span class="citation">(Condon &amp; Revelle, 2014; Revelle et al., 2010)</span>. In this example, we will use a subset of SAPA (16 items) sampled from the full instrument (80 items) to develop online measures of ability. These 16 items measure four subskills (i.e., verbal reasoning, letter series, matrix reasoning, and spatial rotations) as part of the general intelligence “g.” The SAPA dataset is a data frame with 1525 individuals who responded to 16 multiple-choice items in SAPA. The original dataset is included in the <strong>psych</strong> package <span class="citation">(Revelle, 2021)</span>. The dataset can be downloaded from <a href="data_and_codes/sapa.csv"><strong>here</strong></a>. In addition, the R codes for the item response theory (IRT) analyses presented on this page are available <a href="data_and_codes/irt.R"><strong>here</strong></a>.</p>
 <p><br></p>
 <div id="setting-up-r" class="section level2">
@@ -477,7 +476,7 @@ ggcorrplot
 <a href="http://CRAN.R-project.org/package=ggcorrplot" class="uri">http://CRAN.R-project.org/package=ggcorrplot</a>
 </td>
 </tr>
-<tr grouplength="3">
+<tr grouplength="4">
 <td colspan="2" style="border-bottom: 1px solid;">
 <strong>Psychometric Analysis</strong>
 </td>
@@ -506,12 +505,28 @@ mirt
 <a href="http://CRAN.R-project.org/package=mirt" class="uri">http://CRAN.R-project.org/package=mirt</a>
 </td>
 </tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+ShinyItemAnalysis
+</td>
+<td style="text-align:left;">
+<a href="http://CRAN.R-project.org/package=ShinyItemAnalysis" class="uri">http://CRAN.R-project.org/package=ShinyItemAnalysis</a>
+</td>
+</tr>
 </tbody>
 </table>
 <p><br></p>
-<p>We have already installed and used some of the above packages in the <a href="https://okanbulut.github.io/edpy507/ctt.html">CTT</a> section. Therefore, we will only install the new R packages this time:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install all the packages together</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;lavaan&quot;</span>, <span class="st">&quot;mirt&quot;</span>))</span></code></pre></div>
+<p>We have already installed and used some of the above packages in the <a href="https://okanbulut.github.io/edpy507/ctt.html">CTT</a> section. Therefore, we will only install the new R packages this time and then activate all the required packages using <code>library()</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the missing packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;lavaan&quot;</span>, <span class="st">&quot;mirt&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the required packages</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DataExplorer&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggcorrplot&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;psych&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lavaan&quot;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mirt&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
 <p>We will use <strong>lavaan</strong> <span class="citation">(Rosseel et al., 2021)</span> to conduct confirmatory factor analysis and <strong>mirt</strong> <span class="citation">(Chalmers, 2020)</span> to estimate dichotomous and polytomous IRT models.</p>
 <hr />
 <blockquote>
@@ -1884,10 +1899,72 @@ Variances:
 <p>In the output, both CFI and TLI values (under the “Robust” column) are larger than .95, indicating good model fit. Similarly, the RMSEA value of .042 for the one-factor model suggests good model fit (since it is less than the suggested cut-off value of .06). Also, the “Std.all” column in the “Latent Variables: f =~” section shows standardized factor loadings for the items. We see that all the items in sapa_clean have a high factor loading (&gt; 0.3), indicating an adequate relationship with the estimated factor.</p>
 <p><br></p>
 </div>
+<div id="item-analysis" class="section level3">
+<h3>Item analysis</h3>
+<p>Before we start the IRT analysis, let’s take a look at the items by running item analysis based on Classical Test Theory (CTT). This step will allow us to have a final look at the items that we identified based on EFA and CFA and ensure that the response dataset is ready for IRT analysis. We will use the <code>alpha()</code> function from the <strong>psych</strong> package for running CTT-based item analysis.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the item analysis and save it as itemanalysis_psych</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>itemanalysis_psych <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(<span class="at">x =</span> sapa_clean)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>itemanalysis_psych</span></code></pre></div>
+<pre><code>
+Reliability analysis   
+Call: psych::alpha(x = sapa_clean)
+
+  raw_alpha std.alpha G6(smc) average_r S/N    ase mean   sd median_r
+      0.81      0.81     0.8      0.28 4.3 0.0072  0.6 0.29     0.28
+
+ lower alpha upper     95% confidence boundaries
+0.8 0.81 0.82 
+
+ Reliability if an item is dropped:
+          raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+reason.4       0.79      0.79    0.78      0.28 3.8   0.0079 0.0024  0.28
+reason.16      0.80      0.80    0.79      0.28 4.0   0.0077 0.0024  0.28
+reason.17      0.79      0.79    0.78      0.28 3.8   0.0079 0.0021  0.27
+reason.19      0.80      0.80    0.78      0.28 3.9   0.0078 0.0025  0.28
+letter.7       0.79      0.79    0.78      0.28 3.8   0.0080 0.0021  0.27
+letter.33      0.80      0.80    0.78      0.28 3.9   0.0078 0.0022  0.28
+letter.34      0.79      0.79    0.78      0.27 3.8   0.0081 0.0020  0.27
+letter.58      0.80      0.80    0.79      0.28 3.9   0.0077 0.0024  0.28
+matrix.45      0.80      0.80    0.79      0.29 4.1   0.0076 0.0021  0.29
+matrix.46      0.80      0.80    0.79      0.29 4.0   0.0076 0.0023  0.29
+matrix.47      0.80      0.80    0.79      0.28 4.0   0.0077 0.0027  0.28
+
+ Item statistics 
+             n raw.r std.r r.cor r.drop mean   sd
+reason.4  1523  0.61  0.61  0.55   0.50 0.64 0.48
+reason.16 1524  0.56  0.57  0.50   0.45 0.70 0.46
+reason.17 1523  0.62  0.62  0.57   0.51 0.70 0.46
+reason.19 1523  0.59  0.59  0.53   0.47 0.62 0.49
+letter.7  1524  0.63  0.63  0.58   0.52 0.60 0.49
+letter.33 1523  0.59  0.59  0.53   0.47 0.57 0.50
+letter.34 1523  0.64  0.64  0.60   0.54 0.61 0.49
+letter.58 1525  0.58  0.57  0.51   0.46 0.44 0.50
+matrix.45 1523  0.54  0.53  0.46   0.41 0.53 0.50
+matrix.46 1524  0.55  0.55  0.47   0.42 0.55 0.50
+matrix.47 1523  0.57  0.57  0.50   0.45 0.61 0.49
+
+Non missing response frequency for each item
+             0    1 miss
+reason.4  0.36 0.64    0
+reason.16 0.30 0.70    0
+reason.17 0.30 0.70    0
+reason.19 0.38 0.62    0
+letter.7  0.40 0.60    0
+letter.33 0.43 0.57    0
+letter.34 0.39 0.61    0
+letter.58 0.56 0.44    0
+matrix.45 0.47 0.53    0
+matrix.46 0.45 0.55    0
+matrix.47 0.39 0.61    0</code></pre>
+<p>The output shows that the reliability is <span class="math inline">\(\alpha = .81\)</span>, suggesting that the SAPA items have high internal consistency. In the “Reliability if an item is dropped” section, we see that removing any of the SAPA items does not necessarily improve the coefficient alpha, suggesting that all the items are essential. Lastly, in the “Item statistics” section, we can see that point-biserial correlations under the r.drop and r.cor columns are quite high (i.e., <span class="math inline">\(&gt; .20\)</span>), indicating that all the SAPA items can distinguish low- and high-achieving students adequately.</p>
+<p><br></p>
 </div>
-<div id="model-estimation" class="section level2 tabset tabset-fade tabset-pills">
-<h2 class="tabset tabset-fade tabset-pills">Model estimation</h2>
-<p>In this section, we will see how to estimate different types of dichotomous IRT models using the sapa_clean dataset. This process is also known as “item calibration.” Using the tabs below, you can see the estimation of item and ability parameters for each IRT model.</p>
+</div>
+<div id="item-calibration" class="section level2 tabset tabset-fade tabset-pills">
+<h2 class="tabset tabset-fade tabset-pills">Item calibration</h2>
+<p>In this section, we will see how to estimate different types of dichotomous IRT models using the sapa_clean dataset. This process is known as “item calibration.” We will calibrate the SAPA items using the following IRT models:</p>
 <table class=" lightable-paper lightable-striped" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
 </caption>
@@ -1952,24 +2029,26 @@ b, a (unique to each item), c
 </tbody>
 </table>
 <p><br></p>
+<p>By clicking on each of the following tabs, you can see the estimation of item parameters for the four IRT models listed above.</p>
+<p><br></p>
 <div id="rasch-model" class="section level3">
 <h3>Rasch Model</h3>
-<p>In the Rasch model, the probability of answering item <span class="math inline">\(j\)</span> correctly for examinee <span class="math inline">\(j\)</span> with ability <span class="math inline">\(\theta_j\)</span> (i.e., <span class="math inline">\(P(X_{ij} = 1)\)</span>) can be written as follows:</p>
+<p>In the Rasch model, the probability of answering item <span class="math inline">\(i\)</span> correctly for examinee <span class="math inline">\(j\)</span> with ability <span class="math inline">\(\theta_j\)</span> (i.e., <span class="math inline">\(P(X_{ij} = 1)\)</span>) can be written as follows:</p>
 <p><span class="math display">\[P(X_{ij} = 1) = \frac{e^{(\theta_j - b_i)}}{1 + e^{(\theta_j - b_i)}}\]</span></p>
-<p>where <span class="math inline">\(b_i\)</span> is the item difficulty level of item <span class="math inline">\(i\)</span>. Using the Rasch model, we can estimate a difficulty parameter for each item and an ability parameter for each examinee.</p>
+<p>where <span class="math inline">\(b_i\)</span> is the item difficulty level of item <span class="math inline">\(i\)</span>. Using the Rasch model, we can estimate a unique difficulty parameter for each item and an ability parameter for each examinee.</p>
 <p>Now, let’s calibrate the items in the sapa_clean dataset using the Rasch model.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>model_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
 <p>Next, we will extract the estimated item parameters using the <code>coef()</code> function and print them.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_rasch, <span class="co"># the model object with the estimated parameters</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="co"># whether we want to get traditional IRT parameters</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="co"># simplify the model output</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># What is saved in this object?</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(param_rasch)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_rasch, <span class="co"># the model object with the estimated parameters</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="co"># whether we want to get traditional IRT parameters</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="co"># simplify the model output</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># What is saved in this object?</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(param_rasch)</span></code></pre></div>
 <pre><code>List of 3
  $ items: num [1:11, 1:4] 1 1 1 1 1 1 1 1 1 1 ...
   ..- attr(*, &quot;dimnames&quot;)=List of 2
@@ -1982,11 +2061,11 @@ b, a (unique to each item), c
   .. ..$ : chr &quot;F1&quot;
   .. ..$ : chr &quot;F1&quot;
  - attr(*, &quot;class&quot;)= chr [1:2] &quot;mirt_list&quot; &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># It is a list with a bunch of stuff, but... we only want to keep the item parameters</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> param_rasch<span class="sc">$</span>items</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>param_rasch</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># It is a list with a bunch of stuff, but... we only want to keep the item parameters</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_rasch<span class="sc">$</span>items)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>param_rasch</span></code></pre></div>
 <pre><code>          a       b g u
 reason.4  1 -0.8037 0 1
 reason.16 1 -1.1663 0 1
@@ -2001,16 +2080,218 @@ matrix.46 1 -0.2769 0 1
 matrix.47 1 -0.6472 0 1</code></pre>
 <p>In the output, we see that the a parameter is fixed to “1” for all items, the b parameters are uniquely estimated for item item, and the c parameter (shown as “g” as guessing) is fixed to zero for all items. The “u” column indicates the upper asymptote representing the maximum value of the probability of success (this parameter only matters for the 4-parameter logistic (4PL) model and yes, there is indeed a 4PL model… 😩).</p>
 <p><br></p>
-<div id="ability-estimation" class="section level4">
-<h4>Ability estimation</h4>
+</div>
+<div id="pl-model" class="section level3">
+<h3>1PL Model</h3>
+<p>In the one-parameter logistic (1PL) model, the probability of answering item <span class="math inline">\(i\)</span> correctly for examinee <span class="math inline">\(j\)</span> with ability <span class="math inline">\(\theta_j\)</span> can be written as follows:</p>
+<p><span class="math display">\[P(X_{ij} = 1) = \frac{e^{a(\theta_j - b_i)}}{1 + e^{a(\theta_j - b_i)}}\]</span></p>
+<p>where <span class="math inline">\(b_i\)</span> is the item difficulty level of item <span class="math inline">\(i\)</span> and <span class="math inline">\(a\)</span> is the item discrimination parameter of item <span class="math inline">\(i\)</span> (though it is <strong>not</strong> unique to item <span class="math inline">\(i\)</span>). Using the 1PL model, we can estimate a unique difficulty parameter for each item, a discrimination parameter fixed across all the items, and an ability parameter for each examinee.</p>
+<p>Now, we will calibrate the items in the sapa_clean dataset using the 1PL model. Estimating the 1PL model requires a special setup in the <strong>mirt</strong> package. We will use the two-parameter logistic (2PL) model but constrain the discrimination parameters to be fixed across all the items, which will give us the 1PL model (i.e., unique difficulty parameters but a fixed discrimination). Instead of using <code>model = 1</code> in the <code>mirt()</code> function, we will define a model where we indicate the latent variable (called “F” in the following example), how many items are defining this model (i.e., <code>F = 1-11</code>), and which parameters are to be constrained. We use <code>CONSTRAIN = (1-11, a1)</code> to estimate a single discrimination parameter (called “a1” in <strong>mirt</strong>) for all of the 11 items in the dataset.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the 1PL model explicitly</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">&quot;F = 1-11</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="st">          CONSTRAIN = (1-11, a1)&quot;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>model_1PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">model =</span> model, <span class="co"># our specical model for 1PL</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<p>Next, we will extract the estimated item parameters using the <code>coef()</code> function and print them.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>param_1PL <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_1PL, <span class="co"># the model object with the estimated parameters</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="co"># whether we want to get traditional IRT parameters</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="co"># simplify the model output</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Only keep the item parameters</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>param_1PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_1PL<span class="sc">$</span>items)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>param_1PL</span></code></pre></div>
+<pre><code>              a        b g u
+reason.4  1.478 -0.54366 0 1
+reason.16 1.478 -0.78898 0 1
+reason.17 1.478 -0.78518 0 1
+reason.19 1.478 -0.44302 0 1
+letter.7  1.478 -0.38098 0 1
+letter.33 1.478 -0.27032 0 1
+letter.34 1.478 -0.43517 0 1
+letter.58 1.478  0.21671 0 1
+matrix.45 1.478 -0.09643 0 1
+matrix.46 1.478 -0.18731 0 1
+matrix.47 1.478 -0.43778 0 1</code></pre>
+<p>In the output, we see that the a parameter is estimated but it is fixed to “1.478” for all items, the b parameters are uniquely estimated for item item, and the c parameter (i.e., g) is fixed to zero, and the upper asymptote (i.e., “u”) is fixed to 1 for all items. If we compare the difficulty parameters from Rasch and 1PL, we can see that they are not necessarily the same. Estimating the discrimination parameter (instead of assuming <span class="math inline">\(a = 1\)</span>) has changed the parameter estimates in the 1PL model. However, they are perfectly correlated.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rasch =</span> param_rasch<span class="sc">$</span>b,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">onePL =</span> param_1PL<span class="sc">$</span>b)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>b_pars</span></code></pre></div>
+<pre><code>     rasch    onePL
+1  -0.8037 -0.54366
+2  -1.1663 -0.78898
+3  -1.1607 -0.78518
+4  -0.6549 -0.44302
+5  -0.5632 -0.38098
+6  -0.3996 -0.27032
+7  -0.6433 -0.43517
+8   0.3202  0.21671
+9  -0.1426 -0.09643
+10 -0.2769 -0.18731
+11 -0.6472 -0.43778</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Are they correlated?</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL)</span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s also plot them -- see that they are perfectly aligned on a diagonal line</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL, </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Difficulty (Rasch)&quot;</span>, </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Difficulty (1PL)&quot;</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Rasch vs. 1PL Difficulty Parameters&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt28-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="pl-model-1" class="section level3">
+<h3>2PL Model</h3>
+<p>In the two-parameter logistic (2PL) model, the probability of answering item <span class="math inline">\(i\)</span> correctly for examinee <span class="math inline">\(j\)</span> with ability <span class="math inline">\(\theta_j\)</span> can be written as follows:</p>
+<p><span class="math display">\[P(X_{ij} = 1) = \frac{e^{a_i(\theta_j - b_i)}}{1 + e^{a_i(\theta_j - b_i)}}\]</span></p>
+<p>where <span class="math inline">\(b_i\)</span> is the item difficulty level of item <span class="math inline">\(i\)</span> and <span class="math inline">\(a_i\)</span> is the item discrimination parameter of item <span class="math inline">\(i\)</span>. Using the 1PL model, we can estimate a unique difficulty parameter and a unique discrimination parameter for each item, and an ability parameter for each examinee.</p>
+<p>Let’s calibrate the items in the sapa_clean dataset using the 2PL model. Fortunately, estimating the 2PL model does not require any special set up. We will simply define itemtype as “2PL” and estimate the parameters as we have done for the Rasch model.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>model_2PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<p>Next, we will extract the estimated item parameters using the <code>coef()</code> function and print them.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>param_2PL <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_2PL, <span class="co"># the model object with the estimated parameters</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="co"># whether we want to get traditional IRT parameters</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="co"># simplify the model output</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Only keep the item parameters</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>param_2PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_2PL<span class="sc">$</span>items)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>param_2PL</span></code></pre></div>
+<pre><code>              a       b g u
+reason.4  1.617 -0.5207 0 1
+reason.16 1.439 -0.8024 0 1
+reason.17 1.816 -0.7110 0 1
+reason.19 1.476 -0.4453 0 1
+letter.7  1.769 -0.3502 0 1
+letter.33 1.458 -0.2744 0 1
+letter.34 1.874 -0.3897 0 1
+letter.58 1.457  0.2164 0 1
+matrix.45 1.112 -0.1171 0 1
+matrix.46 1.199 -0.2142 0 1
+matrix.47 1.344 -0.4638 0 1</code></pre>
+<p>In the output, we see that the a and b parameters are uniquely estimated for item item, and the c parameter (i.e., g) is fixed to zero, and the upper asymptote (i.e., “u”) is fixed to 1 for all items. The discrimination parameters seem to vary across the items (e.g., <span class="math inline">\(a = 1.816\)</span> for reason.17 and <span class="math inline">\(a = 1.112\)</span> for matrix.45). Let’s see whether the difficulty parameters from the 1PL and 2PL models are similar:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">onePL =</span> param_1PL<span class="sc">$</span>b,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">twoPL =</span> param_2PL<span class="sc">$</span>b)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>b_pars</span></code></pre></div>
+<pre><code>      onePL   twoPL
+1  -0.54366 -0.5207
+2  -0.78898 -0.8024
+3  -0.78518 -0.7110
+4  -0.44302 -0.4453
+5  -0.38098 -0.3502
+6  -0.27032 -0.2744
+7  -0.43517 -0.3897
+8   0.21671  0.2164
+9  -0.09643 -0.1171
+10 -0.18731 -0.2142
+11 -0.43778 -0.4638</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Are they correlated? Yes, they are!</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>onePL, b_pars<span class="sc">$</span>twoPL)</span></code></pre></div>
+<pre><code>[1] 0.9945</code></pre>
+<p><br></p>
+</div>
+<div id="pl-model-2" class="section level3">
+<h3>3PL Model</h3>
+<p>In the three-parameter logistic (3PL) model, the probability of answering item <span class="math inline">\(i\)</span> correctly for examinee <span class="math inline">\(j\)</span> with ability <span class="math inline">\(\theta_j\)</span> can be written as follows:</p>
+<p><span class="math display">\[P(X_{ij} = 1) = c_i + (1 - c_i)\frac{e^{a_i(\theta_j - b_i)}}{1 + e^{a_i(\theta_j - b_i)}}\]</span></p>
+<p>where <span class="math inline">\(b_i\)</span> is the item difficulty level of item <span class="math inline">\(i\)</span>, <span class="math inline">\(a_i\)</span> is the item discrimination parameter of item <span class="math inline">\(i\)</span>, and <span class="math inline">\(c_i\)</span> is the guessing parameter of item <span class="math inline">\(i\)</span>. Using the 3PL model, we can estimate unique difficulty, discrimination, and guessing parameter for each item, and an ability parameter for each examinee.</p>
+<p>Let’s calibrate the items in the sapa_clean dataset using the 3PL model. This time, we will define itemtype as “3PL” and estimate the parameters as we have done for the Rasch model.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>model_3PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<p>Next, we will extract the estimated item parameters using the <code>coef()</code> function and print them.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>param_3PL <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_3PL, <span class="co"># the model object with the estimated parameters</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="co"># whether we want to get traditional IRT parameters</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="co"># simplify the model output</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Only keep the item parameters</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>param_3PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_3PL<span class="sc">$</span>items)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>param_3PL</span></code></pre></div>
+<pre><code>              a       b         g u
+reason.4  1.885 -0.3414 0.0980052 1
+reason.16 1.448 -0.7941 0.0018842 1
+reason.17 1.822 -0.7033 0.0022765 1
+reason.19 1.475 -0.4415 0.0004529 1
+letter.7  1.883 -0.2785 0.0397055 1
+letter.33 1.466 -0.2618 0.0050298 1
+letter.34 1.867 -0.3841 0.0013213 1
+letter.58 1.455  0.2218 0.0011979 1
+matrix.45 1.123 -0.1108 0.0015351 1
+matrix.46 1.582  0.1072 0.1475559 1
+matrix.47 1.357 -0.4521 0.0037671 1</code></pre>
+<p>In the output, we see that the a, b, and c parameters are uniquely estimated for item item, and the upper asymptote (i.e., “u”) is fixed to 1 for all items. Overall, most SAPA items have very low guessing parameters. The largest guessing parameter belongs to matrix.46 (<span class="math inline">\(c = 0.147\)</span>).</p>
+<p><br></p>
+</div>
+</div>
+<div id="visualizing-irt-models" class="section level2">
+<h2>Visualizing IRT models</h2>
+<p>Once we calibrate the items using a particular IRT model, we can also check the response functions for each item, as well as for the entire instrument, visually. In the following section, we will create item- and test-level visualizations for the SAPA items using the item parameters we have obtained from the IRT models.</p>
+<p>Let’s begin with item characteristic curves (ICCs). We will use <code>itemplot()</code> to see the item characteristic curve for a specific item (i.e., <code>item = 10</code> for creating an ICC for item 10).</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Item 10 - Rasch Model</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_rasch, </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">10</span>, <span class="co"># which item to plot</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>) <span class="co"># traceline (i.e., ICC)</span></span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt36-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Item 10 - 3PL</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_3PL, </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">10</span>, <span class="co"># which item to plot</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>) <span class="co"># traceline (i.e., ICC)</span></span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt36-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>If we want to plot ICCs for more than one item, then we can the <code>plot()</code> function and <code>type = "trace"</code> (because ICCs are also known as tracelines). We also need to specify for which items we want to plot an ICC using <code>which.items</code>:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ICCs for items 1, 3, and 5 in the 2PL model</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>))</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt37-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Also, we can plots all the items together using the same <code>plot()</code> function. Deleting the <code>which.items</code> argument will return the ICCs for all the items in a single plot. Let’s see the ICCs for all items in the 3PL model:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_3PL, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt38-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Next, we will use the <code>plot()</code> function and <code>type = "score"</code> to obtain test characteristic curves (i.e., sum of the individual ICCs) for the 2PL model:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, <span class="at">type =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt39-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test information function and standard error</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use only &quot;info&quot; or &quot;SE&quot; to plot them separately</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt40-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot individual item information functions and standard error</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use only &quot;info&quot; or &quot;SE&quot; to plot them separately</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_rasch, </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">1</span>, <span class="co"># which item to plot</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt40-2.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here are the item information plots for all items</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infotrace&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt40-3.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, plot only some items</span></span></code></pre></div>
+<p><br></p>
+</div>
+<div id="ability-estimation" class="section level2">
+<h2>Ability estimation</h2>
 <p>Since we already estimated the item parameters, we can also go ahead and estimate ability parameters for the examinees using the <code>fscores()</code> function. We will use expected a priori (EAP) to estimate the ability parameters for all response patterns. Alternatively, we could use <code>method = "ML"</code> for the maximum likelihood estimation but this will not return a valid ability estimate for examinees who answered all of the items correctly or incorrectly.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate ability parameters</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>theta_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">fscores</span>(model_rasch, <span class="co"># estimated IRT model</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;EAP&quot;</span>, <span class="co"># estimation method</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>) <span class="co"># return the standard errors</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See the estimated ability parameters</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(theta_rasch)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate ability parameters</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>theta_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">fscores</span>(model_rasch, <span class="co"># estimated IRT model</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">&quot;EAP&quot;</span>, <span class="co"># estimation method</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>) <span class="co"># return the standard errors</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See the estimated ability parameters</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(theta_rasch)</span></code></pre></div>
 <pre><code>          F1  SE_F1
 [1,] -2.2453 0.7300
 [2,] -1.3575 0.6188
@@ -2018,88 +2299,24 @@ matrix.47 1 -0.6472 0 1</code></pre>
 [4,] -1.7648 0.6611
 [5,] -0.6433 0.5858
 [6,]  2.1358 0.9166</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the distribution of the estimated ability parameters</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (i.e., first column) in theta_rasch</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(theta_rasch[, <span class="dv">1</span>], </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theta&quot;</span>, <span class="co"># label for the x axis</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ability Distribution - Rasch&quot;</span>) <span class="co"># title for the plot</span></span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt25-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the distribution of the estimated ability parameters</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (i.e., first column) in theta_rasch</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(theta_rasch[, <span class="dv">1</span>], </span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theta&quot;</span>, <span class="co"># label for the x axis</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ability Distribution - Rasch&quot;</span>) <span class="co"># title for the plot</span></span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt25b-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
-<div id="visualizing-response-functions" class="section level4">
-<h4>Visualizing response functions</h4>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test characteristic curve</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-1.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test information function and standard error</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use only &quot;info&quot; or &quot;SE&quot; to plot them separately</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-2.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot individual item characteristic curve</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_rasch, </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">1</span>, <span class="co"># which item to plot</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-3.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot individual item information functions and standard error</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use only &quot;info&quot; or &quot;SE&quot; to plot them separately</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_rasch, </span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">1</span>, <span class="co"># which item to plot</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-4.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, we can plots all the items together</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the item characteristic curves for all items</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-5.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here are the item information plots for all items</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infotrace&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-6.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, plot only some items</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here are the item characteristic curves for items 1, 3, and 5</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>, <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>))</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt26-7.png" width="768" style="display: block; margin: auto;" /></p>
-</div>
-<div id="reliability" class="section level4">
-<h4>Reliability</h4>
+<div id="reliability" class="section level2">
+<h2>Reliability</h2>
 <p>The IRT test reliability coefficient (<span class="math inline">\(\rho_{xx&#39;}\)</span>) can be defined as the ratio of the true score variance (i.e., variance of theta scores) to the observed score variance (the sum of the variance of theta scores and the average of squared standard errors):</p>
 <p><span class="math display">\[\rho_{xx&#39;} = \frac{Var(\hat{\theta})}{Var(\hat{\theta}) + SE(\hat{\theta})^2}\]</span></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empirical reliability</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">empirical_rxx</span>(theta_rasch)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empirical reliability</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">empirical_rxx</span>(theta_rasch)</span></code></pre></div>
 <pre><code>    F1 
 0.7804 </code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reliability plot</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;rxx&quot;</span>)</span></code></pre></div>
-<p><img src="irt_dev_files/figure-html/irt27-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p><br></p>
-</div>
-</div>
-<div id="pl-model" class="section level3">
-<h3>1PL Model</h3>
-<p>content of sub-chapter #2</p>
-<p><br></p>
-</div>
-<div id="pl-model-1" class="section level3">
-<h3>2PL Model</h3>
-<p>content of sub-chapter #3</p>
-<p><br></p>
-</div>
-<div id="pl-model-2" class="section level3">
-<h3>3PL Model</h3>
-<p>content of sub-chapter #4</p>
-<p><br></p>
-</div>
-</div>
-</div>
-<div id="example-2-nfc" class="section level1">
-<h1>Example 2: NFC</h1>
-<p>xxx</p>
-<p><br></p>
-<div id="setting-up-r-1" class="section level2">
-<h2>Setting up R</h2>
-<p>xxx</p>
-<p><br></p>
-</div>
-<div id="model-estimation-1" class="section level2">
-<h2>Model estimation</h2>
-<p>xxx</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reliability plot</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;rxx&quot;</span>)</span></code></pre></div>
+<p><img src="irt_dev_files/figure-html/irt27c-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><br></p>
 </div>
 </div>
