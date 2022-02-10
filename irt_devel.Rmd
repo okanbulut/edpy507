@@ -1,0 +1,32 @@
+---
+title: "Item Response Theory (IRT)"
+output:
+  html_document:
+    toc: TRUE
+bibliography: packages.bib
+csl: apa.csl
+---
+
+
+```{r setup, include = FALSE}
+#Setup knitr
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "gray85",
+                      message = FALSE, fig.width=8, fig.height=6, comment = NA,
+                      fig.align = 'center')
+
+library("fontawesome")
+
+# automatically create a bib database for R packages
+# knitr::write_bib(x = c(.packages()), file = "packages.bib")
+```
+
+
+<br>
+
+<p align="center">
+**Content will be available soon...**
+
+<br>
+
+![](figures/construction.jpg)
+</p>
