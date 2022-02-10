@@ -14,7 +14,7 @@ navbar:
       href: ctt.html
     - text: "IRT"
       icon: fa-chess-queen
-      href: irt.html
+      href: irt.html 
     - text: "Resources"
       icon: fa-gem
       href: resources.html
