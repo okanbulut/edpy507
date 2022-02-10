@@ -374,7 +374,7 @@ model <- "F = 1-11
 
 # Estimate the item parameters
 model_1PL <- mirt::mirt(data = sapa_clean, # data with only item responses
-                        model = model, # our specical model for 1PL
+                        model = model, # our special model for 1PL
                         itemtype = "2PL") # IRT model we want to use for item calibration
 ```
 
@@ -385,7 +385,7 @@ model <- "F = 1-11
 
 # Estimate the item parameters
 model_1PL <- mirt::mirt(data = sapa_clean, # data with only item responses
-                        model = model, # our specical model for 1PL
+                        model = model, # our special model for 1PL
                         itemtype = "2PL", # IRT model we want to use for item calibration
                         verbose = FALSE)
 ```
@@ -599,7 +599,7 @@ mirt::itemfit(model_3PL, empirical.plot = 1)
 
 The final visualization tool that we will use is called item-person map (also known as the Wright map in the IRT literature). An item-person map displays the location of item difficulty parameters and ability parameters (i.e., latent trait estimates) along the same logit scale. Item-person maps are very useful for comparing the spread of the item difficulty parameters against the distribution of the ability parameters. The item difficulty parameters are ideally expected to cover the whole logit scale to measure all the ability parameters accurately. 
 
-In the following example, we will use the `ggWrightMap()` function from the **ShinyItemAnalysis** package [@R-ShinyItemAnalysis] to draw an item-person map for the Rasch model. This function requires the ability parameters (i.e., latent trait estimates) and item difficulty parameters from the Rasch model. We will use `fscores()` from **mirt** to estimate ability parameters (see the next section for more details on ability estimation). The following item-person map shows that the SAPA items mostly cover the middle part of the ability (i.e, latent trait) distribution. There are not enough items to cover high-achieving examinees (i.e., $\theta > 1$) and low-achieving examinees (i.e., $\theta < -2$). The SAPA instrument needs more items (some difficult and some easy) to increasure measurement accuracy for those examinee groups. 
+In the following example, we will use the `ggWrightMap()` function from the **ShinyItemAnalysis** package [@R-ShinyItemAnalysis] to draw an item-person map for the Rasch model. This function requires the ability parameters (i.e., latent trait estimates) and item difficulty parameters from the Rasch model. We will use `fscores()` from **mirt** to estimate ability parameters (see the next section for more details on ability estimation). The following item-person map shows that the SAPA items mostly cover the middle part of the ability (i.e, latent trait) distribution. There are not enough items to cover high-achieving examinees (i.e., $\theta > 1$) and low-achieving examinees (i.e., $\theta < -2$). The SAPA instrument needs more items (some difficult and some easy) to increase measurement accuracy for those examinee groups. 
 
 ```{r irt44, echo=TRUE}
 # Estimate the ability parameters for Rasch and save as a vector
