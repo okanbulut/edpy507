@@ -1,4 +1,7 @@
 
+# Install all the packages together
+install.packages("difR")
+
 # Activate the required packages
 library("dplyr")
 library("difR")

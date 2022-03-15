@@ -475,39 +475,3 @@ sem_hci <- sem(x = hci_items_scored, ci.level = 0.95)
 
 # See observed scores and their lower/upper confidence intervals
 head(sem_hci)
-
-
-# How many male and female students?
-table(hci$gender)
-
-
-# Run the DIF analysis
-hci_difMH <- difR::difMH(Data = hci_items_scored, # response data
-                         group = hci$gender, # group variable
-                         focal.name = "F", # F for female students
-                         purify = TRUE) # if TRUE, purification is used
-
-# Print the results
-print(hci_difMH)
-
-# Visualize the results
-plot(hci_difMH)
-
-
-# Run the DIF analysis
-hci_difLR <- difR::difLogistic(Data = hci_items_scored, # response data
-                               group = hci$gender, # group variable
-                               focal.name = "F", # F for female students
-                               type = "both", # Check both uniform and nonuniform DIF
-                               purify = TRUE) # if TRUE, purification is used
-
-# Print the results
-print(hci_difLR)
-
-# Visualize the results
-plot(hci_difLR)
-
-# Visualize individual items
-plot(hci_difLR, item = 1, plot = "itemCurve")
-plot(hci_difLR, item = 19, plot = "itemCurve")
-

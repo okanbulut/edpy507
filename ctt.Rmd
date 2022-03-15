@@ -1094,7 +1094,10 @@ head(sem_hci)
 
 Differential item functioning (DIF) is used in educational and psychological assessments to detect item-level bias. DIF occurs due to a conditional dependency between group membership of examinees (e.g., female vs. male) and item performance after controlling for the latent trait. As a result of DIF, a biased item provides either a constant advantage for a particular group (uniform DIF) or an advantage varying in magnitude and/or in direction across the latent trait continuum (nonuniform DIF). In the context of DIF, the focal group refers to the examinees who are suspected to be at a disadvantage compared to the examinees from the reference group when responding to the items on the test. If an item exhibits "uniform DIF", then the performance of the focal group tends to be constantly worse than the performance of the reference group along the latent trait continuum. If the item exhibits "nonuniform DIF", the difference between the focal and reference groups would not necessarily have a single direction. 
 
-The **difR** package [@magis2010] provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use "gender" as a group variable to identify the hci items that exhibit gender-based DIF. First, let's check how many female and male students participated in the hci test. 
+The **difR** package [@magis2010] provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use "gender" and "eng_first_lang" as group variables to identify the hci items that exhibit DIF based on gender or speaking English as a first language. To facilitate DIF analyses we will run in this part, I saved the scored items, gender, and eng_first_lang as a new dataset: [**hci_scored.csv**](data_and_codes/hci_scored.csv). The file has the following variables: 
+
+
+First, let's check how many female and male students participated in the hci test. 
 
 ```{r ctt57, echo=TRUE}
 # How many male and female students?
