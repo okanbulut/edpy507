@@ -1,7 +1,7 @@
 
 # Install all the packages together
 install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
-                   "psych", "CTT", "ShinyItemAnalysis", "difR", "devtools", "rmarkdown"))
+                   "psych", "CTT", "ShinyItemAnalysis", "devtools", "rmarkdown"))
 
 # Or, we could do it one by one. For example:
 # # install.packages("CTT")
@@ -20,7 +20,6 @@ library("psych")
 library("CTT")
 library("ShinyItemAnalysis")
 library("QME")
-library("difR")
 
 # Set the working directory to wherever you are going to keep the files
 setwd("C:/Users/Okan/Desktop/CTT Analysis")

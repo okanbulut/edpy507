@@ -1015,20 +1015,20 @@ self_control         23 1209   0.12   8.36      0    0.08   7.41 -22   24    46 
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">starts_with</span>(<span class="st">&quot;nfc&quot;</span>)) <span class="co"># variables to be selected</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(response)</span></code></pre></div>
-<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14
-1     5     7     5     1     6     2     2     5     2     1     2     2     6     5
-2     5     5     3     2     5     3     3     3     2     4     3     2     3     2
-3     5     6     5     1     7     3     2     3     1     3     3     1     6     5
-4     5     5     4     2     5     5     2     2     2     2     4     3     2     3
-5     2     3     3     5     3     5     6     1     6     6     6     6     2     1
-6     6     6     6     1     6     3     1     1     1     1     1     1     6     6
-  nfc15 nfc16
-1     2     1
-2     4     4
-3     1     1
-4     1     1
-5     5     5
-6     2     2</code></pre>
+<pre><code>  nfc01 nfc02 nfc03 nfc04 nfc05 nfc06 nfc07 nfc08 nfc09 nfc10 nfc11 nfc12 nfc13 nfc14 nfc15
+1     5     7     5     1     6     2     2     5     2     1     2     2     6     5     2
+2     5     5     3     2     5     3     3     3     2     4     3     2     3     2     4
+3     5     6     5     1     7     3     2     3     1     3     3     1     6     5     1
+4     5     5     4     2     5     5     2     2     2     2     4     3     2     3     1
+5     2     3     3     5     3     5     6     1     6     6     6     6     2     1     5
+6     6     6     6     1     6     3     1     1     1     1     1     1     6     6     2
+  nfc16
+1     1
+2     4
+3     1
+4     1
+5     5
+6     2</code></pre>
 <p>Alternatively, we could type each item by one one (which is much more tedious):</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(nfc, <span class="co"># name of the dataset</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                          nfc01, nfc02, nfc03, nfc04, ..., nfc16) <span class="co"># variables to be selected</span></span></code></pre></div>
@@ -3245,21 +3245,57 @@ Observed Score ± ( 1.941513 * 1.959964 )
 <div id="differential-item-functioning" class="section level2">
 <h2>Differential item functioning</h2>
 <p>Differential item functioning (DIF) is used in educational and psychological assessments to detect item-level bias. DIF occurs due to a conditional dependency between group membership of examinees (e.g., female vs. male) and item performance after controlling for the latent trait. As a result of DIF, a biased item provides either a constant advantage for a particular group (uniform DIF) or an advantage varying in magnitude and/or in direction across the latent trait continuum (nonuniform DIF). In the context of DIF, the focal group refers to the examinees who are suspected to be at a disadvantage compared to the examinees from the reference group when responding to the items on the test. If an item exhibits “uniform DIF,” then the performance of the focal group tends to be constantly worse than the performance of the reference group along the latent trait continuum. If the item exhibits “nonuniform DIF,” the difference between the focal and reference groups would not necessarily have a single direction.</p>
-<p>The <strong>difR</strong> package <span class="citation">(Magis et al., 2010)</span> provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use “gender” as a group variable to identify the hci items that exhibit gender-based DIF. First, let’s check how many female and male students participated in the hci test.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many male and female students?</span></span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hci<span class="sc">$</span>gender)</span></code></pre></div>
+<p>The <strong>difR</strong> package <span class="citation">(Magis et al., 2010)</span> provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use “gender” and “eng_first_lang” as group variables to identify the hci items that exhibit DIF based on gender or speaking English as a first language. To facilitate DIF analyses we will run in this part, I saved the scored items, gender, and eng_first_lang as <a href="data_and_codes/hci_scored.csv"><strong>hci_scored.csv</strong></a>. In addition, the R codes for the DIF analyses presented here are available <a href="data_and_codes/dif.R"><strong>here</strong></a>.</p>
+<p>Now, let’s go head and import the data into R.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the dataset</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>hci_scored <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;hci_scored.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the first 6 rows of the dataset</span></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hci_scored)</span></code></pre></div>
+<pre><code>  item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 item13 item14 item15 item16
+1     1     1     1     1     1     0     0     1     1      1      1      1      1      1      0      1
+2     1     1     1     1     1     1     0     1     1      1      1      1      1      1      1      1
+3     1     1     1     1     0     1     0     1     1      1      1      1      1      1      0      1
+4     1     1     1     1     1     1     1     1     1      1      1      1      1      1      1      1
+5     1     1     1     1     1     1     1     1     1      1      1      1      1      1      0      1
+6     1     1     1     1     1     1     1     1     1      1      1      1      1      1      1      1
+  item17 item18 item19 item20 gender eng_first_lang
+1      0      1      1      1      F            yes
+2      1      1      1      1      F            yes
+3      1      1      1      1      M            yes
+4      1      1      1      1      M            yes
+5      1      1      1      1      M            yes
+6      1      1      1      1      F            yes</code></pre>
+<p>Next, we will check the number of female/male students and students whose first language is English (or not).</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many male and female students?</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hci_scored<span class="sc">$</span>gender)</span></code></pre></div>
 <pre><code>
   F   M 
 405 246 </code></pre>
-<p>There are 405 female and 246 male students. Using female students as the focal group (using males as the focal group would not change the results), we will run the MH test and detect items with DIF. The <code>difMH()</code> function automatically calculates the total scores based on the response data and use these scores to match the students based on their ability levels when performing the MH test. Our gender variable comes from the original dataset. Since we haven’t changed the order of students in the scored dataset, we can use the gender variable from <code>hci</code> and the responses from <code>hci_items_scored</code> to run the DIF analysis.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the DIF analysis</span></span>
-<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>hci_difMH <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difMH</span>(<span class="at">Data =</span> hci_items_scored, <span class="co"># response data</span></span>
-<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">group =</span> hci<span class="sc">$</span>gender, <span class="co"># group variable</span></span>
-<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">focal.name =</span> <span class="st">&quot;F&quot;</span>, <span class="co"># F for female students</span></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(hci_difMH)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many students whose first language is English?</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hci_scored<span class="sc">$</span>eng_first_lang)</span></code></pre></div>
+<pre><code>
+ no yes 
+143 508 </code></pre>
+<p>In the following part, we will run DIF analysis to detect items with DIF based on gender and language. We will use female students as the focal group in gender-based DIF analysis and use students whose first language is <strong>not</strong> English as the focal group in language-based DIF analysis. Please note that males/those who speak English as their first language as the focal group would <strong>not</strong> change the results.</p>
+<p>We will begin with the Mantel-Haenszel (MH) DIF method. The <code>difMH()</code> function from the <strong>difR</strong> package allows us to run the MF DIF method and detect items exhibiting DIF. The function automatically calculates the total scores based on the response data and use these scores to match the students based on their ability levels when performing the MH test. However, we can also calculate the total scores prior to DIF analysis and use it as the matching variable.</p>
+<p>Before we begin the analysis, let’s save the items in hci_scored, gender, and eng_first_lang as separate datasets.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We will save the items, gender, and language as separate datasets</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>hci_items <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(hci_scored, <span class="fu">starts_with</span>(<span class="st">&quot;item&quot;</span>))</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> hci_scored<span class="sc">$</span>gender</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>language <span class="ot">&lt;-</span> hci_scored<span class="sc">$</span>eng_first_lang</span></code></pre></div>
+<p>Now, let’s go ahead and run DIF analysis using the MH method for gender and language. In the following example, we specify the items to be tested for DIF (<code>Data = hci_items</code>), the group variable (<code>group = gender</code>), the group (female) to be used as the focal group (<code>focal.name = "F"</code>), and the matching variable (<code>match = "score"</code>) which automatically calculates the total scores based on item responses (if we already have the total scores in the data, then we can specify a variable name in the data for total test scores). Also, we set <code>purify = TRUE</code> to run iterative purification when conducting DIF analysis. With purification, items with DIF are excluded from the calculation of the matching variable (i.e., total scores) and the analysis is rerun with clean items until no further DIF items are detected.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Run the DIF analysis based on gender</span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>gender_MH <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difMH</span>(<span class="at">Data =</span> hci_items, <span class="co"># response data</span></span>
+<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">group =</span> gender, <span class="co"># group variable</span></span>
+<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">focal.name =</span> <span class="st">&quot;F&quot;</span>, <span class="co"># F for female students</span></span>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">match =</span> <span class="st">&quot;score&quot;</span>, <span class="co"># matching variable</span></span>
+<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
+<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gender_MH)</span></code></pre></div>
 <pre><code>
 Detection of Differential Item Functioning using Mantel-Haenszel method 
 with continuity correction and with item purification
@@ -3341,21 +3377,120 @@ Effect size codes: 0 &#39;A&#39; 1.0 &#39;B&#39; 1.5 &#39;C&#39;
  (for absolute values of &#39;deltaMH&#39;) 
  
 Output was not captured! </code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hci_difMH)</span></code></pre></div>
-<p><img src="ctt_files/figure-html/ctt58-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gender_MH)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif5-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>The plot was not captured!</code></pre>
-<p>The output consists of two sections. The first part shows the MH chi-square statistics for the items and their corresponding p values. We see that two items (items 1 and 19) in the hci data set have been flagged at <span class="math inline">\(\alpha = .05\)</span> for showing uniform DIF between male and female students. These items are also listed under “Items detected as DIF items.” The second part of the output shows the effect size using ETS delta classification. Two items (items 1 and 19) have been categorized as “B: Moderate DIF,” while the remaining items have been classified as “A: Negligible DIF.” There is no item with a “C: Large DIF” flag. The plot also shows the two items that have been flagged based on the MH chi-square test. These items appear above the horizontal line for the threshold chi-square value (<span class="math inline">\(\chi^2 = 3.84\)</span> for the significance level of <span class="math inline">\(\alpha = .05\)</span>)</p>
-<p>Next, we will repeat the same DIF analysis using the logistic regression (LR) method. We will use the <code>difLogistic()</code> function. The arguments for this function are the same as those for <code>difMH()</code>. We only add <code>type = "both"</code> (which is the default option) to run the DIF analysis for uniform and nonuniform DIF. Alternatively, we could use either <code>type = "udif"</code> or <code>type = "nudif"</code> to test the items for only uniform or nonuniform DIF.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the DIF analysis</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>hci_difLR <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difLogistic</span>(<span class="at">Data =</span> hci_items_scored, <span class="co"># response data</span></span>
-<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">group =</span> hci<span class="sc">$</span>gender, <span class="co"># group variable</span></span>
-<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">focal.name =</span> <span class="st">&quot;F&quot;</span>, <span class="co"># F for female students</span></span>
-<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">type =</span> <span class="st">&quot;both&quot;</span>, <span class="co"># Check both uniform and nonuniform DIF</span></span>
-<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
-<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(hci_difLR)</span></code></pre></div>
+<p>The output consists of two sections. The first part shows the MH chi-square statistics for the items and their corresponding p values. We see that two items (items 1 and 19) have been flagged at <span class="math inline">\(\alpha = .05\)</span> for showing DIF between male and female students because their p values are less than .05. These items are also listed under “Items detected as DIF items.” The second part of the output shows the effect size using ETS delta classification. Two items (items 1 and 19) have been categorized as “B: Moderate DIF,” while the remaining items have been classified as “A: Negligible DIF.” There is no item with a “C: Large DIF” flag. The plot also shows the two items that have been flagged based on the MH chi-square test. These items appear above the horizontal line for the threshold chi-square value (<span class="math inline">\(\chi^2 = 3.84\)</span> for the significance level of <span class="math inline">\(\alpha = .05\)</span>).</p>
+<p>Let’s also run the same type of analysis for language. This time we only change the group variable as <code>group = language</code>.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Run the DIF analysis based on language</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>lang_MH <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difMH</span>(<span class="at">Data =</span> hci_items, <span class="co"># response data</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">group =</span> language, <span class="co"># group variable</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">focal.name =</span> <span class="st">&quot;no&quot;</span>, <span class="co"># no for students whose first language is not English</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">match =</span> <span class="st">&quot;score&quot;</span>, <span class="co"># matching variable</span></span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
+<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb115-9"><a href="#cb115-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(lang_MH)</span></code></pre></div>
+<pre><code>
+Detection of Differential Item Functioning using Mantel-Haenszel method 
+with continuity correction and with item purification
+
+Results based on asymptotic inference 
+ 
+Convergence reached after 2 iterations
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Mantel-Haenszel Chi-square statistic: 
+ 
+       Stat.  P-value   
+item1  1.5933 0.2069    
+item2  1.6164 0.2036    
+item3  4.3557 0.0369  * 
+item4  0.0003 0.9870    
+item5  0.3458 0.5565    
+item6  2.8791 0.0897  . 
+item7  0.0841 0.7718    
+item8  0.0191 0.8900    
+item9  0.0410 0.8396    
+item10 2.0092 0.1563    
+item11 0.0039 0.9499    
+item12 0.0091 0.9241    
+item13 0.2976 0.5854    
+item14 0.4777 0.4895    
+item15 0.0000 0.9980    
+item16 7.9690 0.0048  **
+item17 0.2822 0.5953    
+item18 8.4877 0.0036  **
+item19 1.1926 0.2748    
+item20 3.2762 0.0703  . 
+
+Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items: 
+       
+ item3 
+ item16
+ item18
+
+ 
+Effect size (ETS Delta scale): 
+ 
+Effect size code: 
+ &#39;A&#39;: negligible effect 
+ &#39;B&#39;: moderate effect 
+ &#39;C&#39;: large effect 
+ 
+       alphaMH deltaMH  
+item1   0.7214  0.7676 A
+item2   1.3642 -0.7298 A
+item3   1.8628 -1.4619 B
+item4   1.0290 -0.0671 A
+item5   1.1615 -0.3518 A
+item6   0.6357  1.0647 B
+item7   1.0840 -0.1895 A
+item8   0.9476  0.1264 A
+item9   1.0698 -0.1585 A
+item10  0.7198  0.7728 A
+item11  1.0441 -0.1014 A
+item12  1.0030 -0.0070 A
+item13  1.1516 -0.3317 A
+item14  1.2147 -0.4570 A
+item15  1.0260 -0.0603 A
+item16  0.5058  1.6018 C
+item17  0.8636  0.3447 A
+item18  0.4185  2.0468 C
+item19  0.7499  0.6764 A
+item20  1.5553 -1.0380 B
+
+Effect size codes: 0 &#39;A&#39; 1.0 &#39;B&#39; 1.5 &#39;C&#39; 
+ (for absolute values of &#39;deltaMH&#39;) 
+ 
+Output was not captured! </code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lang_MH)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>The plot was not captured!</code></pre>
+<p>The results show that three items (item 3, 16, and 18) have been flagged for having language-based DIF. The effect size using ETS delta classification shows that item 3 has been classified as “B: Moderate DIF” whereas items 16 and 18 have been classified as “C: Large DIF.” In addition to these items, items 6 and 20 have been classified as “B: Moderate DIF.” Therefore, it would be worth examining the content of these items along with the other flagged items and determine why language-based DIF occurs.</p>
+<p>The MH method is quite straightforward; however, it is not a powerful DIF method when it comes to detecting non-uniform DIF. In fact, the MH method cannot even distinguish what type of DIF (uniform or non-uniform) occurs in the items. To deal with these limitations, we will also repeat the same DIF analyses using the logistic regression (LR) method. This will allow us to validate our findings from the MH method and detect any additional items that we might have missed.</p>
+<p>To implement the LR method, we will use the <code>difLogistic()</code> function from the <strong>difR</strong> package. The arguments for this function are nearly the same as those for <code>difMH()</code>, except for <code>type = "both"</code> (which is the default option) to run the DIF analysis for uniform and nonuniform DIF. Alternatively, we could use either <code>type = "udif"</code> or <code>type = "nudif"</code> to test the items for only uniform or nonuniform DIF.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Run the DIF analysis based on gender</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>gender_LR <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difLogistic</span>(<span class="at">Data =</span> hci_items, <span class="co"># response data</span></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">group =</span> gender, <span class="co"># group variable</span></span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">focal.name =</span> <span class="st">&quot;F&quot;</span>, <span class="co"># F for female students</span></span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">match =</span> <span class="st">&quot;score&quot;</span>, <span class="co"># matching variable</span></span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">type =</span> <span class="st">&quot;both&quot;</span>, <span class="co"># Check both uniform and nonuniform DIF</span></span>
+<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
+<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gender_LR)</span></code></pre></div>
 <pre><code>
 Detection of both types of Differential Item Functioning
 using Logistic regression method, with item purification
@@ -3439,20 +3574,128 @@ Effect size codes:
  Jodoin &amp; Gierl (JG): 0 &#39;A&#39; 0.035 &#39;B&#39; 0.07 &#39;C&#39; 1 
 
  Output was not captured! </code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
-<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hci_difLR)</span></code></pre></div>
-<p><img src="ctt_files/figure-html/ctt59-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gender_LR)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif7-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>The plot was not captured!</code></pre>
 <p>Similar to the output from the <code>difMH()</code> function, the output from the <code>difLogistic()</code> function also consists of two parts. The top part of the output shows the likelihood ratio test statistics and corresponding p values for the items. In addition to items 1 and 19), the LR method detected two more items with DIF, items 12 and 20, at the significance level of <span class="math inline">\(\alpha = .05\)</span>. The second part of the output shows the effect sizes computed using the pseudo R-squared differences. The results show that the effect size was “A: Negligible DIF” for all of the items based on both effect size measures (ZT and JG). In the plot, we see the four DIF items (items 1, 12, 19, and 20) above the horizontal line for the threshold likelihood ratio statistic (5.9915 for the significance level of <span class="math inline">\(\alpha = .05\)</span>).</p>
-<p>The same <code>plot()</code> function can also be used for creating individual plots for the flagged items based on the likelihood ratio statistic. The plot creates separate item characteristic curves where the x-axis is the total test scores and the y-axis shows the probability of correct answer (i.e., receiving 1 over 0). This plot can show whether the type of DIF is either uniform or nonuniform and which one of the two groups (i.e., reference and focal) has the advantage over the other group. In the following example, we will create item characteristic curves for items 1 and 19. We specify the item using the <code>item</code> argument and the plot type using <code>plot = "itemCurve"</code>.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize individual items</span></span>
-<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hci_difLR, <span class="at">item =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
-<p><img src="ctt_files/figure-html/ctt60-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>The same <code>plot()</code> function can also be used for creating individual plots for the flagged items based on the likelihood ratio statistic. The plot creates separate item characteristic curves where the x-axis is the total test scores and the y-axis shows the probability of correct answer (i.e., receiving 1 over 0). This plot can indicate whether the type of DIF is either uniform or nonuniform and which one of the two groups (i.e., reference and focal) has the advantage over the other group. In the following example, we will create item characteristic curves for items 1 and 19. We specify the item using the <code>item</code> argument and the plot type using <code>plot = "itemCurve"</code>.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize individual items</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gender_LR, <span class="at">item =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif8-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>The plot was not captured!</code></pre>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hci_difLR, <span class="at">item =</span> <span class="dv">19</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
-<p><img src="ctt_files/figure-html/ctt60-2.png" width="768" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gender_LR, <span class="at">item =</span> <span class="dv">19</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif8-2.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code>The plot was not captured!</code></pre>
-<p>From the plots above, we can see that item 1 exhibits uniform DIF where the focal group (i.e., female students) are more likely to answer the item correctly compared to the reference group (i.e., male students). Unlike item 1, item 19 exhibits nonuniform DIF where the reference group is more likely to answer the item correctly until the total score of 5 but then the focal group becomes more advantageous among students with the total score &gt; 5.</p>
+<p>From the plots above, we can see that item 1 exhibits uniform DIF where the focal group (i.e., female students) are more likely to answer the item correctly compared to the reference group (i.e., male students). In other words, the item favors the female students. Unlike item 1, item 19 exhibits nonuniform DIF where the reference group is more likely to answer the item correctly until the total score of 5 but then the focal group becomes more advantageous among students with the total score &gt; 5.</p>
+<p>Now, we can repeat this process for language by replacing <code>group = gender</code> with <code>group = language</code>.</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Run the DIF analysis based on language</span></span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>lang_LR <span class="ot">&lt;-</span> difR<span class="sc">::</span><span class="fu">difLogistic</span>(<span class="at">Data =</span> hci_items, <span class="co"># response data</span></span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">group =</span> language, <span class="co"># group variable</span></span>
+<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">focal.name =</span> <span class="st">&quot;no&quot;</span>, <span class="co"># no for students whose first language is not English</span></span>
+<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">match =</span> <span class="st">&quot;score&quot;</span>, <span class="co"># matching variable</span></span>
+<span id="cb127-6"><a href="#cb127-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">type =</span> <span class="st">&quot;both&quot;</span>, <span class="co"># check both uniform and nonuniform DIF</span></span>
+<span id="cb127-7"><a href="#cb127-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">purify =</span> <span class="cn">TRUE</span>) <span class="co"># if TRUE, purification is used</span></span>
+<span id="cb127-8"><a href="#cb127-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-9"><a href="#cb127-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb127-10"><a href="#cb127-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(lang_LR)</span></code></pre></div>
+<pre><code>
+Detection of both types of Differential Item Functioning
+using Logistic regression method, with item purification
+and with LRT DIF statistic
+
+Convergence reached after 4 iterations
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+       Stat.   P-value    
+item1   6.8336  0.0328 *  
+item2   1.3503  0.5091    
+item3   3.0770  0.2147    
+item4   0.9306  0.6279    
+item5   2.2886  0.3184    
+item6   4.7808  0.0916 .  
+item7   3.5067  0.1732    
+item8   0.7884  0.6742    
+item9   5.3922  0.0675 .  
+item10  7.5287  0.0232 *  
+item11  0.0262  0.9870    
+item12  0.8611  0.6501    
+item13  7.1926  0.0274 *  
+item14  0.6589  0.7193    
+item15  0.0142  0.9929    
+item16 14.0757  0.0009 ***
+item17  2.3535  0.3083    
+item18 13.1093  0.0014 ** 
+item19  8.1858  0.0167 *  
+item20  2.1369  0.3435    
+
+Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1  
+
+Detection threshold: 5.9915 (significance level: 0.05)
+
+Items detected as DIF items:
+       
+ item1 
+ item10
+ item13
+ item16
+ item18
+ item19
+
+ 
+Effect size (Nagelkerke&#39;s R^2): 
+ 
+Effect size code: 
+ &#39;A&#39;: negligible effect 
+ &#39;B&#39;: moderate effect 
+ &#39;C&#39;: large effect 
+ 
+       R^2    ZT JG
+item1  0.0121 A  A 
+item2  0.0027 A  A 
+item3  0.0067 A  A 
+item4  0.0016 A  A 
+item5  0.0039 A  A 
+item6  0.0079 A  A 
+item7  0.0065 A  A 
+item8  0.0014 A  A 
+item9  0.0094 A  A 
+item10 0.0134 A  A 
+item11 0.0001 A  A 
+item12 0.0014 A  A 
+item13 0.0115 A  A 
+item14 0.0012 A  A 
+item15 0.0000 A  A 
+item16 0.0219 A  A 
+item17 0.0049 A  A 
+item18 0.0243 A  A 
+item19 0.0152 A  A 
+item20 0.0037 A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 &#39;A&#39; 0.13 &#39;B&#39; 0.26 &#39;C&#39; 1 
+ Jodoin &amp; Gierl (JG): 0 &#39;A&#39; 0.035 &#39;B&#39; 0.07 &#39;C&#39; 1 
+
+ Output was not captured! </code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the results</span></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lang_LR)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif9-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>The plot was not captured!</code></pre>
+<p>The LR method detected six items with language-based DIF: items 1, 10, 13, 16, 18, and 19. However, all of these items have the the effect size of “A: Negligible DIF” based on both effect size measures (ZT and JG). Finally, let’s take a look at two of the items that were flagged for having DIF. In the figures, we can see that item 16 a uniform DIF favoring the focal group whereas item 10 has a non-uniform DIF (i.e. which group is being favored depends on the total score on the test).</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize individual items</span></span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lang_LR, <span class="at">item =</span> <span class="dv">10</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif10-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>The plot was not captured!</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lang_LR, <span class="at">item =</span> <span class="dv">16</span>, <span class="at">plot =</span> <span class="st">&quot;itemCurve&quot;</span>)</span></code></pre></div>
+<p><img src="ctt_files/figure-html/dif10-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre><code>The plot was not captured!</code></pre>
 <p><br></p>
 </div>
 </div>

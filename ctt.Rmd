@@ -1094,63 +1094,144 @@ head(sem_hci)
 
 Differential item functioning (DIF) is used in educational and psychological assessments to detect item-level bias. DIF occurs due to a conditional dependency between group membership of examinees (e.g., female vs. male) and item performance after controlling for the latent trait. As a result of DIF, a biased item provides either a constant advantage for a particular group (uniform DIF) or an advantage varying in magnitude and/or in direction across the latent trait continuum (nonuniform DIF). In the context of DIF, the focal group refers to the examinees who are suspected to be at a disadvantage compared to the examinees from the reference group when responding to the items on the test. If an item exhibits "uniform DIF", then the performance of the focal group tends to be constantly worse than the performance of the reference group along the latent trait continuum. If the item exhibits "nonuniform DIF", the difference between the focal and reference groups would not necessarily have a single direction. 
 
-The **difR** package [@magis2010] provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use "gender" and "eng_first_lang" as group variables to identify the hci items that exhibit DIF based on gender or speaking English as a first language. To facilitate DIF analyses we will run in this part, I saved the scored items, gender, and eng_first_lang as a new dataset: [**hci_scored.csv**](data_and_codes/hci_scored.csv). The file has the following variables: 
+The **difR** package [@magis2010] provides access to several methods for detecting dichotomous items exhibiting DIF. In the following example, we will use the Mantel-Haenszel (MH) and logistic regression methods to analyze the scored hci items in terms of DIF. We will use "gender" and "eng_first_lang" as group variables to identify the hci items that exhibit DIF based on gender or speaking English as a first language. To facilitate DIF analyses we will run in this part, I saved the scored items, gender, and eng_first_lang as [**hci_scored.csv**](data_and_codes/hci_scored.csv). In addition, the R codes for the DIF analyses presented here are available [**here**](data_and_codes/dif.R).  
 
+Now, let's go head and import the data into R.
 
-First, let's check how many female and male students participated in the hci test. 
+```{r di1, eval=FALSE}
+# Import the dataset
+hci_scored <- read.csv("hci_scored.csv", header = TRUE)
 
-```{r ctt57, echo=TRUE}
-# How many male and female students?
-table(hci$gender)
+# Print the first 6 rows of the dataset
+head(hci_scored)
 ```
 
-There are 405 female and 246 male students. Using female students as the focal group (using males as the focal group would not change the results), we will run the MH test and detect items with DIF. The `difMH()` function automatically calculates the total scores based on the response data and use these scores to match the students based on their ability levels when performing the MH test. Our gender variable comes from the original dataset. Since we haven't changed the order of students in the scored dataset, we can use the gender variable from `hci` and the responses from `hci_items_scored` to run the DIF analysis. 
+```{r dif2, echo=FALSE, R.options = list(width = 110)}
+hci_scored <- read.csv(paste0(getwd(), "/data_and_codes/hci_scored.csv"), header = TRUE)
 
-```{r ctt58, echo=TRUE}
-# Run the DIF analysis
-hci_difMH <- difR::difMH(Data = hci_items_scored, # response data
-                         group = hci$gender, # group variable
+head(hci_scored)
+```
+
+Next, we will check the number of female/male students and students whose first language is English (or not).  
+
+```{r dif3, echo=TRUE}
+# How many male and female students?
+table(hci_scored$gender)
+
+# How many students whose first language is English?
+table(hci_scored$eng_first_lang)
+```
+
+In the following part, we will run DIF analysis to detect items with DIF based on gender and language. We will use female students as the focal group in gender-based DIF analysis and use students whose first language is **not** English as the focal group in language-based DIF analysis. Please note that males/those who speak English as their first language as the focal group would **not** change the results. 
+
+We will begin with the Mantel-Haenszel (MH) DIF method. The `difMH()` function from the **difR** package allows us to run the MF DIF method and detect items exhibiting DIF. The function automatically calculates the total scores based on the response data and use these scores to match the students based on their ability levels when performing the MH test. However, we can also calculate the total scores prior to DIF analysis and use it as the matching variable. 
+
+Before we begin the analysis, let's save the items in hci_scored, gender, and eng_first_lang as separate datasets. 
+
+```{r dif4, echo=TRUE}
+# We will save the items, gender, and language as separate datasets
+hci_items <- dplyr::select(hci_scored, starts_with("item"))
+
+gender <- hci_scored$gender
+
+language <- hci_scored$eng_first_lang
+```
+
+Now, let's go ahead and run DIF analysis using the MH method for gender and language. In the following example, we specify the items to be tested for DIF (`Data = hci_items`), the group variable (`group = gender`), the group (female) to be used as the focal group (`focal.name = "F"`), and the matching variable (` match = "score"`) which automatically calculates the total scores based on item responses (if we already have the total scores in the data, then we can specify a variable name in the data for total test scores). Also, we set `purify = TRUE` to run iterative purification when conducting DIF analysis. With purification, items with DIF are excluded from the calculation of the matching variable (i.e., total scores) and the analysis is rerun with clean items until no further DIF items are detected. 
+
+```{r dif5, echo=TRUE}
+# 1) Run the DIF analysis based on gender
+gender_MH <- difR::difMH(Data = hci_items, # response data
+                         group = gender, # group variable
                          focal.name = "F", # F for female students
+                         match = "score", # matching variable
                          purify = TRUE) # if TRUE, purification is used
 
 # Print the results
-print(hci_difMH)
+print(gender_MH)
 
 # Visualize the results
-plot(hci_difMH)
+plot(gender_MH)
 ```
 
-The output consists of two sections. The first part shows the MH chi-square statistics for the items and their corresponding p values. We see that two items (items 1 and 19) in the hci data set have been flagged at $\alpha = .05$ for showing uniform DIF between male and female students. These items are also listed under "Items detected as DIF items". The second part of the output shows the effect size using ETS delta classification. Two items (items 1 and 19) have been categorized as "B: Moderate DIF", while the remaining items have been classified as "A: Negligible DIF". There is no item with a "C: Large DIF" flag. The plot also shows the two items that have been flagged based on the MH chi-square test. These items appear above the horizontal line for the threshold chi-square value ($\chi^2 = 3.84$ for the significance level of $\alpha = .05$)
+The output consists of two sections. The first part shows the MH chi-square statistics for the items and their corresponding p values. We see that two items (items 1 and 19) have been flagged at $\alpha = .05$ for showing DIF between male and female students because their p values are less than .05. These items are also listed under "Items detected as DIF items". The second part of the output shows the effect size using ETS delta classification. Two items (items 1 and 19) have been categorized as "B: Moderate DIF", while the remaining items have been classified as "A: Negligible DIF". There is no item with a "C: Large DIF" flag. The plot also shows the two items that have been flagged based on the MH chi-square test. These items appear above the horizontal line for the threshold chi-square value ($\chi^2 = 3.84$ for the significance level of $\alpha = .05$).
 
-Next, we will repeat the same DIF analysis using the logistic regression (LR) method. We will use the `difLogistic()` function. The arguments for this function are the same as those for `difMH()`. We only add `type = "both"` (which is the default option) to run the DIF analysis for uniform and nonuniform DIF. Alternatively, we could use either `type = "udif"` or `type = "nudif"` to test the items for only uniform or nonuniform DIF.
+Let's also run the same type of analysis for language. This time we only change the group variable as `group = language`.
 
-```{r ctt59, echo=TRUE}
-# Run the DIF analysis
-hci_difLR <- difR::difLogistic(Data = hci_items_scored, # response data
-                               group = hci$gender, # group variable
+```{r dif6, echo=TRUE}
+# 2) Run the DIF analysis based on language
+lang_MH <- difR::difMH(Data = hci_items, # response data
+                       group = language, # group variable
+                       focal.name = "no", # no for students whose first language is not English
+                       match = "score", # matching variable
+                       purify = TRUE) # if TRUE, purification is used
+
+# Print the results
+print(lang_MH)
+
+# Visualize the results
+plot(lang_MH)
+```
+
+The results show that three items (item 3, 16, and 18) have been flagged for having language-based DIF. The effect size using ETS delta classification shows that item 3 has been classified as "B: Moderate DIF" whereas items 16 and 18 have been classified as "C: Large DIF". In addition to these items, items 6 and 20 have been classified as "B: Moderate DIF". Therefore, it would be worth examining the content of these items along with the other flagged items and determine why language-based DIF occurs. 
+
+The MH method is quite straightforward; however, it is not a powerful DIF method when it comes to detecting non-uniform DIF. In fact, the MH method cannot even distinguish what type of DIF (uniform or non-uniform) occurs in the items. To deal with these limitations, we will also repeat the same DIF analyses using the logistic regression (LR) method. This will allow us to validate our findings from the MH method and detect any additional items that we might have missed.  
+
+To implement the LR method, we will use the `difLogistic()` function from the **difR** package. The arguments for this function are nearly the same as those for `difMH()`, except for `type = "both"` (which is the default option) to run the DIF analysis for uniform and nonuniform DIF. Alternatively, we could use either `type = "udif"` or `type = "nudif"` to test the items for only uniform or nonuniform DIF.
+
+```{r dif7, echo=TRUE}
+# 1) Run the DIF analysis based on gender
+gender_LR <- difR::difLogistic(Data = hci_items, # response data
+                               group = gender, # group variable
                                focal.name = "F", # F for female students
+                               match = "score", # matching variable
                                type = "both", # Check both uniform and nonuniform DIF
                                purify = TRUE) # if TRUE, purification is used
 
 # Print the results
-print(hci_difLR)
+print(gender_LR)
 
 # Visualize the results
-plot(hci_difLR)
+plot(gender_LR)
 ```
 
-Similar to the output from the `difMH()` function, the output from the `difLogistic()` function also consists of two parts. The top part of the output shows the likelihood ratio test statistics and corresponding p values for the items. In addition to items 1 and 19), the LR method detected two more items with DIF, items 12 and 20, at the significance level of $\alpha = .05$. The second part of the output shows the effect sizes computed using the pseudo R-squared differences. The results show that the effect size was "A: Negligible DIF" for all of
-the items based on both effect size measures (ZT and JG). In the plot, we see the four DIF items (items 1, 12, 19, and 20) above the horizontal line for the threshold likelihood ratio statistic (5.9915 for the significance level of $\alpha = .05$).
+Similar to the output from the `difMH()` function, the output from the `difLogistic()` function also consists of two parts. The top part of the output shows the likelihood ratio test statistics and corresponding p values for the items. In addition to items 1 and 19), the LR method detected two more items with DIF, items 12 and 20, at the significance level of $\alpha = .05$. The second part of the output shows the effect sizes computed using the pseudo R-squared differences. The results show that the effect size was "A: Negligible DIF" for all of the items based on both effect size measures (ZT and JG). In the plot, we see the four DIF items (items 1, 12, 19, and 20) above the horizontal line for the threshold likelihood ratio statistic (5.9915 for the significance level of $\alpha = .05$).
 
-The same `plot()` function can also be used for creating individual plots for the flagged items based on the likelihood ratio statistic. The plot creates separate item characteristic curves where the x-axis is the total test scores and the y-axis shows the probability of correct answer (i.e., receiving 1 over 0). This plot can show whether the type of DIF is either uniform or nonuniform and which one of the two groups (i.e., reference and focal) has the advantage over the other group. In the following example, we will create item characteristic curves for items 1 and 19. We specify the item using the `item` argument and the plot type using `plot = "itemCurve"`.
+The same `plot()` function can also be used for creating individual plots for the flagged items based on the likelihood ratio statistic. The plot creates separate item characteristic curves where the x-axis is the total test scores and the y-axis shows the probability of correct answer (i.e., receiving 1 over 0). This plot can indicate whether the type of DIF is either uniform or nonuniform and which one of the two groups (i.e., reference and focal) has the advantage over the other group. In the following example, we will create item characteristic curves for items 1 and 19. We specify the item using the `item` argument and the plot type using `plot = "itemCurve"`.
 
-```{r ctt60, echo=TRUE}
+```{r dif8, echo=TRUE}
 # Visualize individual items
-plot(hci_difLR, item = 1, plot = "itemCurve")
-plot(hci_difLR, item = 19, plot = "itemCurve")
+plot(gender_LR, item = 1, plot = "itemCurve")
+plot(gender_LR, item = 19, plot = "itemCurve")
 ```
 
-From the plots above, we can see that item 1 exhibits uniform DIF where the focal group (i.e., female students) are more likely to answer the item correctly compared to the reference group (i.e., male students). Unlike item 1, item 19 exhibits nonuniform DIF where the reference group is more likely to answer the item correctly until the total score of 5 but then the focal group becomes more advantageous among students with the total score > 5. 
+From the plots above, we can see that item 1 exhibits uniform DIF where the focal group (i.e., female students) are more likely to answer the item correctly compared to the reference group (i.e., male students). In other words, the item favors the female students. Unlike item 1, item 19 exhibits nonuniform DIF where the reference group is more likely to answer the item correctly until the total score of 5 but then the focal group becomes more advantageous among students with the total score > 5. 
+
+Now, we can repeat this process for language by replacing `group = gender` with `group = language`.
+
+```{r dif9, echo=TRUE}
+# 2) Run the DIF analysis based on language
+lang_LR <- difR::difLogistic(Data = hci_items, # response data
+                             group = language, # group variable
+                             focal.name = "no", # no for students whose first language is not English
+                             match = "score", # matching variable
+                             type = "both", # check both uniform and nonuniform DIF
+                             purify = TRUE) # if TRUE, purification is used
+
+# Print the results
+print(lang_LR)
+
+# Visualize the results
+plot(lang_LR)
+```
+
+The LR method detected six items with language-based DIF: items 1, 10, 13, 16, 18, and 19. However, all of these items have the the effect size of "A: Negligible DIF" based on both effect size measures (ZT and JG). Finally, let's take a look at two of the items that were flagged for having DIF. In the figures, we can see that item 16 a uniform DIF favoring the focal group whereas item 10 has a non-uniform DIF (i.e. which group is being favored depends on the total score on the test). 
+
+```{r dif10, echo=TRUE}
+# Visualize individual items
+plot(lang_LR, item = 10, plot = "itemCurve")
+plot(lang_LR, item = 16, plot = "itemCurve")
+```
 
 ```{r ctt0, eval=FALSE, echo=FALSE}
 # Run the following to extract the R codes from this file

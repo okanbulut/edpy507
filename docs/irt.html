@@ -529,7 +529,7 @@ ShinyItemAnalysis
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lavaan&quot;</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mirt&quot;</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
-<p>We will use <strong>lavaan</strong> <span class="citation">(Rosseel et al., 2021)</span> to conduct confirmatory factor analysis and <strong>mirt</strong> <span class="citation">(Chalmers, 2021)</span> to estimate dichotomous and polytomous IRT models.</p>
+<p>We will use <strong>lavaan</strong> <span class="citation">(Rosseel et al., 2022)</span> to conduct confirmatory factor analysis and <strong>mirt</strong> <span class="citation">(Chalmers, 2021)</span> to estimate dichotomous and polytomous IRT models.</p>
 <hr />
 <blockquote>
 <p>🔔 <span style="color:blue"><strong>INFORMATION:</strong></span> There are many other packages for estimating IRT models in R, such as <strong>ltm</strong> <span class="citation">(Rizopoulos, 2006)</span>, <strong>eRm</strong> <span class="citation">(Mair et al., 2020)</span>, <strong>TAM</strong> <span class="citation">(Robitzsch et al., 2021)</span>, and <strong>irtoys</strong> <span class="citation">(Partchev &amp; Maris, 2017)</span>. I prefer the <strong>mirt</strong> package because it includes functions to estimate various IRT models (e.g., unidimensional, multidimensional, and explanatory IRT models), additional functions to check model assumptions (e.g., local independence), and various tools to visualize IRT-related objects (e.g., item characteristic curve, item information function, and test information function). You can check out <span class="citation">Choi &amp; Asilkalkan (2019)</span> for a detailed review of IRT packages available in R.</p>
@@ -1794,7 +1794,7 @@ Minimum correlation of possible factor scores     0.80</code></pre>
 <div id="confirmatory-factor-analysis" class="section level3">
 <h3>Confirmatory factor analysis</h3>
 <p>After an instrument has been developed and validated, we have a sense of its dimensionality (i.e., factor structure) and which observed variables (i.e., items) should load onto which factor(s). In this setting, it is more appropriate to consider confirmatory factor analysis (CFA) for examining the factor structure. Unlike with EFA, in CFA the researcher must create a theoretically-justified factor model by specifying the factor(s) and which items are associated with each factor and evaluate its fit to the data.</p>
-<p>Following the results of EFA from the previous section, we will go ahead and fit a one-factor CFA model to the sapa_clean dataset. To perform CFA in R, as well as path analysis and structural equation modeling, we can use the <strong>lavaan</strong> package <span class="citation">(Rosseel et al., 2021)</span>, which stands for <strong>la</strong>tent <strong>va</strong>riable <strong>an</strong>alysis. The <strong>lavaan</strong> package uses its own special model syntax. For conducting a CFA, we need to define a model and then estimate the model using the <code>cfa()</code> function. The model definition below begins with a single quote and ends with the same single quote. We named our factor as “f” (or, we could name it as “intelligence”) and listed the items associated with this factor (i.e., SAPA items).</p>
+<p>Following the results of EFA from the previous section, we will go ahead and fit a one-factor CFA model to the sapa_clean dataset. To perform CFA in R, as well as path analysis and structural equation modeling, we can use the <strong>lavaan</strong> package <span class="citation">(Rosseel et al., 2022)</span>, which stands for <strong>la</strong>tent <strong>va</strong>riable <strong>an</strong>alysis. The <strong>lavaan</strong> package uses its own special model syntax. For conducting a CFA, we need to define a model and then estimate the model using the <code>cfa()</code> function. The model definition below begins with a single quote and ends with the same single quote. We named our factor as “f” (or, we could name it as “intelligence”) and listed the items associated with this factor (i.e., SAPA items).</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a single factor</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sapa_model <span class="ot">&lt;-</span> <span class="st">&#39;f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 + </span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="st">               letter.33 + letter.34 + letter.58 + matrix.45 + matrix.46 + matrix.47&#39;</span></span></code></pre></div>
@@ -1804,7 +1804,7 @@ Minimum correlation of possible factor scores     0.80</code></pre>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the output</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cfa_sapa, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>lavaan 0.6-9 ended normally after 39 iterations
+<pre><code>lavaan 0.6-10 ended normally after 39 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -2400,7 +2400,7 @@ Rizopoulos, D. (2006). Ltm: An r package for latent variable modelling and item 
 Robitzsch, A., Kiefer, T., &amp; Wu, M. (2021). <em>TAM: Test analysis modules</em>. <a href="https://CRAN.R-project.org/package=TAM">https://CRAN.R-project.org/package=TAM</a>
 </div>
 <div id="ref-R-lavaan" class="csl-entry">
-Rosseel, Y., Jorgensen, T. D., &amp; Rockwood, N. (2021). <em>Lavaan: Latent variable analysis</em>. <a href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>
+Rosseel, Y., Jorgensen, T. D., &amp; Rockwood, N. (2022). <em>Lavaan: Latent variable analysis</em>. <a href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>
 </div>
 </div>
 </div>
