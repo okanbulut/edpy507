@@ -1,4 +1,4 @@
-# EDPY 501 - Measurement Theory I
+# EDPY 507 - Measurement Theory I
 
 Prepared by [Dr. Okan Bulut](www.okanbulut.com). To see the website, click [here](https://okanbulut.github.io/edpy507).
 
