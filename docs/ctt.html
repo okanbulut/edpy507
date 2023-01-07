@@ -13,7 +13,7 @@
 
 <title>Classical Test Theory (CTT)</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -43,6 +43,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -121,13 +122,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -186,6 +194,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
 pre code {
   padding: 0;
 }
@@ -242,11 +253,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -275,8 +290,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -284,16 +299,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -337,7 +345,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -1122,7 +1130,7 @@ complete data rate, mean, standard deviation, min (p0), 25th percentile
 (p25), median (p50), 75% percentile (p75), and max (p100) values for the
 variables.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(nfc)</span></code></pre></div>
-<pre><code>-- Data Summary ------------------------
+<pre><code>── Data Summary ────────────────────────
                            Values
 Name                       nfc   
 Number of rows             1209  
@@ -1134,38 +1142,34 @@ Column type frequency:
 ________________________         
 Group variables            None  
 
--- Variable type: character ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# A tibble: 2 x 8
-  skim_variable n_missing complete_rate   min   max empty n_unique whitespace
-* &lt;chr&gt;             &lt;int&gt;         &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;      &lt;int&gt;
-1 sex                   3         0.998     4     6     0        2          0
-2 education             0         1         5    15     0        4          0
+── Variable type: character ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate min max empty n_unique whitespace
+1 sex                   3         0.998   4   6     0        2          0
+2 education             0         1       5  15     0        4          0
 
--- Variable type: numeric ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# A tibble: 21 x 10
-   skim_variable      n_missing complete_rate    mean     sd    p0   p25   p50   p75  p100
- * &lt;chr&gt;                  &lt;int&gt;         &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 id                         0         1     882.    491.       1   464   888  1305  1735
- 2 age                        5         0.996  24.4     3.93    18    22    24    26    50
- 3 nfc01                      0         1       5.54    1.19     1     5     6     6     7
- 4 nfc02                      0         1       4.94    1.39     1     4     5     6     7
- 5 nfc03                      0         1       4.44    1.40     1     3     5     5     7
- 6 nfc04                      0         1       2.47    1.47     1     1     2     3     7
- 7 nfc05                      0         1       5.82    1.23     1     5     6     7     7
- 8 nfc06                      0         1       3.75    1.50     1     3     4     5     7
- 9 nfc07                      0         1       2.70    1.32     1     2     2     3     7
-10 nfc08                      0         1       3.34    1.55     1     2     3     4     7
-11 nfc09                      0         1       2.45    1.52     1     1     2     3     7
-12 nfc10                      0         1       3.16    1.52     1     2     3     4     7
-13 nfc11                      0         1       2.75    1.45     1     2     2     4     7
-14 nfc12                      0         1       2.45    1.40     1     1     2     3     7
-15 nfc13                      0         1       4.10    1.42     1     3     4     5     7
-16 nfc14                      0         1       3.57    1.47     1     2     4     4     7
-17 nfc15                      0         1       2.25    1.34     1     1     2     3     7
-18 nfc16                      0         1       2.48    1.40     1     1     2     3     7
-19 action_orientation         0         1       9.84    4.96     0     6     9    13    24
-20 effortful_control          0         1       6.84   14.0    -45    -2     7    16    57
-21 self_control               0         1       0.117   8.36   -22    -5     0     5    24</code></pre>
+── Variable type: numeric ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   skim_variable      n_missing complete_rate    mean     sd  p0 p25 p50  p75 p100
+ 1 id                         0         1     882.    491.     1 464 888 1305 1735
+ 2 age                        5         0.996  24.4     3.93  18  22  24   26   50
+ 3 nfc01                      0         1       5.54    1.19   1   5   6    6    7
+ 4 nfc02                      0         1       4.94    1.39   1   4   5    6    7
+ 5 nfc03                      0         1       4.44    1.40   1   3   5    5    7
+ 6 nfc04                      0         1       2.47    1.47   1   1   2    3    7
+ 7 nfc05                      0         1       5.82    1.23   1   5   6    7    7
+ 8 nfc06                      0         1       3.75    1.50   1   3   4    5    7
+ 9 nfc07                      0         1       2.70    1.32   1   2   2    3    7
+10 nfc08                      0         1       3.34    1.55   1   2   3    4    7
+11 nfc09                      0         1       2.45    1.52   1   1   2    3    7
+12 nfc10                      0         1       3.16    1.52   1   2   3    4    7
+13 nfc11                      0         1       2.75    1.45   1   2   2    4    7
+14 nfc12                      0         1       2.45    1.40   1   1   2    3    7
+15 nfc13                      0         1       4.10    1.42   1   3   4    5    7
+16 nfc14                      0         1       3.57    1.47   1   2   4    4    7
+17 nfc15                      0         1       2.25    1.34   1   1   2    3    7
+18 nfc16                      0         1       2.48    1.40   1   1   2    3    7
+19 action_orientation         0         1       9.84    4.96   0   6   9   13   24
+20 effortful_control          0         1       6.84   14.0  -45  -2   7   16   57
+21 self_control               0         1       0.117   8.36 -22  -5   0    5   24</code></pre>
 <p>The <code>describe()</code> function from the <strong>psych</strong>
 package <span class="citation">(Revelle, 2021)</span> is another useful
 function to get basic descriptive statistics for data collected for
@@ -2325,8 +2329,10 @@ Call: psych::alpha(x = response_recoded)
   raw_alpha std.alpha G6(smc) average_r S/N    ase mean   sd median_r
       0.87      0.87    0.88       0.3 6.8 0.0054    5 0.82     0.29
 
- lower alpha upper     95% confidence boundaries
-0.86 0.87 0.88 
+    95% confidence boundaries 
+         lower alpha upper
+Feldt     0.86  0.87  0.88
+Duhachek  0.86  0.87  0.88
 
  Reliability if an item is dropped:
       raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
@@ -2686,33 +2692,27 @@ In addition, we will use <code>na_to_0 = FALSE</code> not to recode
 missing responses as zero when running the analysis (even though the nfc
 dataset does not include any missing responses).</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>reliability_qme <span class="ot">&lt;-</span> QME<span class="sc">::</span><span class="fu">analyze</span>(<span class="at">test =</span> response_recoded, <span class="at">id =</span> <span class="cn">FALSE</span>, <span class="at">na_to_0 =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>reliability_qme</span></code></pre></div>
-<pre><code>QME &#39;analyze&#39; object.
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># View the results</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>reliability_qme<span class="sc">$</span>test_level</span></code></pre></div>
+<pre><code>$descriptives
+                      Value
+Minimum Score       21.0000
+Maximum Score      112.0000
+Mean Score          80.6228
+Median Score        82.0000
+Standard Deviation  13.1905
+IQR                 17.0000
+Skewness (G1)       -0.6471
+Kurtosis (G2)        0.7557
 
-Test name:  response_recoded 
-                        
-Number of Items       16
-Number of Examinees 1209
-
-Descriptives
--------------------------------                         
-Minimum Score       21.00
-Maximum Score      112.00
-Mean Score          80.62
-Median Score        82.00
-Standard Deviation  13.19
-IQR                 17.00
-Skewness (G1)       -0.65
-Kurtosis (G2)        0.76
-
-Reliabilities
--------------------------------
-                  Estimate 95% LL 95% UL SEM
-Guttman&#39;s L2          0.87   0.86   0.88 4.7
-Guttman&#39;s L4          0.89   0.88   0.90 4.3
-Feldt-Gilmer          0.87   0.86   0.88 4.7
-Feldt-Brennan         0.87   0.86   0.88 4.7
-Coefficient Alpha     0.87   0.86   0.88 4.7</code></pre>
+$reliability
+                  Estimate 95% LL 95% UL   SEM
+Guttman&#39;s L2        0.8732 0.8625 0.8833 4.698
+Guttman&#39;s L4        0.8932 0.8842 0.9018 4.310
+Feldt-Gilmer        0.8718 0.8610 0.8820 4.724
+Feldt-Brennan       0.8713 0.8605 0.8816 4.732
+Coefficient Alpha   0.8704 0.8595 0.8808 4.749</code></pre>
 <p>The output gives us some descriptive statistics based on the total
 score and reliability statistics at the bottom. The reliability values
 we obtained from <strong>psych</strong>, <strong>CTT</strong>, and
@@ -2745,33 +2745,29 @@ the internal consistency again.</p>
 <span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">lab_size =</span> <span class="dv">3</span>) </span></code></pre></div>
 <p><img src="ctt_files/figure-html/ctt31b-1.png" width="864" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now check the internal consistency</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>QME<span class="sc">::</span><span class="fu">analyze</span>(<span class="at">test =</span> response_experiment, <span class="at">id =</span> <span class="cn">FALSE</span>, <span class="at">na_to_0 =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<pre><code>QME &#39;analyze&#39; object.
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>reliability_qme <span class="ot">&lt;-</span> QME<span class="sc">::</span><span class="fu">analyze</span>(<span class="at">test =</span> response_recoded, <span class="at">id =</span> <span class="cn">FALSE</span>, <span class="at">na_to_0 =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># You can use print(reliability_qme) to view the results. </span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If reliability_qme does not print the results, try this:</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>reliability_qme<span class="sc">$</span>test_level</span></code></pre></div>
+<pre><code>$descriptives
+                      Value
+Minimum Score       21.0000
+Maximum Score      112.0000
+Mean Score          80.6228
+Median Score        82.0000
+Standard Deviation  13.1905
+IQR                 17.0000
+Skewness (G1)       -0.6471
+Kurtosis (G2)        0.7557
 
-Test name:  response_experiment 
-                        
-Number of Items       16
-Number of Examinees 1209
-
-Descriptives
--------------------------------                         
-Minimum Score       22.00
-Maximum Score      111.00
-Mean Score          78.23
-Median Score        79.00
-Standard Deviation  11.94
-IQR                 16.00
-Skewness (G1)       -0.58
-Kurtosis (G2)        0.69
-
-Reliabilities
--------------------------------
-                  Estimate 95% LL 95% UL SEM
-Guttman&#39;s L2          0.80   0.78   0.82 5.3
-Guttman&#39;s L4          0.82   0.80   0.83 5.1
-Feldt-Gilmer          0.80   0.78   0.82 5.3
-Feldt-Brennan         0.79   0.78   0.81 5.4
-Coefficient Alpha     0.79   0.77   0.81 5.5</code></pre>
+$reliability
+                  Estimate 95% LL 95% UL   SEM
+Guttman&#39;s L2        0.8732 0.8625 0.8833 4.698
+Guttman&#39;s L4        0.8932 0.8842 0.9018 4.310
+Feldt-Gilmer        0.8718 0.8610 0.8820 4.724
+Feldt-Brennan       0.8713 0.8605 0.8816 4.732
+Coefficient Alpha   0.8704 0.8595 0.8808 4.749</code></pre>
 <p>After replacing the original responses with random values between 1
 and 7, we see that the correlation between the first two items and the
 remaining items disappeared. In fact, some correlations are even

@@ -1,7 +1,7 @@
 
 # Install all the packages together
 install.packages(c("dplyr", "car", "skimr", "DataExplorer", "ggcorrplot",
-                   "psych", "CTT", "ShinyItemAnalysis", "devtools", "rmarkdown"))
+                   "psych", "CTT", "ShinyItemAnalysis", "difR", "devtools", "rmarkdown"))
 
 # Or, we could do it one by one. For example:
 # # install.packages("CTT")
@@ -20,6 +20,7 @@ library("psych")
 library("CTT")
 library("ShinyItemAnalysis")
 library("QME")
+library("difR")
 
 # Set the working directory to wherever you are going to keep the files
 setwd("C:/Users/Okan/Desktop/CTT Analysis")
@@ -141,13 +142,13 @@ split_half <- function(data, type = "alternate", seed = 2022) {
     second_half <- data[, seq(2, ncol(data), by = 2)]
     first_total <- rowSums(first_half, na.rm = T)
     second_total <- rowSums(second_half, na.rm = T)
-    rel <- round(cor(first_total, second_total), 3)} else
+    rel <- round(cor(first_total, second_total), 3)}
   
   # Select two halves randomly
   if (type == "random") {
     set.seed(seed)
     num_items <- 1:ncol(data)
-    first_items <- sample(num_items, round(ncol(data)/2, 0))
+    first_items <- sample(num_items, ncol(data)/2)
     first_half <- data[, first_items]
     second_half <- data[, -first_items]
     first_total <- rowSums(first_half, na.rm = T)
@@ -186,7 +187,9 @@ itemanalysis_ctt
 
 # Try the QME package
 reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
-reliability_qme
+
+# Print the results
+reliability_qme$test_level
 
 # Create a copy of the original response dataset
 response_experiment <- response_recoded
@@ -208,7 +211,7 @@ ggcorrplot::ggcorrplot(corr = cormat_experiment,
                        lab_size = 3) 
 
 # Now check the internal consistency
-QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)
+QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)$test_level$reliability
 
 # Spearman-Brown formula
 CTT::spearman.brown(r.xx = 0.87, input = 0.5, n.or.r = "n")
@@ -474,3 +477,39 @@ sem_hci <- sem(x = hci_items_scored, ci.level = 0.95)
 
 # See observed scores and their lower/upper confidence intervals
 head(sem_hci)
+
+
+# How many male and female students?
+table(hci$gender)
+
+
+# Run the DIF analysis
+hci_difMH <- difR::difMH(Data = hci_items_scored, # response data
+                         group = hci$gender, # group variable
+                         focal.name = "F", # F for female students
+                         purify = TRUE) # if TRUE, purification is used
+
+# Print the results
+print(hci_difMH)
+
+# Visualize the results
+plot(hci_difMH)
+
+
+# Run the DIF analysis
+hci_difLR <- difR::difLogistic(Data = hci_items_scored, # response data
+                               group = hci$gender, # group variable
+                               focal.name = "F", # F for female students
+                               type = "both", # Check both uniform and nonuniform DIF
+                               purify = TRUE) # if TRUE, purification is used
+
+# Print the results
+print(hci_difLR)
+
+# Visualize the results
+plot(hci_difLR)
+
+# Visualize individual items
+plot(hci_difLR, item = 1, plot = "itemCurve")
+plot(hci_difLR, item = 19, plot = "itemCurve")
+

@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, warning = FALSE, background = "g
 
 ## About the Course
 
-EDPY 507 - Measurement Theory I is designed for graduate students, researchers, and practitioners who want to develop, evaluate, and select measurement instruments in their professional roles. The course provides an introduction to the measurement concepts and models related to both classical test theory (CTT) and item response theory (IRT). First, the foundational concepts necessary to understand both theoretical positions will be presented. Then, we will apply these two test theories to solve important contemporary problems in educational and psychological measurement. You can find the course outline (syllabus) [**here**](resources/EDPY 507_Fall 2022.pdf).
+EDPY 507 - Measurement Theory I is designed for graduate students, researchers, and practitioners who want to develop, evaluate, and select measurement instruments in their professional roles. The course provides an introduction to the measurement concepts and models related to both classical test theory (CTT) and item response theory (IRT). First, the foundational concepts necessary to understand both theoretical positions will be presented. Then, we will apply these two test theories to solve important contemporary problems in educational and psychological measurement. You can find the course outline (syllabus) [**here**](resources/EDPY 507_Winter 2023.pdf).
 
 <br>
 
@@ -54,7 +54,7 @@ EDPY 507 - Measurement Theory I is designed for graduate students, researchers, 
 
 ## Course Materials
 
-The lecture notes and readings will be available on [eClass](https://eclass.srv.ualberta.ca). I suggest that you focus on the lecture notes first. If time permits, you should also complete the readings before attending the lectures. In addition to the lecture notes and readings, I will also share hands-on materials for conducting different types of psychometric analyses on this website. We will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/). The hands-on materials presented here will help you learn how to use R for data processing, data visualization, and psychometric analysis (see [Learning R](https://okanbulut.github.io/edpy507/intro-to-r.html) for further details on how to download and install R and RStudio).
+The lecture notes and readings will be available on [eClass](https://eclass.srv.ualberta.ca). I suggest that you focus on the lecture notes first. If time permits, you should also complete the readings before attending the lectures. In addition to the lecture notes and readings, I will also share hands-on materials for conducting different types of psychometric analyses on this website. We will use two software programs: [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/). The hands-on materials presented here will help you learn how to use R for data processing, data visualization, and psychometric analysis (see [Learning R](https://okanbulut.github.io/edpy507/learning-r.html) for further details on how to download and install R and RStudio).
 
 <br>
 

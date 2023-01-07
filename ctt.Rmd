@@ -564,7 +564,9 @@ Lastly, we will use the **QME** package [@R-QME] to calculate internal consisten
 
 ```{r ctt31, echo=TRUE}
 reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
-reliability_qme
+
+# View the results
+reliability_qme$test_level
 ```
 
 The output gives us some descriptive statistics based on the total score and reliability statistics at the bottom. The reliability values we obtained from **psych**, **CTT**, and **QME** are nearly the same (it is possible to see some minor differences due to rounding error, etc.)
@@ -592,7 +594,11 @@ ggcorrplot::ggcorrplot(corr = cormat_experiment,
                        lab_size = 3) 
 
 # Now check the internal consistency
-QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)
+reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
+
+# You can use print(reliability_qme) to view the results. 
+# If reliability_qme does not print the results, try this:
+reliability_qme$test_level
 ```
 
 After replacing the original responses with random values between 1 and 7, we see that the correlation between the first two items and the remaining items disappeared. In fact, some correlations are even negative. This finding is not surprising because the randomly-generated values would not necessarily be correlated with the other items. The output from the `analyze()` function shows that the internal consistency for this new dataset is 0.79 (as opposed to 0.87 in the original dataset). Given the length of the NFC Scale (16 items), having two poor quality items significantly decreased the internal consistency of the scale.

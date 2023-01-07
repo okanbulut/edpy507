@@ -76,8 +76,8 @@ To download and install R:
 
 To download and install RStudio:
 
-1. Go to [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
-2. Click "Download" under *RStudio Desktop - Open Source License*
+1. Go to [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+2. Click "Download" under *Step 2: Install RStudio Desktop*
 3. Select the install file for your OS
 4. Follow the instructions of the installer.
 

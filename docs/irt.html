@@ -13,7 +13,7 @@
 
 <title>Item Response Theory (IRT)</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -43,6 +43,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -121,13 +122,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -186,6 +194,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
 pre code {
   padding: 0;
 }
@@ -242,11 +253,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -275,8 +290,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -284,16 +299,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -337,7 +345,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -463,12 +471,12 @@ use a subset of SAPA (16 items) sampled from the full instrument (80
 items) to develop online measures of ability. These 16 items measure
 four subskills (i.e., verbal reasoning, letter series, matrix reasoning,
 and spatial rotations) as part of the general intelligence, also known
-as g factor. The “sapa.csv” dataset is a data frame with 1525
+as g factor. The “sapa_data.csv” dataset is a data frame with 1525
 individuals who responded to 16 multiple-choice items in SAPA. The
 original dataset is included in the <strong>psych</strong> package <span
-class="citation">(Revelle, 2021)</span>. The dataset can be downloaded
-from <a href="data_and_codes/sapa.csv"><strong>here</strong></a>. In
-addition, the R codes for the item response theory (IRT) analyses
+class="citation">(Revelle, 2022)</span>. The dataset can be downloaded
+from <a href="data_and_codes/sapa_data.csv"><strong>here</strong></a>.
+In addition, the R codes for the item response theory (IRT) analyses
 presented on this page are available <a
 href="data_and_codes/irt.R"><strong>here</strong></a>.</p>
 <p><br></p>
@@ -574,8 +582,8 @@ then activate all the required packages one by one using the
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mirt&quot;</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
 <p>We will use <strong>lavaan</strong> <span class="citation">(Rosseel
-et al., 2021)</span> to conduct confirmatory factor analysis and
-<strong>mirt</strong> <span class="citation">(Chalmers, 2021)</span> to
+et al., 2022)</span> to conduct confirmatory factor analysis and
+<strong>mirt</strong> <span class="citation">(Chalmers, 2022)</span> to
 estimate dichotomous and polytomous IRT models.</p>
 <hr />
 <blockquote>
@@ -757,7 +765,7 @@ missingness for each variable using <code>plot_missing()</code> from
 <p><img src="irt_files/figure-html/irt11-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>To obtain a detailed summary of the sapa dataset, we will use the
 <code>describe()</code> function from the <strong>psych</strong> package
-<span class="citation">(Revelle, 2021)</span>.</p>
+<span class="citation">(Revelle, 2022)</span>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(<span class="at">x =</span> sapa)</span></code></pre></div>
 <pre><code>          vars    n mean   sd median trimmed mad min max range  skew kurtosis   se
 reason.4     1 1523 0.64 0.48      1    0.68   0   0   1     1 -0.58    -1.66 0.01
@@ -1717,7 +1725,7 @@ rotate.8
 items more carefully, we will also create a correlation matrix plot
 using the <code>ggcorrplot()</code> function from the
 <strong>ggcorrplot</strong> package <span class="citation">(Kassambara,
-2019)</span>. We will include the <code>hc.order = TRUE</code> argument
+2022)</span>. We will include the <code>hc.order = TRUE</code> argument
 to perform hierarchical clustering. This will look for groups (i.e.,
 clusters) of items that are strongly associated with each other. If all
 SAPA items measure the same latent trait, we should see a single cluster
@@ -2007,7 +2015,7 @@ and evaluate its fit to the data.</p>
 ahead and fit a one-factor CFA model to the sapa_clean dataset. To
 perform CFA in R, as well as path analysis and structural equation
 modeling, we can use the <strong>lavaan</strong> package <span
-class="citation">(Rosseel et al., 2021)</span>, which stands for
+class="citation">(Rosseel et al., 2022)</span>, which stands for
 <strong>la</strong>tent <strong>va</strong>riable
 <strong>an</strong>alysis. The <strong>lavaan</strong> package uses its
 own special model syntax. For conducting a CFA, we need to define a
@@ -2030,22 +2038,22 @@ our CFA model.</p>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the output</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cfa_sapa, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>lavaan 0.6-9 ended normally after 39 iterations
+<pre><code>lavaan 0.6-12 ended normally after 39 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
   Number of model parameters                        22
-                                                      
+
                                                   Used       Total
   Number of observations                          1523        1525
-                                                                  
+
 Model Test User Model:
-                                               Standard      Robust
-  Test Statistic                                182.266     160.148
-  Degrees of freedom                                 44          44
-  P-value (Chi-square)                            0.000       0.000
-  Scaling correction factor                                   1.138
-       Yuan-Bentler correction (Mplus variant)                     
+                                              Standard      Robust
+  Test Statistic                               182.266     160.148
+  Degrees of freedom                                44          44
+  P-value (Chi-square)                           0.000       0.000
+  Scaling correction factor                                  1.138
+    Yuan-Bentler correction (Mplus variant)                       
 
 Model Test Baseline Model:
 
@@ -2166,8 +2174,10 @@ Call: psych::alpha(x = sapa_clean)
   raw_alpha std.alpha G6(smc) average_r S/N    ase mean   sd median_r
       0.81      0.81     0.8      0.28 4.3 0.0072  0.6 0.29     0.28
 
- lower alpha upper     95% confidence boundaries
-0.8 0.81 0.82 
+    95% confidence boundaries 
+         lower alpha upper
+Feldt      0.8  0.81  0.82
+Duhachek   0.8  0.81  0.82
 
  Reliability if an item is dropped:
           raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
@@ -2828,7 +2838,7 @@ used for the Partial Credit and Graded Response models.</p>
 <div id="refs" class="references csl-bib-body hanging-indent"
 line-spacing="2">
 <div id="ref-R-mirt" class="csl-entry">
-Chalmers, P. (2021). <em>Mirt: Multidimensional item response
+Chalmers, P. (2022). <em>Mirt: Multidimensional item response
 theory</em>. <a
 href="https://CRAN.R-project.org/package=mirt">https://CRAN.R-project.org/package=mirt</a>
 </div>
@@ -2856,9 +2866,9 @@ alternatives. <em>Structural Equation Modeling: A Multidisciplinary
 Journal</em>, <em>6</em>(1), 1–55.
 </div>
 <div id="ref-R-ggcorrplot" class="csl-entry">
-Kassambara, A. (2019). <em>Ggcorrplot: Visualization of a correlation
+Kassambara, A. (2022). <em>Ggcorrplot: Visualization of a correlation
 matrix using ggplot2</em>. <a
-href="http://www.sthda.com/english/wiki/ggcorrplot">http://www.sthda.com/english/wiki/ggcorrplot</a>
+href="http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2">http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2</a>
 </div>
 <div id="ref-R-eRm" class="csl-entry">
 Mair, P., Hatzinger, R., &amp; Maier, M. J. (2020). <em><span
@@ -2876,7 +2886,7 @@ functions related to item response theory (IRT)</em>. <a
 href="https://CRAN.R-project.org/package=irtoys">https://CRAN.R-project.org/package=irtoys</a>
 </div>
 <div id="ref-R-psych" class="csl-entry">
-Revelle, W. (2021). <em>Psych: Procedures for psychological,
+Revelle, W. (2022). <em>Psych: Procedures for psychological,
 psychometric, and personality research</em>. <a
 href="https://personality-project.org/r/psych/
 https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/
@@ -2900,7 +2910,7 @@ modules</em>. <a
 href="https://CRAN.R-project.org/package=TAM">https://CRAN.R-project.org/package=TAM</a>
 </div>
 <div id="ref-R-lavaan" class="csl-entry">
-Rosseel, Y., Jorgensen, T. D., &amp; Rockwood, N. (2021). <em>Lavaan:
+Rosseel, Y., Jorgensen, T. D., &amp; Rockwood, N. (2022). <em>Lavaan:
 Latent variable analysis</em>. <a
 href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>
 </div>
