@@ -88,7 +88,7 @@ We will use **lavaan** [@R-lavaan] to conduct confirmatory factor analysis and *
 
 ## Exploratory data analysis
 
-We will begin our analysis by conducting [exploratory data analysis (EDA)](https://okanbulut.github.io/bigdata/eda.html). As you may remember from the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section, we use EDA to check the quality of our data and identify potential problems (i.e., missing values) in the data. In this section, we will import [sapa.csv](data_and_codes/sapa.csv) into R and review the variables in the dataset using descriptive statistics and visualizations. 
+We will begin our analysis by conducting [exploratory data analysis (EDA)](https://okanbulut.github.io/bigdata/eda.html). As you may remember from the [CTT](https://okanbulut.github.io/edpy507/ctt.html) section, we use EDA to check the quality of our data and identify potential problems (i.e., missing values) in the data. In this section, we will import [sapa_data.csv](data_and_codes/sapa_data.csv) into R and review the variables in the dataset using descriptive statistics and visualizations. 
 
 First, we need to set up our working directory. I have created a new folder called "IRT Analysis" on my desktop and put our data ([sapa_data.csv](data_and_codes/sapa_data.csv)) into this folder. Now, we will change our working directory to this new folder (use the path where you keep these files in your own computer):
 
