@@ -211,7 +211,10 @@ ggcorrplot::ggcorrplot(corr = cormat_experiment,
                        lab_size = 3) 
 
 # Now check the internal consistency
-QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)$test_level$reliability
+reliability_qme <- QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)$test_level$reliability
+
+# Print the results
+reliability_qme$test_level
 
 # Spearman-Brown formula
 CTT::spearman.brown(r.xx = 0.87, input = 0.5, n.or.r = "n")

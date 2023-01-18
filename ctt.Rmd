@@ -594,10 +594,9 @@ ggcorrplot::ggcorrplot(corr = cormat_experiment,
                        lab_size = 3) 
 
 # Now check the internal consistency
-reliability_qme <- QME::analyze(test = response_recoded, id = FALSE, na_to_0 = FALSE)
+reliability_qme <- QME::analyze(test = response_experiment, id = FALSE, na_to_0 = FALSE)
 
-# You can use print(reliability_qme) to view the results. 
-# If reliability_qme does not print the results, try this:
+# View the results
 reliability_qme$test_level
 ```
 
