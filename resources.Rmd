@@ -1,0 +1,40 @@
+---
+title: "Resources"
+output: html_document
+bibliography: packages.bib
+csl: apa.csl
+---
+
+There are **MANY** resources about the R programming language on the Internet. Here are some online courses, books, and websites you may find helpful. Please note that none of the books are required to purchase. In fact, many of these books are digitally available (e.g., through SpringerLink and CRCnetBASE databases at [the U of A Libraries](https://www.library.ualberta.ca/databases)).
+
+<br/>
+
+__Websites:__ 
+
+* An Introduction to R: <https://cran.r-project.org/doc/manuals/R-intro.pdf>   
+* Using R for Introductory Statistics: <https://goo.gl/owJbLg>   
+* Quick R: <http://www.statmethods.net/index.html>   
+* R Cookbook: <http://www.cookbook-r.com/>
+* Data wrangling, exploration, and analysis with R: <https://stat545.com/>
+* My blog on psychometrics using R: <https://okan.cloud/>
+* Using R for psychological research: <http://personality-project.org/r/r.guide.html>
+
+<br/>
+
+__Books:__ 
+
+* [Handbook of Item Response Theory](https://doi-org.login.ezproxy.library.ualberta.ca/10.1201/b19166)
+* [The Basics of Item Response Theory Using R](https://doi-org.login.ezproxy.library.ualberta.ca/10.1007/978-3-319-54205-8)
+* [Modern Psychometrics with R](https://doi-org.login.ezproxy.library.ualberta.ca/10.1007/978-3-319-93177-7)
+* [Modern Psychometrics](https://doi-org.login.ezproxy.library.ualberta.ca/10.4324/9781315637686)
+* [R for Data Science](https://r4ds.had.co.nz/)
+* [OpenIntro Statistics](https://openintro-ims.netlify.app)
+
+<br/>
+
+__Online training:__   
+
+* Coursera: <https://www.coursera.org/learn/r-programming>   
+* DataCamp: <https://www.datacamp.com/courses/free-introduction-to-r>   
+* And tons of free videos on [YouTube](https://www.youtube.com/)!!!   
+
