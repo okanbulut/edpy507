@@ -98,6 +98,24 @@ str(param_rasch)
 # It is a list with a bunch of stuff, but... we only want to keep the item parameters
 param_rasch <- as.data.frame(param_rasch$items)
 
+#------------- If the parameter extract above fails, run this --------------#
+
+# Extract the item parameters
+param_rasch <- as.data.frame(coef(model_rasch, simplify = TRUE)$items)
+
+# By default, mirt produces a different IRT parameterization where
+# difficulty is represented as easiness. To see the regular IRT
+# parameterization, we will apply a small transformation.
+param_rasch$d <- (param_rasch$d*-1)/param_rasch$a1
+
+# Rename the columns
+colnames(param_rasch) <- c("a", "b", "g", "u")
+
+# Print the item parameters
+param_rasch
+
+#---------------------------------------------------------------------------#
+
 # Print the item parameters
 param_rasch
 
@@ -123,6 +141,23 @@ param_1PL <- as.data.frame(param_1PL$items)
 # Print the item parameters
 param_1PL
 
+#------------- If the parameter extract above fails, run this --------------#
+
+# Extract the item parameters
+param_1PL <- as.data.frame(coef(model_1PL, simplify = TRUE)$items)
+
+# By default, mirt produces a different IRT parameterization where
+# difficulty is represented as easiness. To see the regular IRT
+# parameterization, we will apply a small transformation.
+param_1PL$d <- (param_1PL$d*-1)/param_1PL$a1
+
+# Rename the columns
+colnames(param_1PL) <- c("a", "b", "g", "u")
+
+# Print the item parameters
+param_1PL
+
+#---------------------------------------------------------------------------#
 
 # Combine the difficulty parameters
 b_pars <- data.frame(rasch = param_rasch$b,
@@ -158,6 +193,24 @@ param_2PL <- as.data.frame(param_2PL$items)
 # Print the item parameters
 param_2PL
 
+#------------- If the parameter extract above fails, run this --------------#
+
+# Extract the item parameters
+param_2PL <- as.data.frame(coef(model_2PL, simplify = TRUE)$items)
+
+# By default, mirt produces a different IRT parameterization where
+# difficulty is represented as easiness. To see the regular IRT
+# parameterization, we will apply a small transformation.
+param_2PL$d <- (param_2PL$d*-1)/param_2PL$a1
+
+# Rename the columns
+colnames(param_2PL) <- c("a", "b", "g", "u")
+
+# Print the item parameters
+param_2PL
+
+#---------------------------------------------------------------------------#
+
 # Combine the difficulty parameters
 b_pars <- data.frame(onePL = param_1PL$b,
                      twoPL = param_2PL$b)
@@ -186,6 +239,23 @@ param_3PL <- as.data.frame(param_3PL$items)
 # Print the item parameters
 param_3PL
 
+#------------- If the parameter extract above fails, run this --------------#
+
+# Extract the item parameters
+param_3PL <- as.data.frame(coef(model_3PL, simplify = TRUE)$items)
+
+# By default, mirt produces a different IRT parameterization where
+# difficulty is represented as easiness. To see the regular IRT
+# parameterization, we will apply a small transformation.
+param_3PL$d <- (param_3PL$d*-1)/param_3PL$a1
+
+# Rename the columns
+colnames(param_3PL) <- c("a", "b", "g", "u")
+
+# Print the item parameters
+param_3PL
+
+#---------------------------------------------------------------------------#
 
 # Item 10 - 1PL model
 mirt::itemplot(model_1PL, 

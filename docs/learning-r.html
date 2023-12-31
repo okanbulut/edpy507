@@ -13,7 +13,7 @@
 
 <title>Introduction to R and RStudio</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -30,8 +30,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -535,34 +535,37 @@ href="https://posit.co/download/rstudio-desktop/">https://posit.co/download/rstu
 <li>Follow the instructions of the installer.</li>
 </ol>
 <p>After you open RStudio, you should see the following screen:</p>
-<div class="figure">
-<img src="figures/rstudio1b.png" alt="" />
-<p class="caption">Opening screen of RStudio</p>
+<div class="float">
+<img src="figures/rstudio1b.png" alt="Opening screen of RStudio" />
+<div class="figcaption">Opening screen of RStudio</div>
 </div>
 <p><br/></p>
 <p>I personally prefer console on the top-left, source on the top-right,
 files on the bottom-left, and environment on the bottom-right. The pane
 layout can be updated using <em>Global Options</em> under
 <em>Tools</em>.</p>
-<div class="figure">
-<img src="figures/rstudio2.png" alt="" />
-<p class="caption"><strong>Step 1:</strong> Click Tools and then select
-Global Options</p>
+<div class="float">
+<img src="figures/rstudio2.png"
+alt="Step 1: Click Tools and then select Global Options" />
+<div class="figcaption"><strong>Step 1:</strong> Click Tools and then
+select Global Options</div>
 </div>
 <p><br/></p>
-<div class="figure">
-<img src="figures/rstudio3.png" alt="" />
-<p class="caption"><strong>Step 2:</strong> Select console, source,
-environment, or files for each pane</p>
+<div class="float">
+<img src="figures/rstudio3.png"
+alt="Step 2: Select console, source, environment, or files for each pane" />
+<div class="figcaption"><strong>Step 2:</strong> Select console, source,
+environment, or files for each pane</div>
 </div>
 <p><br/></p>
 <p>We can also change the appearance (e.g., code highlighting, font
 type, font size, etc.). For example, I prefer to use the Cobalt editor
 theme due to its dark background and contrasting colors:</p>
-<div class="figure">
-<img src="figures/img4.png" alt="" />
-<p class="caption"><strong>Step 3:</strong> Change the appearance
-settings (Optional)</p>
+<div class="float">
+<img src="figures/img4.png"
+alt="Step 3: Change the appearance settings (Optional)" />
+<div class="figcaption"><strong>Step 3:</strong> Change the appearance
+settings (Optional)</div>
 </div>
 <p><br/></p>
 <p><strong>Note:</strong> To get yourself more familiar with RStudio, I
@@ -582,18 +585,20 @@ essentially a text file. Thus, any text editor (e.g., Microsoft Word,
 Notepad, TextPad) can be used to open a script file for editing outside
 of the R environment.</p>
 <p>We can create a new script file in R as follows:</p>
-<div class="figure">
-<img src="figures/img5.png" alt="" />
-<p class="caption">Creating a new script in R (using RStudio)</p>
+<div class="float">
+<img src="figures/img5.png"
+alt="Creating a new script in R (using RStudio)" />
+<div class="figcaption">Creating a new script in R (using RStudio)</div>
 </div>
 <p><br/></p>
 <p>When we type some codes in the script, we can select the lines we
 want to run and then hit the run button. Alternatively, we can bring the
 cursor at the beginning of the line and hit the run button which runs
 one line at a time and moves to the next line.</p>
-<div class="figure">
-<img src="figures/rstudio5a.png" alt="" />
-<p class="caption">Running R codes from a script file</p>
+<div class="float">
+<img src="figures/rstudio5a.png"
+alt="Running R codes from a script file" />
+<div class="figcaption">Running R codes from a script file</div>
 </div>
 <p><br/></p>
 </div>
@@ -607,9 +612,9 @@ specifying where the file is located. By default, R chooses a particular
 location in your computer (typically Desktop or Documents) as your
 working director. To see our current working director, we need to run a
 <code>getwd()</code> command in the R console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <p>This will return a path like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] &quot;C:/Users/bulut/Desktop&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## [1] &quot;C:/Users/bulut/Desktop&quot;</span></span></code></pre></div>
 <p>Once we decide to change the current working direcory into a
 different location, we can do it in two ways:</p>
 <p><strong>Method 1:</strong> Using the “Session” options menu in
@@ -618,9 +623,10 @@ different location, we can do it in two ways:</p>
 Directory to find a folder or location that we want to set as our
 current working directory.</p>
 <p><br/></p>
-<div class="figure">
-<img src="figures/rstudio6.png" alt="" />
-<p class="caption">Setting the working directory in R</p>
+<div class="float">
+<img src="figures/rstudio6.png"
+alt="Setting the working directory in R" />
+<div class="figcaption">Setting the working directory in R</div>
 </div>
 <p><br/></p>
 <p><strong>Method 2:</strong> Using the <code>setwd</code> command in
@@ -629,11 +635,11 @@ the console</p>
 “edpy507” folder on my desktop as the working directory. If the folder
 path is correct, R changes the working directory without giving any
 error messages in the console.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;C:/Users/bulut/Desktop/edpy507&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;C:/Users/bulut/Desktop/edpy507&quot;</span>)</span></code></pre></div>
 <p>To ensure that the working directory is properly set, we can use the
 <code>getwd()</code> command again:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] &quot;C:/Users/bulut/Desktop/edpy507&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">## [1] &quot;C:/Users/bulut/Desktop/edpy507&quot;</span></span></code></pre></div>
 <p><strong>IMPORTANT:</strong> R does not accept any backslashes in the
 file path. Instead of a backslash, we need to use a frontslash. This is
 particulary important for Windows computers since the file paths involve
@@ -656,7 +662,7 @@ visualizations. To download and install the <code>ggplot2</code>
 package, we need to use the <code>install.packages</code> command. Note
 that your computer has to be connected to the internet to be able to
 connect to the CRAN website and download the package.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
 <p>Once a package is downloaded and installed, it is permanently in your
 R folder. That is, there is no need to re-install it, unless you remove
 the package or install a new version of R. These downloaded packages are
@@ -664,7 +670,7 @@ not directly accessible until we activate them in your R session.
 Whenever we need to access a package in R, we need to use the
 <code>library</code> command to activate it. For example, to access the
 <code>ggplot2</code> package, we would use:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
 <p>We can use the analogy of buying books from a bookstore
 (<code>install.packages</code>) and adding them to your personal library
 (<code>library</code>) to remember how these two commands work.</p>
@@ -680,52 +686,52 @@ Whenever we need to access a package in R, we need to use the
 <p>To create a new variable in R, we use the assignment operator,
 <code>&lt;-</code>. To create a variable <code>x</code> that equals 25,
 we need to type:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span></code></pre></div>
 <p>If we want to print <code>x</code>, we just type <code>x</code> in
 the console and hit enter. R returns the value assigned to
 <code>x</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>[1] 25</code></pre>
 <p>We can also create a variable that holds multiple values in it, using
 the <code>c</code> command (<strong>c</strong> stands for
 <em>combine</em>).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">72</span>, <span class="dv">80</span>, <span class="dv">84</span>, <span class="dv">56</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>weight</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">72</span>, <span class="dv">80</span>, <span class="dv">84</span>, <span class="dv">56</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>weight</span></code></pre></div>
 <pre><code>[1] 60 72 80 84 56</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">1.75</span>, <span class="fl">1.8</span>, <span class="fl">1.9</span>, <span class="fl">1.6</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>height</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.7</span>, <span class="fl">1.75</span>, <span class="fl">1.8</span>, <span class="fl">1.9</span>, <span class="fl">1.6</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>height</span></code></pre></div>
 <pre><code>[1] 1.70 1.75 1.80 1.90 1.60</code></pre>
 <p>Once we create a variable, we can do further calculations with it.
 Let’s say we want to transform the <code>weight</code> variable (in kg)
 to a new variable called weight2 (in lbs).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>weight2 <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>weight2</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>weight2 <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>weight2</span></code></pre></div>
 <pre><code>[1] 132.3 158.7 176.4 185.2 123.5</code></pre>
 <p>Note that we named the variable as <code>weight2</code>. So, both
 <code>weight</code> and <code>weight2</code> exist in the active R
 session now. If we used the following, this would overwrite the existing
 <code>weight</code> variable.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>weight <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span></code></pre></div>
 <p>We can also define a new variable based on existing variables.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reading <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">75</span>, <span class="dv">50</span>, <span class="dv">44</span>, <span class="dv">65</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>math <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">65</span>, <span class="dv">60</span>, <span class="dv">38</span>, <span class="dv">70</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> reading <span class="sc">+</span> math</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>total</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>reading <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">75</span>, <span class="dv">50</span>, <span class="dv">44</span>, <span class="dv">65</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>math <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">65</span>, <span class="dv">60</span>, <span class="dv">38</span>, <span class="dv">70</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>total <span class="ot">&lt;-</span> reading <span class="sc">+</span> math</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>total</span></code></pre></div>
 <pre><code>[1] 170 140 110  82 135</code></pre>
 <p>Sometimes we need a variable that holds character strings rather than
 numerical values. If a value is not numerical, we need to use double
 quotation marks. In the example below, we create a new variable called
 <code>cities</code> that has four city names in it. Each city name is
 written with double quotation marks.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cities</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>cities</span></code></pre></div>
 <pre><code>[1] &quot;Edmonton&quot;     &quot;Calgary&quot;      &quot;Red Deer&quot;     &quot;Spruce Grove&quot;</code></pre>
 <p>We can also treat numerical values as character strings. For example,
 assume that we have a <code>gender</code> variable where 1=Male and
 2=Female. We want R to know that these values are not actual numbers;
 instead, they are just numerical labels for gender groups.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gender</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>gender</span></code></pre></div>
 <pre><code>[1] &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;2&quot;</code></pre>
 <p><br/></p>
 </div>
@@ -737,21 +743,21 @@ effectively:</p>
 <li><strong>Case-sensitivity:</strong> R codes written in lowercase
 would NOT refer to the same codes written in uppercase.</li>
 </ol>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Cities</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>CITIES</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> object <span class="st">&#39;Cities&#39;</span> not found</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> object <span class="st">&#39;CITIES&#39;</span> not found</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>Cities</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>CITIES</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>Error<span class="sc">:</span> object <span class="st">&#39;Cities&#39;</span> not found</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>Error<span class="sc">:</span> object <span class="st">&#39;CITIES&#39;</span> not found</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Variable names:</strong> A variable name
 <strong>cannot</strong> begin with a number or include a space.</li>
 </ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>4cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>my cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> unexpected symbol <span class="cf">in</span> <span class="st">&quot;4cities&quot;</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> unexpected symbol <span class="cf">in</span> <span class="st">&quot;my cities&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>4cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>my cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>Error<span class="sc">:</span> unexpected symbol <span class="cf">in</span> <span class="st">&quot;4cities&quot;</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>Error<span class="sc">:</span> unexpected symbol <span class="cf">in</span> <span class="st">&quot;my cities&quot;</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><strong>Naming conventions:</strong> I recommend using consistent
 and clear naming conventions to keep the codes clear and organized. I
@@ -773,8 +779,8 @@ These annotations would remind you what you did in the codes and why you
 did it that way. You can easily comment out a line without having to
 remove it from your codes.</li>
 </ol>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here I define four cities in Alberta</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Here I define four cities in Alberta</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -791,9 +797,10 @@ importing (i.e., reading) various data formats.</p>
 <p><br/></p>
 <div id="method-1-using-rstudio" class="section level2">
 <h2>Method 1: Using RStudio</h2>
-<div class="figure">
-<img src="figures/rstudio7.png" alt="" />
-<p class="caption">Importing a dataset using the RStudio menu</p>
+<div class="float">
+<img src="figures/rstudio7.png"
+alt="Importing a dataset using the RStudio menu" />
+<div class="figcaption">Importing a dataset using the RStudio menu</div>
 </div>
 <p><br/></p>
 <div id="importing-excel-files" class="section level3">
@@ -805,9 +812,9 @@ importing (i.e., reading) various data formats.</p>
 <li>“First Row as Names” if the variable names are in the first row of
 the file.</li>
 </ul>
-<div class="figure">
-<img src="figures/img9.png" alt="" />
-<p class="caption">Importing Excel files</p>
+<div class="float">
+<img src="figures/img9.png" alt="Importing Excel files" />
+<div class="figcaption">Importing Excel files</div>
 </div>
 <p><br/></p>
 </div>
@@ -818,9 +825,9 @@ the file.</li>
 <li>Give a name for the data set</li>
 <li>Choose the SPSS data format (SAV)</li>
 </ul>
-<div class="figure">
-<img src="figures/img10.png" alt="" />
-<p class="caption">Importing SPSS files</p>
+<div class="float">
+<img src="figures/img10.png" alt="Importing SPSS files" />
+<div class="figcaption">Importing SPSS files</div>
 </div>
 <p><br/></p>
 </div>
@@ -834,34 +841,34 @@ and <code>xlsx</code> for Excel files. Here are some examples:</p>
 <p><br/></p>
 <div id="importing-excel-files-1" class="section level3">
 <h3>Importing Excel files</h3>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use read.xlsx to import an Excel file</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>my_excel_file <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">&quot;path to the file/filename.xlsx&quot;</span>, <span class="at">sheetName =</span> <span class="st">&quot;sheetname&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;xlsx&quot;</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="co"># Use read.xlsx to import an Excel file</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>my_excel_file <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">&quot;path to the file/filename.xlsx&quot;</span>, <span class="at">sheetName =</span> <span class="st">&quot;sheetname&quot;</span>)</span></code></pre></div>
 <p><br/></p>
 </div>
 <div id="importing-spss-files-1" class="section level3">
 <h3>Importing SPSS files</h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;foreign&quot;</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use read.spss to import an SPSS file</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>my_spss_file <span class="ot">&lt;-</span> <span class="fu">read.spss</span>(<span class="st">&quot;path to the file/filename.sav&quot;</span>, <span class="at">to.data.frame =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Install and activate the package first</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;foreign&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co"># Use read.spss to import an SPSS file</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>my_spss_file <span class="ot">&lt;-</span> <span class="fu">read.spss</span>(<span class="st">&quot;path to the file/filename.sav&quot;</span>, <span class="at">to.data.frame =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><br/></p>
 </div>
 <div id="importing-text-files" class="section level3">
 <h3>Importing text files</h3>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No need to install any packages</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># R has many built-in functions already</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A comma-separated-values file with a .csv extension</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>my_csv_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;path to the file/filename.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A tab delimited text file with .txt extension</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>my_txt_file <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;path to the file/filename.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># No need to install any packages</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co"># R has many built-in functions already</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># A comma-separated-values file with a .csv extension</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>my_csv_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;path to the file/filename.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="co"># A tab delimited text file with .txt extension</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>my_txt_file <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;path to the file/filename.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 <p>Here we should note that:</p>
 <ul>
 <li><code>header = TRUE</code> if the variable names are in the first
@@ -881,14 +888,14 @@ can look for solutions to R-related problems in multiple ways:</p>
 <li>To get help on installed packages (e.g., what’s inside this
 package):</li>
 </ol>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To get details regarding contents of a package</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To list vignettes available for a specific package</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To view specific vignette</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;ggplot2-specs&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># To get details regarding contents of a package</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co"># To list vignettes available for a specific package</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="fu">vignette</span>(<span class="at">package =</span> <span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co"># To view specific vignette</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;ggplot2-specs&quot;</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Use the <code>?</code> to open help pages for functions or
 packages (e.g., try running <code>?summary</code> in the console to see
