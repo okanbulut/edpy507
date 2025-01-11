@@ -65,6 +65,10 @@ efa.model3 <- psych::fa(sapa_clean, nfactors = 1, fm = "pa", cor = "tet")
 print(efa.model3, sort=TRUE)
 
 
+# For running EFA analysis using my Shiny app
+shiny::runGitHub("EFA", "okanbulut")
+
+
 # Define a single factor
 sapa_model <- 'f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 + 
                letter.33 + letter.34 + letter.58 + matrix.45 + matrix.46 + matrix.47'

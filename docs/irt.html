@@ -13,7 +13,7 @@
 
 <title>Item Response Theory (IRT)</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,8 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -56,7 +56,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -67,7 +67,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -151,6 +151,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -474,7 +475,7 @@ and spatial rotations) as part of the general intelligence, also known
 as g factor. The “sapa_data.csv” dataset is a data frame with 1525
 individuals who responded to 16 multiple-choice items in SAPA. The
 original dataset is included in the <strong>psych</strong> package <span
-class="citation">(Revelle, 2022)</span>. The dataset can be downloaded
+class="citation">(Revelle, 2024)</span>. The dataset can be downloaded
 from <a href="data_and_codes/sapa_data.csv"><strong>here</strong></a>.
 In addition, the R codes for the item response theory (IRT) analyses
 presented on this page are available <a
@@ -582,8 +583,8 @@ then activate all the required packages one by one using the
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mirt&quot;</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ShinyItemAnalysis&quot;</span>)</span></code></pre></div>
 <p>We will use <strong>lavaan</strong> <span class="citation">(Rosseel
-et al., 2023)</span> to conduct confirmatory factor analysis and
-<strong>mirt</strong> <span class="citation">(Chalmers, 2023)</span> to
+et al., 2024)</span> to conduct confirmatory factor analysis and
+<strong>mirt</strong> <span class="citation">(Chalmers, 2024)</span> to
 estimate dichotomous and polytomous IRT models.</p>
 <hr />
 <blockquote>
@@ -666,7 +667,7 @@ using the <code>str()</code> function:</p>
 (i.e., SAPA items). We can get more information on the dataset using the
 <code>introduce()</code> and <code>plot_intro()</code> functions from
 the <strong>DataExplorer</strong> package <span class="citation">(Cui,
-2020)</span>:</p>
+2024)</span>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>DataExplorer<span class="sc">::</span><span class="fu">introduce</span>(sapa)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>DataExplorer<span class="sc">::</span><span class="fu">plot_intro</span>(sapa)</span></code></pre></div>
@@ -765,7 +766,7 @@ missingness for each variable using <code>plot_missing()</code> from
 <p><img src="irt_files/figure-html/irt11-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>To obtain a detailed summary of the sapa dataset, we will use the
 <code>describe()</code> function from the <strong>psych</strong> package
-<span class="citation">(Revelle, 2022)</span>.</p>
+<span class="citation">(Revelle, 2024)</span>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(<span class="at">x =</span> sapa)</span></code></pre></div>
 <pre><code>          vars    n mean   sd median trimmed mad min max range  skew kurtosis   se
 reason.4     1 1523 0.64 0.48      1    0.68   0   0   1     1 -0.58    -1.66 0.01
@@ -875,52 +876,52 @@ rotate.8
 reason.4
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.4742
+0.4741587
 </td>
 <td style="text-align:right;">
-0.6000
+0.6000071
 </td>
 <td style="text-align:right;">
-0.4839
+0.4838986
 </td>
 <td style="text-align:right;">
-0.4623
+0.4623236
 </td>
 <td style="text-align:right;">
-0.3803
+0.3803164
 </td>
 <td style="text-align:right;">
-0.4792
+0.4792142
 </td>
 <td style="text-align:right;">
-0.4549
+0.4548705
 </td>
 <td style="text-align:right;">
-0.4313
+0.4312573
 </td>
 <td style="text-align:right;">
-0.3994
+0.3994135
 </td>
 <td style="text-align:right;">
-0.4010
+0.4010017
 </td>
 <td style="text-align:right;">
-0.2988
+0.2987508
 </td>
 <td style="text-align:right;">
-0.4562
+0.4562123
 </td>
 <td style="text-align:right;">
-0.4909
+0.4909208
 </td>
 <td style="text-align:right;">
-0.4468
+0.4467899
 </td>
 <td style="text-align:right;">
-0.4360
+0.4359811
 </td>
 </tr>
 <tr>
@@ -928,52 +929,52 @@ reason.4
 reason.16
 </td>
 <td style="text-align:right;">
-0.4742
+0.4741587
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5358
+0.5357624
 </td>
 <td style="text-align:right;">
-0.4578
+0.4577927
 </td>
 <td style="text-align:right;">
-0.4708
+0.4708059
 </td>
 <td style="text-align:right;">
-0.3737
+0.3737183
 </td>
 <td style="text-align:right;">
-0.4494
+0.4493918
 </td>
 <td style="text-align:right;">
-0.3805
+0.3804965
 </td>
 <td style="text-align:right;">
-0.3513
+0.3513119
 </td>
 <td style="text-align:right;">
-0.3375
+0.3374589
 </td>
 <td style="text-align:right;">
-0.4210
+0.4210104
 </td>
 <td style="text-align:right;">
-0.3135
+0.3135131
 </td>
 <td style="text-align:right;">
-0.3266
+0.3266062
 </td>
 <td style="text-align:right;">
-0.4425
+0.4425221
 </td>
 <td style="text-align:right;">
-0.4079
+0.4078759
 </td>
 <td style="text-align:right;">
-0.3642
+0.3641520
 </td>
 </tr>
 <tr>
@@ -981,52 +982,52 @@ reason.16
 reason.17
 </td>
 <td style="text-align:right;">
-0.6000
+0.6000071
 </td>
 <td style="text-align:right;">
-0.5358
+0.5357624
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5496
+0.5495756
 </td>
 <td style="text-align:right;">
-0.4729
+0.4729275
 </td>
 <td style="text-align:right;">
-0.4405
+0.4404911
 </td>
 <td style="text-align:right;">
-0.4726
+0.4725847
 </td>
 <td style="text-align:right;">
-0.4797
+0.4797087
 </td>
 <td style="text-align:right;">
-0.3578
+0.3577827
 </td>
 <td style="text-align:right;">
-0.3924
+0.3923792
 </td>
 <td style="text-align:right;">
-0.4656
+0.4656403
 </td>
 <td style="text-align:right;">
-0.3156
+0.3156340
 </td>
 <td style="text-align:right;">
-0.3856
+0.3856432
 </td>
 <td style="text-align:right;">
-0.4274
+0.4274471
 </td>
 <td style="text-align:right;">
-0.5061
+0.5060863
 </td>
 <td style="text-align:right;">
-0.4007
+0.4006757
 </td>
 </tr>
 <tr>
@@ -1034,52 +1035,52 @@ reason.17
 reason.19
 </td>
 <td style="text-align:right;">
-0.4839
+0.4838986
 </td>
 <td style="text-align:right;">
-0.4578
+0.4577927
 </td>
 <td style="text-align:right;">
-0.5496
+0.5495756
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.4341
+0.4340576
 </td>
 <td style="text-align:right;">
-0.4351
+0.4350975
 </td>
 <td style="text-align:right;">
-0.4648
+0.4648408
 </td>
 <td style="text-align:right;">
-0.4231
+0.4231200
 </td>
 <td style="text-align:right;">
-0.3830
+0.3829537
 </td>
 <td style="text-align:right;">
-0.3227
+0.3227177
 </td>
 <td style="text-align:right;">
-0.4075
+0.4074758
 </td>
 <td style="text-align:right;">
-0.3058
+0.3058053
 </td>
 <td style="text-align:right;">
-0.3636
+0.3636299
 </td>
 <td style="text-align:right;">
-0.4192
+0.4192253
 </td>
 <td style="text-align:right;">
-0.3691
+0.3690632
 </td>
 <td style="text-align:right;">
-0.3329
+0.3328759
 </td>
 </tr>
 <tr>
@@ -1087,52 +1088,52 @@ reason.19
 letter.7
 </td>
 <td style="text-align:right;">
-0.4623
+0.4623236
 </td>
 <td style="text-align:right;">
-0.4708
+0.4708059
 </td>
 <td style="text-align:right;">
-0.4729
+0.4729275
 </td>
 <td style="text-align:right;">
-0.4341
+0.4340576
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5380
+0.5380459
 </td>
 <td style="text-align:right;">
-0.6026
+0.6026429
 </td>
 <td style="text-align:right;">
-0.5228
+0.5228076
 </td>
 <td style="text-align:right;">
-0.3416
+0.3415855
 </td>
 <td style="text-align:right;">
-0.4119
+0.4118991
 </td>
 <td style="text-align:right;">
-0.4423
+0.4422928
 </td>
 <td style="text-align:right;">
-0.2794
+0.2794337
 </td>
 <td style="text-align:right;">
-0.3276
+0.3276022
 </td>
 <td style="text-align:right;">
-0.4432
+0.4432326
 </td>
 <td style="text-align:right;">
-0.3641
+0.3641002
 </td>
 <td style="text-align:right;">
-0.2751
+0.2750880
 </td>
 </tr>
 <tr>
@@ -1140,52 +1141,52 @@ letter.7
 letter.33
 </td>
 <td style="text-align:right;">
-0.3803
+0.3803164
 </td>
 <td style="text-align:right;">
-0.3737
+0.3737183
 </td>
 <td style="text-align:right;">
-0.4405
+0.4404911
 </td>
 <td style="text-align:right;">
-0.4351
+0.4350975
 </td>
 <td style="text-align:right;">
-0.5380
+0.5380459
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5744
+0.5743834
 </td>
 <td style="text-align:right;">
-0.4483
+0.4482753
 </td>
 <td style="text-align:right;">
-0.3351
+0.3350619
 </td>
 <td style="text-align:right;">
-0.3966
+0.3966392
 </td>
 <td style="text-align:right;">
-0.3921
+0.3920981
 </td>
 <td style="text-align:right;">
-0.3178
+0.3177800
 </td>
 <td style="text-align:right;">
-0.3400
+0.3399740
 </td>
 <td style="text-align:right;">
-0.3942
+0.3941741
 </td>
 <td style="text-align:right;">
-0.3694
+0.3693760
 </td>
 <td style="text-align:right;">
-0.2679
+0.2678582
 </td>
 </tr>
 <tr>
@@ -1193,52 +1194,52 @@ letter.33
 letter.34
 </td>
 <td style="text-align:right;">
-0.4792
+0.4792142
 </td>
 <td style="text-align:right;">
-0.4494
+0.4493918
 </td>
 <td style="text-align:right;">
-0.4726
+0.4725847
 </td>
 <td style="text-align:right;">
-0.4648
+0.4648408
 </td>
 <td style="text-align:right;">
-0.6026
+0.6026429
 </td>
 <td style="text-align:right;">
-0.5744
+0.5743834
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5154
+0.5154088
 </td>
 <td style="text-align:right;">
-0.3647
+0.3647136
 </td>
 <td style="text-align:right;">
-0.4362
+0.4361797
 </td>
 <td style="text-align:right;">
-0.4807
+0.4807456
 </td>
 <td style="text-align:right;">
-0.2563
+0.2562985
 </td>
 <td style="text-align:right;">
-0.3736
+0.3735989
 </td>
 <td style="text-align:right;">
-0.4158
+0.4157650
 </td>
 <td style="text-align:right;">
-0.3476
+0.3476224
 </td>
 <td style="text-align:right;">
-0.3079
+0.3078840
 </td>
 </tr>
 <tr>
@@ -1246,52 +1247,52 @@ letter.34
 letter.58
 </td>
 <td style="text-align:right;">
-0.4549
+0.4548705
 </td>
 <td style="text-align:right;">
-0.3805
+0.3804965
 </td>
 <td style="text-align:right;">
-0.4797
+0.4797087
 </td>
 <td style="text-align:right;">
-0.4231
+0.4231200
 </td>
 <td style="text-align:right;">
-0.5228
+0.5228076
 </td>
 <td style="text-align:right;">
-0.4483
+0.4482753
 </td>
 <td style="text-align:right;">
-0.5154
+0.5154088
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.3304
+0.3303761
 </td>
 <td style="text-align:right;">
-0.3415
+0.3415457
 </td>
 <td style="text-align:right;">
-0.3853
+0.3853436
 </td>
 <td style="text-align:right;">
-0.3708
+0.3708227
 </td>
 <td style="text-align:right;">
-0.4159
+0.4158976
 </td>
 <td style="text-align:right;">
-0.4574
+0.4573721
 </td>
 <td style="text-align:right;">
-0.4387
+0.4386691
 </td>
 <td style="text-align:right;">
-0.3975
+0.3974836
 </td>
 </tr>
 <tr>
@@ -1299,52 +1300,52 @@ letter.58
 matrix.45
 </td>
 <td style="text-align:right;">
-0.4313
+0.4312573
 </td>
 <td style="text-align:right;">
-0.3513
+0.3513119
 </td>
 <td style="text-align:right;">
-0.3578
+0.3577827
 </td>
 <td style="text-align:right;">
-0.3830
+0.3829537
 </td>
 <td style="text-align:right;">
-0.3416
+0.3415855
 </td>
 <td style="text-align:right;">
-0.3351
+0.3350619
 </td>
 <td style="text-align:right;">
-0.3647
+0.3647136
 </td>
 <td style="text-align:right;">
-0.3304
+0.3303761
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.5106
+0.5105695
 </td>
 <td style="text-align:right;">
-0.4026
+0.4026023
 </td>
 <td style="text-align:right;">
-0.3482
+0.3482166
 </td>
 <td style="text-align:right;">
-0.3071
+0.3070791
 </td>
 <td style="text-align:right;">
-0.3280
+0.3280110
 </td>
 <td style="text-align:right;">
-0.2657
+0.2656945
 </td>
 <td style="text-align:right;">
-0.3089
+0.3088622
 </td>
 </tr>
 <tr>
@@ -1352,52 +1353,52 @@ matrix.45
 matrix.46
 </td>
 <td style="text-align:right;">
-0.3994
+0.3994135
 </td>
 <td style="text-align:right;">
-0.3375
+0.3374589
 </td>
 <td style="text-align:right;">
-0.3924
+0.3923792
 </td>
 <td style="text-align:right;">
-0.3227
+0.3227177
 </td>
 <td style="text-align:right;">
-0.4119
+0.4118991
 </td>
 <td style="text-align:right;">
-0.3966
+0.3966392
 </td>
 <td style="text-align:right;">
-0.4362
+0.4361797
 </td>
 <td style="text-align:right;">
-0.3415
+0.3415457
 </td>
 <td style="text-align:right;">
-0.5106
+0.5105695
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.3832
+0.3832370
 </td>
 <td style="text-align:right;">
-0.2516
+0.2516375
 </td>
 <td style="text-align:right;">
-0.2868
+0.2868405
 </td>
 <td style="text-align:right;">
-0.3230
+0.3230195
 </td>
 <td style="text-align:right;">
-0.3495
+0.3495235
 </td>
 <td style="text-align:right;">
-0.2899
+0.2899409
 </td>
 </tr>
 <tr>
@@ -1405,52 +1406,52 @@ matrix.46
 matrix.47
 </td>
 <td style="text-align:right;">
-0.4010
+0.4010017
 </td>
 <td style="text-align:right;">
-0.4210
+0.4210104
 </td>
 <td style="text-align:right;">
-0.4656
+0.4656403
 </td>
 <td style="text-align:right;">
-0.4075
+0.4074758
 </td>
 <td style="text-align:right;">
-0.4423
+0.4422928
 </td>
 <td style="text-align:right;">
-0.3921
+0.3920981
 </td>
 <td style="text-align:right;">
-0.4807
+0.4807456
 </td>
 <td style="text-align:right;">
-0.3853
+0.3853436
 </td>
 <td style="text-align:right;">
-0.4026
+0.4026023
 </td>
 <td style="text-align:right;">
-0.3832
+0.3832370
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.3624
+0.3624456
 </td>
 <td style="text-align:right;">
-0.4074
+0.4073622
 </td>
 <td style="text-align:right;">
-0.4017
+0.4017344
 </td>
 <td style="text-align:right;">
-0.3413
+0.3413080
 </td>
 <td style="text-align:right;">
-0.3420
+0.3420101
 </td>
 </tr>
 <tr>
@@ -1458,52 +1459,52 @@ matrix.47
 matrix.55
 </td>
 <td style="text-align:right;">
-0.2988
+0.2987508
 </td>
 <td style="text-align:right;">
-0.3135
+0.3135131
 </td>
 <td style="text-align:right;">
-0.3156
+0.3156340
 </td>
 <td style="text-align:right;">
-0.3058
+0.3058053
 </td>
 <td style="text-align:right;">
-0.2794
+0.2794337
 </td>
 <td style="text-align:right;">
-0.3178
+0.3177800
 </td>
 <td style="text-align:right;">
-0.2563
+0.2562985
 </td>
 <td style="text-align:right;">
-0.3708
+0.3708227
 </td>
 <td style="text-align:right;">
-0.3482
+0.3482166
 </td>
 <td style="text-align:right;">
-0.2516
+0.2516375
 </td>
 <td style="text-align:right;">
-0.3624
+0.3624456
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.3274
+0.3274398
 </td>
 <td style="text-align:right;">
-0.3226
+0.3225814
 </td>
 <td style="text-align:right;">
-0.2998
+0.2998424
 </td>
 <td style="text-align:right;">
-0.3413
+0.3412853
 </td>
 </tr>
 <tr>
@@ -1511,52 +1512,52 @@ matrix.55
 rotate.3
 </td>
 <td style="text-align:right;">
-0.4562
+0.4562123
 </td>
 <td style="text-align:right;">
-0.3266
+0.3266062
 </td>
 <td style="text-align:right;">
-0.3856
+0.3856432
 </td>
 <td style="text-align:right;">
-0.3636
+0.3636299
 </td>
 <td style="text-align:right;">
-0.3276
+0.3276022
 </td>
 <td style="text-align:right;">
-0.3400
+0.3399740
 </td>
 <td style="text-align:right;">
-0.3736
+0.3735989
 </td>
 <td style="text-align:right;">
-0.4159
+0.4158976
 </td>
 <td style="text-align:right;">
-0.3071
+0.3070791
 </td>
 <td style="text-align:right;">
-0.2868
+0.2868405
 </td>
 <td style="text-align:right;">
-0.4074
+0.4073622
 </td>
 <td style="text-align:right;">
-0.3274
+0.3274398
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.7706
+0.7706011
 </td>
 <td style="text-align:right;">
-0.6655
+0.6654684
 </td>
 <td style="text-align:right;">
-0.6748
+0.6748154
 </td>
 </tr>
 <tr>
@@ -1564,52 +1565,52 @@ rotate.3
 rotate.4
 </td>
 <td style="text-align:right;">
-0.4909
+0.4909208
 </td>
 <td style="text-align:right;">
-0.4425
+0.4425221
 </td>
 <td style="text-align:right;">
-0.4274
+0.4274471
 </td>
 <td style="text-align:right;">
-0.4192
+0.4192253
 </td>
 <td style="text-align:right;">
-0.4432
+0.4432326
 </td>
 <td style="text-align:right;">
-0.3942
+0.3941741
 </td>
 <td style="text-align:right;">
-0.4158
+0.4157650
 </td>
 <td style="text-align:right;">
-0.4574
+0.4573721
 </td>
 <td style="text-align:right;">
-0.3280
+0.3280110
 </td>
 <td style="text-align:right;">
-0.3230
+0.3230195
 </td>
 <td style="text-align:right;">
-0.4017
+0.4017344
 </td>
 <td style="text-align:right;">
-0.3226
+0.3225814
 </td>
 <td style="text-align:right;">
-0.7706
+0.7706011
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.6908
+0.6908161
 </td>
 <td style="text-align:right;">
-0.6822
+0.6822318
 </td>
 </tr>
 <tr>
@@ -1617,52 +1618,52 @@ rotate.4
 rotate.6
 </td>
 <td style="text-align:right;">
-0.4468
+0.4467899
 </td>
 <td style="text-align:right;">
-0.4079
+0.4078759
 </td>
 <td style="text-align:right;">
-0.5061
+0.5060863
 </td>
 <td style="text-align:right;">
-0.3691
+0.3690632
 </td>
 <td style="text-align:right;">
-0.3641
+0.3641002
 </td>
 <td style="text-align:right;">
-0.3694
+0.3693760
 </td>
 <td style="text-align:right;">
-0.3476
+0.3476224
 </td>
 <td style="text-align:right;">
-0.4387
+0.4386691
 </td>
 <td style="text-align:right;">
-0.2657
+0.2656945
 </td>
 <td style="text-align:right;">
-0.3495
+0.3495235
 </td>
 <td style="text-align:right;">
-0.3413
+0.3413080
 </td>
 <td style="text-align:right;">
-0.2998
+0.2998424
 </td>
 <td style="text-align:right;">
-0.6655
+0.6654684
 </td>
 <td style="text-align:right;">
-0.6908
+0.6908161
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 <td style="text-align:right;">
-0.6650
+0.6650183
 </td>
 </tr>
 <tr>
@@ -1670,52 +1671,52 @@ rotate.6
 rotate.8
 </td>
 <td style="text-align:right;">
-0.4360
+0.4359811
 </td>
 <td style="text-align:right;">
-0.3642
+0.3641520
 </td>
 <td style="text-align:right;">
-0.4007
+0.4006757
 </td>
 <td style="text-align:right;">
-0.3329
+0.3328759
 </td>
 <td style="text-align:right;">
-0.2751
+0.2750880
 </td>
 <td style="text-align:right;">
-0.2679
+0.2678582
 </td>
 <td style="text-align:right;">
-0.3079
+0.3078840
 </td>
 <td style="text-align:right;">
-0.3975
+0.3974836
 </td>
 <td style="text-align:right;">
-0.3089
+0.3088622
 </td>
 <td style="text-align:right;">
-0.2899
+0.2899409
 </td>
 <td style="text-align:right;">
-0.3420
+0.3420101
 </td>
 <td style="text-align:right;">
-0.3413
+0.3412853
 </td>
 <td style="text-align:right;">
-0.6748
+0.6748154
 </td>
 <td style="text-align:right;">
-0.6822
+0.6822318
 </td>
 <td style="text-align:right;">
-0.6650
+0.6650183
 </td>
 <td style="text-align:right;">
-1.0000
+1.0000000
 </td>
 </tr>
 </tbody>
@@ -1725,7 +1726,7 @@ rotate.8
 items more carefully, we will also create a correlation matrix plot
 using the <code>ggcorrplot()</code> function from the
 <strong>ggcorrplot</strong> package <span class="citation">(Kassambara,
-2022)</span>. We will include the <code>hc.order = TRUE</code> argument
+2023)</span>. We will include the <code>hc.order = TRUE</code> argument
 to perform hierarchical clustering. This will look for groups (i.e.,
 clusters) of items that are strongly associated with each other. If all
 SAPA items measure the same latent trait, we should see a single cluster
@@ -1826,18 +1827,18 @@ Proportion Var 0.42
 Mean item complexity =  1
 Test of the hypothesis that 1 factor is sufficient.
 
-The degrees of freedom for the null model are  120  and the objective function was  8.04 with Chi Square of  12198
-The degrees of freedom for the model are 104  and the objective function was  1.85 
+df null model =  120  with the objective function =  8.04 with Chi Square =  12198.48
+df of  the model are 104  and the objective function was  1.85 
 
 The root mean square of the residuals (RMSR) is  0.08 
 The df corrected root mean square of the residuals is  0.09 
 
-The harmonic number of observations is  1523 with the empirical chi square  2304  with prob &lt;  0 
-The total number of observations was  1525  with Likelihood Chi Square =  2806  with prob &lt;  0 
+The harmonic n.obs is  1523 with the empirical chi square  2304.27  with prob &lt;  0 
+The total n.obs was  1525  with Likelihood Chi Square =  2806.28  with prob &lt;  0 
 
 Tucker Lewis Index of factoring reliability =  0.742
 RMSEA index =  0.131  and the 90 % confidence intervals are  0.126 0.135
-BIC =  2044
+BIC =  2043.98
 Fit based upon off diagonal values = 0.96
 Measures of factor score adequacy             
                                                    PA1
@@ -1897,18 +1898,18 @@ PA2 0.63 1.00
 Mean item complexity =  1.1
 Test of the hypothesis that 2 factors are sufficient.
 
-The degrees of freedom for the null model are  120  and the objective function was  8.04 with Chi Square of  12198
-The degrees of freedom for the model are 89  and the objective function was  0.64 
+df null model =  120  with the objective function =  8.04 with Chi Square =  12198.48
+df of  the model are 89  and the objective function was  0.64 
 
 The root mean square of the residuals (RMSR) is  0.04 
 The df corrected root mean square of the residuals is  0.05 
 
-The harmonic number of observations is  1523 with the empirical chi square  551.4  with prob &lt;  7.8e-68 
-The total number of observations was  1525  with Likelihood Chi Square =  976.6  with prob &lt;  2.1e-149 
+The harmonic n.obs is  1523 with the empirical chi square  551.42  with prob &lt;  7.8e-68 
+The total n.obs was  1525  with Likelihood Chi Square =  976.61  with prob &lt;  2.1e-149 
 
 Tucker Lewis Index of factoring reliability =  0.901
 RMSEA index =  0.081  and the 90 % confidence intervals are  0.076 0.086
-BIC =  324.3
+BIC =  324.26
 Fit based upon off diagonal values = 0.99
 Measures of factor score adequacy             
                                                    PA1  PA2
@@ -1972,18 +1973,18 @@ Proportion Var 0.44
 Mean item complexity =  1
 Test of the hypothesis that 1 factor is sufficient.
 
-The degrees of freedom for the null model are  55  and the objective function was  4.54 with Chi Square of  6898
-The degrees of freedom for the model are 44  and the objective function was  0.37 
+df null model =  55  with the objective function =  4.54 with Chi Square =  6897.77
+df of  the model are 44  and the objective function was  0.37 
 
 The root mean square of the residuals (RMSR) is  0.05 
 The df corrected root mean square of the residuals is  0.05 
 
-The harmonic number of observations is  1523 with the empirical chi square  385.8  with prob &lt;  3.7e-56 
-The total number of observations was  1525  with Likelihood Chi Square =  569.1  with prob &lt;  1.9e-92 
+The harmonic n.obs is  1523 with the empirical chi square  385.76  with prob &lt;  3.7e-56 
+The total n.obs was  1525  with Likelihood Chi Square =  569.12  with prob &lt;  1.9e-92 
 
 Tucker Lewis Index of factoring reliability =  0.904
 RMSEA index =  0.088  and the 90 % confidence intervals are  0.082 0.095
-BIC =  246.6
+BIC =  246.61
 Fit based upon off diagonal values = 0.99
 Measures of factor score adequacy             
                                                    PA1
@@ -1999,6 +2000,18 @@ data. A more suitable solution would be to review the content of these
 items carefully and the output of the EFA models, and make a decision
 considering both the theoretical assumptions regarding the items and the
 statistical findings.</p>
+<p>The EFA analyses demonstrated above can also be easily done using a
+<strong>Shiny</strong> application that I created. This application
+allows users to import their data into R, visualize the correlation
+matrix of observed variables, and perform EFA using the
+<strong>psych</strong> package. This <strong>Shiny</strong> app can be
+initiated using the following codes:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runGitHub</span>(<span class="st">&quot;EFA&quot;</span>, <span class="st">&quot;okanbulut&quot;</span>)</span></code></pre></div>
+<p>For those of you who want to use this <strong>Shiny</strong> app,
+here is a short video demonstrating how to import your data and perform
+EFA:</p>
+<iframe src="https://capture.dropbox.com/embed/UooFfdoTHCV7a7m4?source=copy-embed" width="750" height="450" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 <p><br></p>
 </div>
 <div id="confirmatory-factor-analysis" class="section level3">
@@ -2015,7 +2028,7 @@ and evaluate its fit to the data.</p>
 ahead and fit a one-factor CFA model to the sapa_clean dataset. To
 perform CFA in R, as well as path analysis and structural equation
 modeling, we can use the <strong>lavaan</strong> package <span
-class="citation">(Rosseel et al., 2023)</span>, which stands for
+class="citation">(Rosseel et al., 2024)</span>, which stands for
 <strong>la</strong>tent <strong>va</strong>riable
 <strong>an</strong>alysis. The <strong>lavaan</strong> package uses its
 own special model syntax. For conducting a CFA, we need to define a
@@ -2024,21 +2037,21 @@ The model definition below begins with a single quote and ends with the
 same single quote. We named our factor as “f” (or, we could name it as
 “intelligence”) and listed the items associated with this factor (i.e.,
 SAPA items).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Define a single factor</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>sapa_model <span class="ot">&lt;-</span> <span class="st">&#39;f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 + </span></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="st">               letter.33 + letter.34 + letter.58 + matrix.45 + matrix.46 + matrix.47&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Define a single factor</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>sapa_model <span class="ot">&lt;-</span> <span class="st">&#39;f =~ reason.4 + reason.16 + reason.17 + reason.19 + letter.7 + </span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="st">               letter.33 + letter.34 + letter.58 + matrix.45 + matrix.46 + matrix.47&#39;</span></span></code></pre></div>
 <p>Next, we will run the CFA model for the model defined above. If the
 items are either dichotomous or polytomous, then the estimator should be
 either “MLR” or “WLSMV” because these estimators are more robust against
 non-normality, which is usually the case for categorical data. In this
 example, we will use “MLR” (i.e., Robust Maximum Likelihood) to estimate
 our CFA model.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Estimate the model</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>cfa_sapa <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(sapa_model, <span class="at">data =</span> sapa_clean, <span class="at">estimator =</span> <span class="st">&quot;MLR&quot;</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="co"># Print the output</span></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="fu">summary</span>(cfa_sapa, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>lavaan 0.6.14 ended normally after 39 iterations
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Estimate the model</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>cfa_sapa <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>(sapa_model, <span class="at">data =</span> sapa_clean, <span class="at">estimator =</span> <span class="st">&quot;MLR&quot;</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># Print the output</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">summary</span>(cfa_sapa, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>lavaan 0.6-19 ended normally after 39 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -2165,11 +2178,11 @@ allow us to have a final look at the items that we identified based on
 EFA and CFA and ensure that the response dataset is ready for IRT
 analysis. We will use the <code>alpha()</code> function from the
 <strong>psych</strong> package for running CTT-based item analysis.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Run the item analysis and save it as itemanalysis_psych</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>itemanalysis_psych <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(<span class="at">x =</span> sapa_clean)</span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>itemanalysis_psych</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Run the item analysis and save it as itemanalysis_psych</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>itemanalysis_psych <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(<span class="at">x =</span> sapa_clean)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>itemanalysis_psych</span></code></pre></div>
 <pre><code>
 Reliability analysis   
 Call: psych::alpha(x = sapa_clean)
@@ -2326,21 +2339,21 @@ model, we can estimate a unique difficulty parameter for each item and
 an ability parameter for each examinee.</p>
 <p>Now, let’s calibrate the items in the sapa_clean dataset using the
 Rasch model.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>model_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>                          <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>                          <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>model_rasch <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>                          <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>                          <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
 <p>Next, we will extract the estimated item parameters using the
 <code>coef()</code> function and print them. Normally, we would apply
 the following code to extract the parameters easily:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_rasch, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co"># Store only the item parameters and discard other info</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_rasch<span class="sc">$</span>items)</span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>param_rasch</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_rasch, <span class="at">IRTpars =</span> <span class="cn">TRUE</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co"># Store only the item parameters and discard other info</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(param_rasch<span class="sc">$</span>items)</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>param_rasch</span></code></pre></div>
 <p>If the code above does <strong>not</strong> work for you (which
 sometimes happens when the package is updated), you can try the
 following code to extract the parameters using the default
@@ -2351,31 +2364,31 @@ represents easiness instead of difficulty). For the remaining IRT
 models, I will use the following method but you are welcome to adapt the
 code shown above to extract the parameters more easily via
 <code>IRTpars = TRUE</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_rasch, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co"># By default, mirt produces a different IRT parameterization where</span></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="co"># difficulty is represented as easiness. To see the regular IRT</span></span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="co"># parameterization, we will apply a small transformation.</span></span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>param_rasch<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_rasch<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_rasch<span class="sc">$</span>a1</span>
-<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a><span class="fu">colnames</span>(param_rasch) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
-<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>param_rasch</span></code></pre></div>
-<pre><code>          a       b g u
-reason.4  1 -0.8037 0 1
-reason.16 1 -1.1663 0 1
-reason.17 1 -1.1607 0 1
-reason.19 1 -0.6549 0 1
-letter.7  1 -0.5632 0 1
-letter.33 1 -0.3996 0 1
-letter.34 1 -0.6433 0 1
-letter.58 1  0.3202 0 1
-matrix.45 1 -0.1426 0 1
-matrix.46 1 -0.2769 0 1
-matrix.47 1 -0.6472 0 1</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>param_rasch <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_rasch, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co"># By default, mirt produces a different IRT parameterization where</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co"># difficulty is represented as easiness. To see the regular IRT</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co"># parameterization, we will apply a small transformation.</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>param_rasch<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_rasch<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_rasch<span class="sc">$</span>a1</span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="fu">colnames</span>(param_rasch) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a>param_rasch</span></code></pre></div>
+<pre><code>          a          b g u
+reason.4  1 -0.8036539 0 1
+reason.16 1 -1.1662799 0 1
+reason.17 1 -1.1606718 0 1
+reason.19 1 -0.6548880 0 1
+letter.7  1 -0.5631839 0 1
+letter.33 1 -0.3996183 0 1
+letter.34 1 -0.6432847 0 1
+letter.58 1  0.3202452 0 1
+matrix.45 1 -0.1425881 0 1
+matrix.46 1 -0.2769232 0 1
+matrix.47 1 -0.6471503 0 1</code></pre>
 <p>In the output, we see that the a parameter is fixed to “1” for all
 items, the b parameters are uniquely estimated for each item, and the c
 parameter (shown as “g” as guessing) is fixed to zero for all items. The
@@ -2415,39 +2428,39 @@ following example), how many items are defining this model (i.e.,
 use <code>CONSTRAIN = (1-11, a1)</code> to estimate a single
 discrimination parameter (called “a1” in <strong>mirt</strong>) for all
 of the 11 items in the dataset.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Define the 1PL model explicitly</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">&quot;F = 1-11</span></span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="st">          CONSTRAIN = (1-11, a1)&quot;</span></span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a></span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>model_1PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>                        <span class="at">model =</span> model, <span class="co"># our special model for 1PL</span></span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Define the 1PL model explicitly</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">&quot;F = 1-11</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="st">          CONSTRAIN = (1-11, a1)&quot;</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>model_1PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>                        <span class="at">model =</span> model, <span class="co"># our special model for 1PL</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
 <p>Next, we will extract the estimated item parameters using the
 <code>coef()</code> function and print them.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>param_1PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_1PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>param_1PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_1PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_1PL<span class="sc">$</span>a1</span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="fu">colnames</span>(param_1PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>param_1PL</span></code></pre></div>
-<pre><code>              a        b g u
-reason.4  1.478 -0.54366 0 1
-reason.16 1.478 -0.78898 0 1
-reason.17 1.478 -0.78518 0 1
-reason.19 1.478 -0.44302 0 1
-letter.7  1.478 -0.38098 0 1
-letter.33 1.478 -0.27032 0 1
-letter.34 1.478 -0.43517 0 1
-letter.58 1.478  0.21671 0 1
-matrix.45 1.478 -0.09643 0 1
-matrix.46 1.478 -0.18731 0 1
-matrix.47 1.478 -0.43778 0 1</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>param_1PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_1PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>param_1PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_1PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_1PL<span class="sc">$</span>a1</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a><span class="fu">colnames</span>(param_1PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>param_1PL</span></code></pre></div>
+<pre><code>                 a           b g u
+reason.4  1.478453 -0.54366033 0 1
+reason.16 1.478453 -0.78897535 0 1
+reason.17 1.478453 -0.78518119 0 1
+reason.19 1.478453 -0.44301911 0 1
+letter.7  1.478453 -0.38097931 0 1
+letter.33 1.478453 -0.27032349 0 1
+letter.34 1.478453 -0.43516935 0 1
+letter.58 1.478453  0.21671151 0 1
+matrix.45 1.478453 -0.09643058 0 1
+matrix.46 1.478453 -0.18731461 0 1
+matrix.47 1.478453 -0.43778452 0 1</code></pre>
 <p>In the output, we see that the a parameter is estimated but it is
 fixed to “1.478” for all items, the b parameters are uniquely estimated
 for each item, the c parameter (i.e., g) is fixed to zero, and the upper
@@ -2457,32 +2470,32 @@ necessarily the same. Estimating the discrimination parameter (instead
 of assuming <span class="math inline">\(a = 1\)</span>) has changed the
 parameter estimates in the 1PL model. However, they are perfectly
 correlated.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rasch =</span> param_rasch<span class="sc">$</span>b,</span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>                     <span class="at">onePL =</span> param_1PL<span class="sc">$</span>b)</span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>b_pars</span></code></pre></div>
-<pre><code>     rasch    onePL
-1  -0.8037 -0.54366
-2  -1.1663 -0.78898
-3  -1.1607 -0.78518
-4  -0.6549 -0.44302
-5  -0.5632 -0.38098
-6  -0.3996 -0.27032
-7  -0.6433 -0.43517
-8   0.3202  0.21671
-9  -0.1426 -0.09643
-10 -0.2769 -0.18731
-11 -0.6472 -0.43778</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># Are they correlated?</span></span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rasch =</span> param_rasch<span class="sc">$</span>b,</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>                     <span class="at">onePL =</span> param_1PL<span class="sc">$</span>b)</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>b_pars</span></code></pre></div>
+<pre><code>        rasch       onePL
+1  -0.8036539 -0.54366033
+2  -1.1662799 -0.78897535
+3  -1.1606718 -0.78518119
+4  -0.6548880 -0.44301911
+5  -0.5631839 -0.38097931
+6  -0.3996183 -0.27032349
+7  -0.6432847 -0.43516935
+8   0.3202452  0.21671151
+9  -0.1425881 -0.09643058
+10 -0.2769232 -0.18731461
+11 -0.6471503 -0.43778452</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="co"># Are they correlated?</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL)</span></code></pre></div>
 <pre><code>[1] 1</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="co"># Let&#39;s also plot them -- see that they are perfectly aligned on a diagonal line</span></span>
-<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="fu">plot</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL, </span>
-<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Difficulty (Rasch)&quot;</span>, </span>
-<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Difficulty (1PL)&quot;</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Rasch vs. 1PL Difficulty Parameters&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># Let&#39;s also plot them -- see that they are perfectly aligned on a diagonal line</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="fu">plot</span>(b_pars<span class="sc">$</span>rasch, b_pars<span class="sc">$</span>onePL, </span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Difficulty (Rasch)&quot;</span>, </span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Difficulty (1PL)&quot;</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Rasch vs. 1PL Difficulty Parameters&quot;</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt28-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><br></p>
 </div>
@@ -2504,35 +2517,35 @@ parameter for each item, and an ability parameter for each examinee.</p>
 model. Fortunately, estimating the 2PL model does not require any
 special set up. We will simply define itemtype as “2PL” and estimate the
 parameters as we have done for the Rasch model.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>model_2PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
-<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
-<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>model_2PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;2PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
 <p>Next, we will extract the estimated item parameters using the
 <code>coef()</code> function and print them.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>param_2PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_2PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
-<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
-<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>param_2PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_2PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_2PL<span class="sc">$</span>a1</span>
-<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a><span class="fu">colnames</span>(param_2PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
-<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a></span>
-<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>param_2PL</span></code></pre></div>
-<pre><code>              a       b g u
-reason.4  1.617 -0.5207 0 1
-reason.16 1.439 -0.8024 0 1
-reason.17 1.816 -0.7110 0 1
-reason.19 1.476 -0.4453 0 1
-letter.7  1.769 -0.3502 0 1
-letter.33 1.458 -0.2744 0 1
-letter.34 1.874 -0.3897 0 1
-letter.58 1.457  0.2164 0 1
-matrix.45 1.112 -0.1171 0 1
-matrix.46 1.199 -0.2142 0 1
-matrix.47 1.344 -0.4638 0 1</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>param_2PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_2PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>param_2PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_2PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_2PL<span class="sc">$</span>a1</span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a><span class="fu">colnames</span>(param_2PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a>param_2PL</span></code></pre></div>
+<pre><code>                 a          b g u
+reason.4  1.617373 -0.5207488 0 1
+reason.16 1.438542 -0.8024071 0 1
+reason.17 1.815734 -0.7110276 0 1
+reason.19 1.476410 -0.4452733 0 1
+letter.7  1.769203 -0.3501781 0 1
+letter.33 1.458363 -0.2743739 0 1
+letter.34 1.873985 -0.3896748 0 1
+letter.58 1.456838  0.2163896 0 1
+matrix.45 1.111961 -0.1170979 0 1
+matrix.46 1.198550 -0.2142262 0 1
+matrix.47 1.343574 -0.4638246 0 1</code></pre>
 <p>In the output, we see that the a and b parameters are uniquely
 estimated for each item, the c parameter (i.e., g) is fixed to zero, and
 the upper asymptote (i.e., “u”) is fixed to 1 for all items. The
@@ -2541,27 +2554,27 @@ class="math inline">\(a = 1.816\)</span> for reason.17 and <span
 class="math inline">\(a = 1.112\)</span> for matrix.45). Let’s see
 whether the difficulty parameters from the 1PL and 2PL models are
 similar:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
-<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">onePL =</span> param_1PL<span class="sc">$</span>b,</span>
-<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a>                     <span class="at">twoPL =</span> param_2PL<span class="sc">$</span>b)</span>
-<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a></span>
-<span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
-<span id="cb43-6"><a href="#cb43-6" tabindex="-1"></a>b_pars</span></code></pre></div>
-<pre><code>      onePL   twoPL
-1  -0.54366 -0.5207
-2  -0.78898 -0.8024
-3  -0.78518 -0.7110
-4  -0.44302 -0.4453
-5  -0.38098 -0.3502
-6  -0.27032 -0.2744
-7  -0.43517 -0.3897
-8   0.21671  0.2164
-9  -0.09643 -0.1171
-10 -0.18731 -0.2142
-11 -0.43778 -0.4638</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="co"># Are they correlated? Yes, they are!</span></span>
-<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>onePL, b_pars<span class="sc">$</span>twoPL)</span></code></pre></div>
-<pre><code>[1] 0.9945</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="co"># Combine the difficulty parameters</span></span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>b_pars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">onePL =</span> param_1PL<span class="sc">$</span>b,</span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a>                     <span class="at">twoPL =</span> param_2PL<span class="sc">$</span>b)</span>
+<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a><span class="co"># Print the difficulty parameters</span></span>
+<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a>b_pars</span></code></pre></div>
+<pre><code>         onePL      twoPL
+1  -0.54366033 -0.5207488
+2  -0.78897535 -0.8024071
+3  -0.78518119 -0.7110276
+4  -0.44301911 -0.4452733
+5  -0.38097931 -0.3501781
+6  -0.27032349 -0.2743739
+7  -0.43516935 -0.3896748
+8   0.21671151  0.2163896
+9  -0.09643058 -0.1170979
+10 -0.18731461 -0.2142262
+11 -0.43778452 -0.4638246</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="co"># Are they correlated? Yes, they are!</span></span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a><span class="fu">cor</span>(b_pars<span class="sc">$</span>onePL, b_pars<span class="sc">$</span>twoPL)</span></code></pre></div>
+<pre><code>[1] 0.9945404</code></pre>
 <p><br></p>
 </div>
 <div id="pl-model-2" class="section level3">
@@ -2585,35 +2598,35 @@ examinee.</p>
 <p>Let’s calibrate the items in the sapa_clean dataset using the 3PL
 model. This time, we will define itemtype as “3PL” and then estimate the
 parameters.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
-<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>model_3PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
-<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
-<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="co"># Estimate the item parameters</span></span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>model_3PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean, <span class="co"># data with only item responses</span></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, <span class="co"># 1 refers to the unidimensional IRT model</span></span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;3PL&quot;</span>) <span class="co"># IRT model we want to use for item calibration</span></span></code></pre></div>
 <p>Next, we will extract the estimated item parameters using the
 <code>coef()</code> function and print them.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a>param_3PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_3PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
-<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
-<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>param_3PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_3PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_3PL<span class="sc">$</span>a1</span>
-<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
-<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a><span class="fu">colnames</span>(param_3PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
-<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a></span>
-<span id="cb48-10"><a href="#cb48-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
-<span id="cb48-11"><a href="#cb48-11" tabindex="-1"></a>param_3PL</span></code></pre></div>
-<pre><code>              a       b         g u
-reason.4  1.885 -0.3414 0.0980052 1
-reason.16 1.448 -0.7941 0.0018842 1
-reason.17 1.822 -0.7033 0.0022765 1
-reason.19 1.475 -0.4415 0.0004529 1
-letter.7  1.883 -0.2785 0.0397055 1
-letter.33 1.466 -0.2618 0.0050298 1
-letter.34 1.867 -0.3841 0.0013213 1
-letter.58 1.455  0.2218 0.0011979 1
-matrix.45 1.123 -0.1108 0.0015351 1
-matrix.46 1.582  0.1072 0.1475559 1
-matrix.47 1.357 -0.4521 0.0037671 1</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="co"># Extract the item parameters</span></span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a>param_3PL <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">coef</span>(model_3PL, <span class="at">simplify =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>items)</span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" tabindex="-1"></a><span class="co"># Transform the item parameters to regular IRT parameterization</span></span>
+<span id="cb49-5"><a href="#cb49-5" tabindex="-1"></a>param_3PL<span class="sc">$</span>d <span class="ot">&lt;-</span> (param_3PL<span class="sc">$</span>d<span class="sc">*-</span><span class="dv">1</span>)<span class="sc">/</span>param_3PL<span class="sc">$</span>a1</span>
+<span id="cb49-6"><a href="#cb49-6" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" tabindex="-1"></a><span class="co"># Rename the columns</span></span>
+<span id="cb49-8"><a href="#cb49-8" tabindex="-1"></a><span class="fu">colnames</span>(param_3PL) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;g&quot;</span>, <span class="st">&quot;u&quot;</span>)</span>
+<span id="cb49-9"><a href="#cb49-9" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="#cb49-10" tabindex="-1"></a><span class="co"># Print the item parameters</span></span>
+<span id="cb49-11"><a href="#cb49-11" tabindex="-1"></a>param_3PL</span></code></pre></div>
+<pre><code>                 a          b            g u
+reason.4  1.884624 -0.3414468 0.0980052153 1
+reason.16 1.447975 -0.7940507 0.0018842261 1
+reason.17 1.821866 -0.7033461 0.0022764778 1
+reason.19 1.474616 -0.4414966 0.0004529236 1
+letter.7  1.883311 -0.2785185 0.0397054746 1
+letter.33 1.466089 -0.2618356 0.0050298074 1
+letter.34 1.867208 -0.3841286 0.0013212878 1
+letter.58 1.454813  0.2217521 0.0011979033 1
+matrix.45 1.123319 -0.1107948 0.0015351177 1
+matrix.46 1.581996  0.1071612 0.1475558630 1
+matrix.47 1.356634 -0.4520886 0.0037671142 1</code></pre>
 <p>In the output, we see that the a, b, and c parameters are uniquely
 estimated for each item, and the upper asymptote (i.e., “u”) is fixed to
 1 for all items. Overall, most SAPA items have very low guessing
@@ -2636,25 +2649,25 @@ we have obtained from the IRT models.</p>
 In the ICC, the x-axis shows the latent trait (i.e., <span
 class="math inline">\(\theta\)</span>) and the y-axis shows the
 probability of answering the item correctly (ranging from 0 to 1).</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="co"># Item 10 - 1PL model</span></span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_1PL, </span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">10</span>, <span class="co"># which item to plot</span></span>
-<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>) <span class="co"># traceline (i.e., ICC)</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="co"># Item 10 - 1PL model</span></span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_1PL, </span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">10</span>, <span class="co"># which item to plot</span></span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>) <span class="co"># traceline (i.e., ICC)</span></span></code></pre></div>
 <p><img src="irt_files/figure-html/irt36-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>If we want to plot ICCs for more than one item, then we can the
 <code>plot()</code> function. We need to specify for which items we want
 to create an ICC using the <code>which.items</code> argument:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="co"># ICCs for items 1, 3, and 5 in the 2PL model</span></span>
-<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, </span>
-<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>, </span>
-<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>     <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)) <span class="co"># items to be plotted (i.e., their positions in the data)</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="co"># ICCs for items 1, 3, and 5 in the 2PL model</span></span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, </span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>, </span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>     <span class="at">which.items =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)) <span class="co"># items to be plotted (i.e., their positions in the data)</span></span></code></pre></div>
 <p><img src="irt_files/figure-html/irt37-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Also, we can plot the ICCs for all the items together using the same
 <code>plot()</code> function. Deleting the <code>which.items</code>
 argument will return the ICCs for all the items in a single plot. Now,
 let’s see the ICCs for all SAPA items using the 3PL model:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="co"># All ICCs in 3PL model</span></span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="fu">plot</span>(model_3PL, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="co"># All ICCs in 3PL model</span></span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a><span class="fu">plot</span>(model_3PL, <span class="at">type =</span> <span class="st">&quot;trace&quot;</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt38-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Next, we will use the <code>plot()</code> function and
 <code>type = "score"</code> to obtain test characteristic curves or TCC
@@ -2663,7 +2676,7 @@ latent trait (i.e., <span class="math inline">\(\theta\)</span>) and the
 y-axis shows the expected (raw) score based on the entire instrument
 (ranging from 0 to the maximum raw score possible on the
 instrument).</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, <span class="at">type =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">plot</span>(model_2PL, <span class="at">type =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt39-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>One of the most important concepts in IRT is “item information”,
 which refers to the level of information a particular item can provide
@@ -2689,14 +2702,14 @@ plot the IIF and SE separately. In the following plot, the x-axis shows
 the latent trait (i.e., <span class="math inline">\(\theta\)</span>),
 the y-axis on the left shows item information, and the y-axis on the
 right shows the standard error.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_2PL, <span class="co"># IRT model that stores the item information</span></span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">1</span>, <span class="co"># which item to plot</span></span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>) <span class="co"># plot type</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemplot</span>(model_2PL, <span class="co"># IRT model that stores the item information</span></span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a>               <span class="at">item =</span> <span class="dv">1</span>, <span class="co"># which item to plot</span></span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a>               <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>) <span class="co"># plot type</span></span></code></pre></div>
 <p><img src="irt_files/figure-html/irt40-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>We can also view the IIFs for all the items in a single plot using
 the <code>plot()</code> function with the
 <code>type = "infotrace"</code> argument:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infotrace&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">plot</span>(model_rasch, <span class="at">type =</span> <span class="st">&quot;infotrace&quot;</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt41-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>In addition to IIF and SE at the item level, we can also plot the
 information and SE values at the test level. That is, we can see the
@@ -2708,8 +2721,8 @@ In the plot, the x-axis shows the latent trait (i.e., <span
 class="math inline">\(\theta\)</span>), the y-axis on the left shows the
 test information, and the y-axis on the right shows the total standard
 error for the SAPA items.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="co"># TIF and SE for the 3PL model</span></span>
-<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a><span class="fu">plot</span>(model_3PL, <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="co"># TIF and SE for the 3PL model</span></span>
+<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="fu">plot</span>(model_3PL, <span class="at">type =</span> <span class="st">&quot;infoSE&quot;</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt42-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Another useful visualization for IRT models is the item fit plot.
 This visualization allows us to inspect the fit of each item to the
@@ -2721,11 +2734,11 @@ We will use the <code>itemfit()</code> function and
 following plots show that the observed values are more aligned with the
 ICC produced by the 3PL model compared with the ICC produced by the 1PL
 model, suggesting that item 1 fits the 3PL model better.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="co"># Item fit plot for item 1 in the 1PL model</span></span>
-<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemfit</span>(model_1PL, <span class="at">empirical.plot =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="co"># Item fit plot for item 1 in the 1PL model</span></span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemfit</span>(model_1PL, <span class="at">empirical.plot =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt43-1.png" width="768" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="co"># Item fit plot for item 1 in the 3PL model</span></span>
-<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemfit</span>(model_3PL, <span class="at">empirical.plot =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="co"># Item fit plot for item 1 in the 3PL model</span></span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">itemfit</span>(model_3PL, <span class="at">empirical.plot =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="irt_files/figure-html/irt43-2.png" width="768" style="display: block; margin: auto;" /></p>
 <p>The final visualization tool that we will use is called item-person
 map (also known as the Wright map in the IRT literature). An item-person
@@ -2738,7 +2751,7 @@ the whole logit scale to measure all the ability parameters
 accurately.</p>
 <p>In the following example, we will use the <code>ggWrightMap()</code>
 function from the <strong>ShinyItemAnalysis</strong> package <span
-class="citation">(Martinkova et al., 2022)</span> to draw an item-person
+class="citation">(Martinkova et al., 2024)</span> to draw an item-person
 map for the Rasch model. This function requires the ability parameters
 (i.e., latent trait estimates) and item difficulty parameters from the
 Rasch model. We will use <code>fscores()</code> from
@@ -2751,16 +2764,16 @@ class="math inline">\(\theta &gt; 1\)</span>) and low-achieving
 examinees (i.e., <span class="math inline">\(\theta &lt; -2\)</span>).
 The SAPA instrument needs more items (some difficult and some easy) to
 increase measurement accuracy for those examinee groups.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="co"># Estimate the ability parameters for Rasch and save as a vector</span></span>
-<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>theta_rasch <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(mirt<span class="sc">::</span><span class="fu">fscores</span>(model_rasch))</span>
-<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a></span>
-<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a><span class="co"># Use the difficulty and ability parameters to create an item-person map</span></span>
-<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a>ShinyItemAnalysis<span class="sc">::</span><span class="fu">ggWrightMap</span>(<span class="at">theta =</span> theta_rasch,</span>
-<span id="cb59-6"><a href="#cb59-6" tabindex="-1"></a>                               <span class="at">b =</span> param_rasch<span class="sc">$</span>b,</span>
-<span id="cb59-7"><a href="#cb59-7" tabindex="-1"></a>                               <span class="at">item.names =</span> <span class="fu">colnames</span>(sapa_clean), <span class="co"># item names (optional)</span></span>
-<span id="cb59-8"><a href="#cb59-8" tabindex="-1"></a>                               <span class="at">color =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="co"># color of ability distribution (optional)</span></span>
-<span id="cb59-9"><a href="#cb59-9" tabindex="-1"></a>                               <span class="at">ylab.theta =</span> <span class="st">&quot;Latent Trait&quot;</span>, <span class="co"># label for ability distribution (optional)</span></span>
-<span id="cb59-10"><a href="#cb59-10" tabindex="-1"></a>                               <span class="at">ylab.b =</span> <span class="st">&quot;Item Difficulty&quot;</span>) <span class="co"># label for item difficulty (optional)</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="co"># Estimate the ability parameters for Rasch and save as a vector</span></span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>theta_rasch <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(mirt<span class="sc">::</span><span class="fu">fscores</span>(model_rasch))</span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a><span class="co"># Use the difficulty and ability parameters to create an item-person map</span></span>
+<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a>ShinyItemAnalysis<span class="sc">::</span><span class="fu">ggWrightMap</span>(<span class="at">theta =</span> theta_rasch,</span>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a>                               <span class="at">b =</span> param_rasch<span class="sc">$</span>b,</span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a>                               <span class="at">item.names =</span> <span class="fu">colnames</span>(sapa_clean), <span class="co"># item names (optional)</span></span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>                               <span class="at">color =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="co"># color of ability distribution (optional)</span></span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a>                               <span class="at">ylab.theta =</span> <span class="st">&quot;Latent Trait&quot;</span>, <span class="co"># label for ability distribution (optional)</span></span>
+<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a>                               <span class="at">ylab.b =</span> <span class="st">&quot;Item Difficulty&quot;</span>) <span class="co"># label for item difficulty (optional)</span></span></code></pre></div>
 <p><img src="irt_files/figure-html/irt44-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p><br></p>
 </div>
@@ -2775,25 +2788,25 @@ likelihood estimation) but this may not return a valid ability estimate
 for examinees who answered all of the items correctly or incorrectly. In
 the following example, we will estimate the ability parameters based on
 the 3PL model.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="co"># Estimate ability parameters</span></span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>theta_3PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">fscores</span>(model_3PL, <span class="co"># estimated IRT model</span></span>
-<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>                           <span class="at">method =</span> <span class="st">&quot;EAP&quot;</span>, <span class="co"># estimation method</span></span>
-<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a>                           <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>) <span class="co"># return the standard errors</span></span>
-<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a></span>
-<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="co"># See the estimated ability parameters</span></span>
-<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a><span class="fu">head</span>(theta_3PL)</span></code></pre></div>
-<pre><code>          F1  SE_F1
-[1,] -1.4855 0.4943
-[2,] -0.7608 0.4020
-[3,] -0.4840 0.3973
-[4,] -1.1385 0.4685
-[5,] -0.5290 0.3922
-[6,]  1.4418 0.6210</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="co"># See the distribution of the estimated ability parameters</span></span>
-<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a><span class="co"># (i.e., first column) in theta_3PL</span></span>
-<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a><span class="fu">hist</span>(theta_3PL[, <span class="dv">1</span>], </span>
-<span id="cb62-4"><a href="#cb62-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theta&quot;</span>, <span class="co"># label for the x axis</span></span>
-<span id="cb62-5"><a href="#cb62-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ability Distribution&quot;</span>) <span class="co"># title for the plot</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="co"># Estimate ability parameters</span></span>
+<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>theta_3PL <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">fscores</span>(model_3PL, <span class="co"># estimated IRT model</span></span>
+<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a>                           <span class="at">method =</span> <span class="st">&quot;EAP&quot;</span>, <span class="co"># estimation method</span></span>
+<span id="cb61-4"><a href="#cb61-4" tabindex="-1"></a>                           <span class="at">full.scores.SE =</span> <span class="cn">TRUE</span>) <span class="co"># return the standard errors</span></span>
+<span id="cb61-5"><a href="#cb61-5" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="#cb61-6" tabindex="-1"></a><span class="co"># See the estimated ability parameters</span></span>
+<span id="cb61-7"><a href="#cb61-7" tabindex="-1"></a><span class="fu">head</span>(theta_3PL)</span></code></pre></div>
+<pre><code>             F1     SE_F1
+[1,] -1.4854973 0.4943211
+[2,] -0.7608005 0.4019847
+[3,] -0.4839553 0.3972891
+[4,] -1.1384925 0.4684688
+[5,] -0.5289825 0.3921521
+[6,]  1.4418380 0.6209763</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="co"># See the distribution of the estimated ability parameters</span></span>
+<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a><span class="co"># (i.e., first column) in theta_3PL</span></span>
+<span id="cb63-3"><a href="#cb63-3" tabindex="-1"></a><span class="fu">hist</span>(theta_3PL[, <span class="dv">1</span>], </span>
+<span id="cb63-4"><a href="#cb63-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theta&quot;</span>, <span class="co"># label for the x axis</span></span>
+<span id="cb63-5"><a href="#cb63-5" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ability Distribution&quot;</span>) <span class="co"># title for the plot</span></span></code></pre></div>
 <p><img src="irt_files/figure-html/irt45-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="reliability" class="section level2">
@@ -2813,10 +2826,10 @@ SE(\hat{\theta})^2}\]</span></p>
 <p>This is known as “empirical reliability”. In the following example,
 we will use <code>empirical_rxx()</code> function to calculate the
 marginal reliability coefficient for the 3PL model.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="co"># Empirical reliability</span></span>
-<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">empirical_rxx</span>(theta_3PL)</span></code></pre></div>
-<pre><code>    F1 
-0.7825 </code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="co"># Empirical reliability</span></span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>mirt<span class="sc">::</span><span class="fu">empirical_rxx</span>(theta_3PL)</span></code></pre></div>
+<pre><code>       F1 
+0.7825317 </code></pre>
 <p><br></p>
 </div>
 <div id="what-if-sapa-items-were-polytomous" class="section level2">
@@ -2834,27 +2847,27 @@ of the Rasch model. For the Graded Response Model, we need
 for extracting item parameters, visualizing the response functions, and
 estimating ability parameters for the dichotomous IRT models can also
 used for the Partial Credit and Graded Response models.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="co"># Partial Credit Model (PCM)</span></span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a>model_pcm <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean,</span>
-<span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, </span>
-<span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>)</span>
-<span id="cb65-5"><a href="#cb65-5" tabindex="-1"></a></span>
-<span id="cb65-6"><a href="#cb65-6" tabindex="-1"></a></span>
-<span id="cb65-7"><a href="#cb65-7" tabindex="-1"></a><span class="co"># Graded Response Model (GRM)</span></span>
-<span id="cb65-8"><a href="#cb65-8" tabindex="-1"></a>model_grm <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean,</span>
-<span id="cb65-9"><a href="#cb65-9" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, </span>
-<span id="cb65-10"><a href="#cb65-10" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;graded&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="co"># Partial Credit Model (PCM)</span></span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a>model_pcm <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean,</span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, </span>
+<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;Rasch&quot;</span>)</span>
+<span id="cb66-5"><a href="#cb66-5" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="#cb66-7" tabindex="-1"></a><span class="co"># Graded Response Model (GRM)</span></span>
+<span id="cb66-8"><a href="#cb66-8" tabindex="-1"></a>model_grm <span class="ot">&lt;-</span> mirt<span class="sc">::</span><span class="fu">mirt</span>(<span class="at">data =</span> sapa_clean,</span>
+<span id="cb66-9"><a href="#cb66-9" tabindex="-1"></a>                        <span class="at">model =</span> <span class="dv">1</span>, </span>
+<span id="cb66-10"><a href="#cb66-10" tabindex="-1"></a>                        <span class="at">itemtype =</span> <span class="st">&quot;graded&quot;</span>)</span></code></pre></div>
 <p><br></p>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent"
-line-spacing="2">
+entry-spacing="0" line-spacing="2">
 <div id="ref-R-mirt" class="csl-entry">
-Chalmers, P. (2023). <em>Mirt: Multidimensional item response
+Chalmers, P. (2024). <em>Mirt: Multidimensional item response
 theory</em>. <a
-href="https://CRAN.R-project.org/package=mirt">https://CRAN.R-project.org/package=mirt</a>
+href="https://philchalmers.github.io/mirt/">https://philchalmers.github.io/mirt/</a>
 </div>
 <div id="ref-irtpkg" class="csl-entry">
 Choi, Y.-J., &amp; Asilkalkan, A. (2019). R packages for item response
@@ -2869,7 +2882,7 @@ ability resource: Development and initial validation of a public-domain
 measure. <em>Intelligence</em>, <em>43</em>, 52–64.
 </div>
 <div id="ref-R-DataExplorer" class="csl-entry">
-Cui, B. (2020). <em>DataExplorer: Automate data exploration and
+Cui, B. (2024). <em>DataExplorer: Automate data exploration and
 treatment</em>. <a
 href="http://boxuancui.github.io/DataExplorer/">http://boxuancui.github.io/DataExplorer/</a>
 </div>
@@ -2880,7 +2893,7 @@ alternatives. <em>Structural Equation Modeling: A Multidisciplinary
 Journal</em>, <em>6</em>(1), 1–55.
 </div>
 <div id="ref-R-ggcorrplot" class="csl-entry">
-Kassambara, A. (2022). <em>Ggcorrplot: Visualization of a correlation
+Kassambara, A. (2023). <em>Ggcorrplot: Visualization of a correlation
 matrix using ggplot2</em>. <a
 href="http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2">http://www.sthda.com/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2</a>
 </div>
@@ -2890,9 +2903,9 @@ class="nocase">eRm: Extended Rasch Modeling</span></em>. <a
 href="https://cran.r-project.org/package=eRm">https://cran.r-project.org/package=eRm</a>
 </div>
 <div id="ref-R-ShinyItemAnalysis" class="csl-entry">
-Martinkova, P., Hladka, A., &amp; Netik, J. (2022).
+Martinkova, P., Hladka, A., &amp; Netik, J. (2024).
 <em>ShinyItemAnalysis: Test and item analysis via shiny</em>. <a
-href="https://CRAN.R-project.org/package=ShinyItemAnalysis">https://CRAN.R-project.org/package=ShinyItemAnalysis</a>
+href="https://www.ShinyItemAnalysis.org">https://www.ShinyItemAnalysis.org</a>
 </div>
 <div id="ref-R-irtoys" class="csl-entry">
 Partchev, I., &amp; Maris, G. (2017). <em>Irtoys: A collection of
@@ -2900,11 +2913,9 @@ functions related to item response theory (IRT)</em>. <a
 href="https://CRAN.R-project.org/package=irtoys">https://CRAN.R-project.org/package=irtoys</a>
 </div>
 <div id="ref-R-psych" class="csl-entry">
-Revelle, W. (2022). <em>Psych: Procedures for psychological,
+Revelle, W. (2024). <em>Psych: Procedures for psychological,
 psychometric, and personality research</em>. <a
-href="https://personality-project.org/r/psych/
-https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/
-https://personality-project.org/r/psych-manual.pdf</a>
+href="https://personality-project.org/r/psych/">https://personality-project.org/r/psych/</a>
 </div>
 <div id="ref-revelle2010" class="csl-entry">
 Revelle, W., Wilt, J., &amp; Rosenthal, A. (2010). Individual
@@ -2924,7 +2935,7 @@ modules</em>. <a
 href="https://CRAN.R-project.org/package=TAM">https://CRAN.R-project.org/package=TAM</a>
 </div>
 <div id="ref-R-lavaan" class="csl-entry">
-Rosseel, Y., Jorgensen, T. D., &amp; Rockwood, N. (2023). <em>Lavaan:
+Rosseel, Y., Jorgensen, T. D., &amp; De Wilde, L. (2024). <em>Lavaan:
 Latent variable analysis</em>. <a
 href="https://lavaan.ugent.be">https://lavaan.ugent.be</a>
 </div>

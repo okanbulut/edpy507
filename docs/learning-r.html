@@ -13,7 +13,7 @@
 
 <title>Introduction to R and RStudio</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -30,8 +30,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -54,7 +54,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -149,6 +149,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -706,7 +707,7 @@ Let’s say we want to transform the <code>weight</code> variable (in kg)
 to a new variable called weight2 (in lbs).</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>weight2 <span class="ot">&lt;-</span> weight <span class="sc">*</span> <span class="fl">2.20462</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>weight2</span></code></pre></div>
-<pre><code>[1] 132.3 158.7 176.4 185.2 123.5</code></pre>
+<pre><code>[1] 132.2772 158.7326 176.3696 185.1881 123.4587</code></pre>
 <p>Note that we named the variable as <code>weight2</code>. So, both
 <code>weight</code> and <code>weight2</code> exist in the active R
 session now. If we used the following, this would overwrite the existing
@@ -753,7 +754,7 @@ would NOT refer to the same codes written in uppercase.</li>
 <li><strong>Variable names:</strong> A variable name
 <strong>cannot</strong> begin with a number or include a space.</li>
 </ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>4cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="dv">4</span>cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>my cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Edmonton&quot;</span>, <span class="st">&quot;Calgary&quot;</span>, <span class="st">&quot;Red Deer&quot;</span>, <span class="st">&quot;Spruce Grove&quot;</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>Error<span class="sc">:</span> unexpected symbol <span class="cf">in</span> <span class="st">&quot;4cities&quot;</span></span>
@@ -919,7 +920,7 @@ href="https://www.google.com/">Google</a>.</p></li>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent"
-line-spacing="2">
+entry-spacing="0" line-spacing="2">
 <div id="ref-R-ggplot2" class="csl-entry">
 Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K.,
 Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2021).

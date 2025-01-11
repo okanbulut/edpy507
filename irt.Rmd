@@ -243,7 +243,17 @@ efa.model3 <- psych::fa(sapa_clean, nfactors = 1, fm = "pa", cor = "tet")
 print(efa.model3, sort=TRUE)
 ```
 
-The output above shows that the model fit has improved significantly after removing the rotation items and matrix.55 from the dataset. Thus, we will use the sapa_clean dataset for subsequent analyses. Please note that for the sake of brevity, we followed a data-driven approach to determine whether the problematic items need to be removed from the data. A more suitable solution would be to review the content of these items carefully and the output of the EFA models, and make a decision considering both the theoretical assumptions regarding the items and the statistical findings. 
+The output above shows that the model fit has improved significantly after removing the rotation items and matrix.55 from the dataset. Thus, we will use the sapa_clean dataset for subsequent analyses. Please note that for the sake of brevity, we followed a data-driven approach to determine whether the problematic items need to be removed from the data. A more suitable solution would be to review the content of these items carefully and the output of the EFA models, and make a decision considering both the theoretical assumptions regarding the items and the statistical findings.
+
+The EFA analyses demonstrated above can also be easily done using a **Shiny** application that I created. This application allows users to import their data into R, visualize the correlation matrix of observed variables, and perform EFA using the **psych** package. This **Shiny** app can be initiated using the following codes:
+
+```{r irt188, echo=TRUE, eval=FALSE}
+shiny::runGitHub("EFA", "okanbulut")
+```
+
+For those of you who want to use this **Shiny** app, here is a short video demonstrating how to import your data and perform EFA:
+
+<iframe src="https://capture.dropbox.com/embed/UooFfdoTHCV7a7m4?source=copy-embed" width="750" height="450" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <br>
 
